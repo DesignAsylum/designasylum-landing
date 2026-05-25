@@ -1,0 +1,309 @@
+/* =========================================================================
+   Design Asylum — Landing Pages Design System
+   colors_and_type.css
+   ========================================================================= */
+
+/* -------- Font faces ---------------------------------------------------- */
+@font-face {
+  font-family: "Google Sans Flex";
+  src: url("./fonts/GoogleSansFlex-Variable.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-stretch: 25% 151%;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------- Tokens -------------------------------------------------------- */
+:root {
+  /* ---- Brand palette (the silent core) ---- */
+  --ink:           #0A0A0A;   /* near-black — primary inverted surface */
+  --ink-soft:      #1A1A1A;
+  --ink-muted:    #2E2E2E;
+
+  --paper:         #FFFFFF;   /* pure white — primary page surface */
+  --paper-soft:    #F5F5F5;
+  --paper-mute:    #EBEBEB;
+
+  --bone:          #FFFFFF;   /* alias for white — used for layered cards */
+  --hairline:      #E6E6E6;   /* neutral hairline on white */
+  --hairline-ink:  #262626;   /* hairline on black */
+
+  /* ---- Accents (used for client work + select moments) ---- */
+  --accent-electric: #2D2BFF; /* electric blue — energetic CTAs */
+  --accent-lime:     #D6FF3D; /* lime — highlight, sticker, sparing */
+  --accent-coral:    #FF5436; /* coral — alerts, hot moments */
+  --accent-clay:     #C97B5C; /* warm clay — quieter accent */
+
+  /* ---- Semantic ---- */
+  --fg-1: var(--ink);          /* primary text */
+  --fg-2: #3D3D3D;             /* secondary text */
+  --fg-3: #757575;             /* tertiary / metadata */
+  --fg-4: #B0B0B0;             /* placeholder / disabled */
+  --fg-on-ink: var(--paper);
+  --fg-on-ink-2: #B8B8B8;
+  --fg-on-ink-3: #6B6B6B;
+
+  --bg-1: var(--paper);
+  --bg-2: var(--paper-soft);
+  --bg-3: var(--paper-mute);
+  --bg-ink: var(--ink);
+  --bg-ink-2: var(--ink-soft);
+
+  --link: var(--ink);
+  --link-hover: var(--accent-electric);
+
+  --success: #1F6B3A;
+  --warning: #B8801E;
+  --danger:  #B8311E;
+  --info:    var(--accent-electric);
+
+  /* ---- Radius ---- */
+  --r-0: 0px;
+  --r-1: 2px;
+  --r-2: 6px;
+  --r-3: 12px;
+  --r-4: 20px;
+  --r-5: 32px;
+  --r-pill: 999px;
+
+  /* ---- Spacing scale (4px base) ---- */
+  --s-0: 0;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+  --s-11: 192px;
+
+  /* ---- Elevation — neutral shadows. Reserved for hover lift on cards / floating menus. ---- */
+  --shadow-0: none;
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.05);
+  --shadow-2: 0 6px 18px -8px rgba(0, 0, 0, 0.14);
+  --shadow-3: 0 24px 48px -20px rgba(0, 0, 0, 0.22);
+  --shadow-ink: 0 24px 60px -24px rgba(0, 0, 0, 0.6);
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-quiet: cubic-bezier(0.4, 0.0, 0.2, 1);    /* default — the silent hero */
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 380ms;
+  --dur-4: 600ms;
+
+  /* ---- Type families ----
+     Google Sans Flex is the single voice across the system — display,
+     headlines, body, UI, and the numeric/expressive accents. Hierarchy is
+     built with weight, width, optical size and grade, not family. ---- */
+  --font-display:    "Google Sans Flex", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  --font-sans:       "Google Sans Flex", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  --font-mono:       "Google Sans Flex", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-expressive: "Google Sans Flex", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ---- Type scale (semantic) — large display + restrained body ---- */
+  --t-display-xl: clamp(72px, 11vw, 184px);
+  --t-display-l:  clamp(56px, 8vw, 128px);
+  --t-display-m:  clamp(40px, 5.5vw, 88px);
+  --t-h1:         clamp(40px, 4.4vw, 64px);
+  --t-h2:         clamp(32px, 3.2vw, 44px);
+  --t-h3:         28px;
+  --t-h4:         22px;
+  --t-h5:         18px;
+  --t-body-l:     19px;
+  --t-body:       16px;
+  --t-body-s:     14px;
+  --t-caption:    12px;
+  --t-micro:      11px;
+
+  /* ---- Line heights ---- */
+  --lh-display: 0.95;
+  --lh-headline: 1.05;
+  --lh-snug: 1.2;
+  --lh-body: 1.55;
+  --lh-loose: 1.7;
+
+  /* ---- Letter spacing ---- */
+  --ls-display: -0.035em;
+  --ls-headline: -0.022em;
+  --ls-body: -0.005em;
+  --ls-caps: 0.16em;
+  --ls-mono: 0.0em;
+
+  /* ---- Container widths ---- */
+  --w-prose: 68ch;
+  --w-content: 1080px;
+  --w-wide: 1280px;
+  --w-bleed: 1440px;
+}
+
+/* -------- Dark mode (inverse surface) ---- */
+.theme-ink,
+[data-theme="ink"] {
+  --bg-1: var(--ink);
+  --bg-2: var(--ink-soft);
+  --bg-3: var(--ink-muted);
+  --fg-1: var(--paper);
+  --fg-2: var(--fg-on-ink-2);
+  --fg-3: var(--fg-on-ink-3);
+  --hairline: var(--hairline-ink);
+  --link: var(--paper);
+  --link-hover: var(--accent-lime);
+}
+
+/* -------- Base ---------------------------------------------------------- */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  color: var(--fg-1);
+  background: var(--bg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-variation-settings: "opsz" 24, "wdth" 100, "GRAD" 0;
+}
+
+/* -------- Semantic typography ------------------------------------------- */
+.t-display-xl {
+  font-family: var(--font-display);
+  font-size: var(--t-display-xl);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  font-weight: 800;
+  font-variation-settings: "wght" 760, "wdth" 98, "opsz" 120, "GRAD" 0;
+  text-transform: lowercase;
+}
+.t-display-l {
+  font-family: var(--font-display);
+  font-size: var(--t-display-l);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  font-weight: 700;
+  font-variation-settings: "wght" 700, "wdth" 100, "opsz" 96, "GRAD" 0;
+  text-transform: lowercase;
+}
+.t-display-m {
+  font-family: var(--font-display);
+  font-size: var(--t-display-m);
+  line-height: var(--lh-headline);
+  letter-spacing: var(--ls-headline);
+  font-weight: 600;
+  font-variation-settings: "wght" 620, "wdth" 100, "opsz" 72, "GRAD" 0;
+  text-transform: lowercase;
+}
+
+h1, .t-h1 {
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  line-height: var(--lh-headline);
+  letter-spacing: var(--ls-headline);
+  font-weight: 600;
+  font-variation-settings: "wght" 600, "wdth" 100, "opsz" 48;
+  text-transform: lowercase;
+  margin: 0;
+}
+h2, .t-h2 {
+  font-family: var(--font-display);
+  font-size: var(--t-h2);
+  line-height: var(--lh-headline);
+  letter-spacing: var(--ls-headline);
+  font-weight: 600;
+  font-variation-settings: "wght" 600, "wdth" 100, "opsz" 36;
+  text-transform: lowercase;
+  margin: 0;
+}
+h3, .t-h3 {
+  font-family: var(--font-sans);
+  font-size: var(--t-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-headline);
+  font-weight: 600;
+  margin: 0;
+}
+h4, .t-h4 {
+  font-family: var(--font-sans);
+  font-size: var(--t-h4);
+  line-height: var(--lh-snug);
+  font-weight: 600;
+  margin: 0;
+}
+h5, .t-h5 {
+  font-family: var(--font-sans);
+  font-size: var(--t-h5);
+  line-height: var(--lh-snug);
+  font-weight: 600;
+  margin: 0;
+}
+
+p, .t-body {
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  margin: 0;
+}
+.t-body-l { font-size: var(--t-body-l); line-height: 1.5; }
+.t-body-s { font-size: var(--t-body-s); }
+.t-caption { font-size: var(--t-caption); color: var(--fg-3); }
+
+/* Eyebrow / overline — UPPERCASE tracked */
+.t-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+/* Numeric / expressive — Google Sans Flex, tabular figures */
+.t-mono, code, kbd, samp {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: var(--ls-mono);
+  font-size: 0.95em;
+  font-variation-settings: "wght" 500, "wdth" 100, "opsz" 24;
+}
+.t-expressive {
+  font-family: var(--font-expressive);
+  font-variation-settings: "wght" 800, "wdth" 100, "opsz" 96, "GRAD" 50;
+  letter-spacing: var(--ls-display);
+  text-transform: lowercase;
+}
+
+/* Quote — pull-quote style — sans, never display */
+.t-quote {
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.2;
+  letter-spacing: -0.018em;
+  font-weight: 500;
+}
+
+/* Links */
+a {
+  color: var(--link);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  border-bottom: 1px solid currentColor;
+  transition: color var(--dur-1) var(--ease-quiet),
+              border-color var(--dur-1) var(--ease-quiet);
+}
+a:hover { color: var(--link-hover); border-bottom-color: var(--link-hover); }
+
+/* Utility — for the silent-hero rule line that appears throughout */
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin: 0;
+}
+
+/* Selection */
+::selection { background: var(--accent-lime); color: var(--ink); }

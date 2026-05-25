@@ -1,0 +1,1261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Design Asylum — Mobile App Design (Wireframe)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // Suppress benign ResizeObserver loop notification from Tailwind CDN runtime.
+  window.addEventListener('error', (e) => {
+    if (e.message && e.message.includes('ResizeObserver loop')) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    }
+  });
+</script>
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --muted: #999999;
+    --line: #E5E5E5;
+    --surface: #F2F2F2;
+    --surface-2: #EEEEEE;
+    --paper: #FFFFFF;
+    /* Hero — tweakable */
+    --phone-w: 256px;
+    --phone-h: 530px;
+    --comment-w: 188px;
+    --comment-overlap: 84px;   /* how far each card overhangs onto the phone */
+    --comment-tilt: 0deg;      /* slight rotation on cards (0 = flat) */
+  }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Floating hero comments can extend past the viewport on narrower lg
+     widths; clip the horizontal axis rather than introduce a scrollbar. */
+  body { overflow-x: hidden; }
+  /* Generic placeholder: a flat gray rectangle with a centered monospace label.
+     Use the .ph-frame class to add a thin border to suggest a frame. */
+  .ph {
+    background: var(--surface);
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    text-align: center;
+    line-height: 1.3;
+    user-select: none;
+  }
+  .ph-frame { border: 1px solid var(--line); }
+  .ph-soft  { background: var(--surface-2); }
+  .hairline { border: 1px solid var(--line); }
+  .hairline-b { border-bottom: 1px solid var(--line); }
+  .hairline-t { border-top: 1px solid var(--line); }
+
+  /* Section spacing rhythm */
+  .section { padding-block: 56px; }
+  @media (min-width: 768px)  { .section { padding-block: 88px; } }
+  @media (min-width: 1024px) { .section { padding-block: 112px; } }
+
+  /* Hero section — tighter than .section so the trust strip lands in the
+     first viewport on common desktop heights (≥900px). On lg+ it becomes
+     a two-column grid: copy on the left, phone-stage on the right, trust
+     strip spanning the full width at the bottom. */
+  .hero-section { padding-block: 32px 28px; }
+  @media (min-width: 768px)  { .hero-section { padding-block: 48px 36px; } }
+  @media (min-width: 1024px) { .hero-section { padding-block: 56px 40px; } }
+
+  .hero-grid { display: flex; flex-direction: column; gap: 40px; }
+  .hero-meta { display: flex; flex-direction: column; gap: 12px; }
+  .hero-rating { justify-content: flex-end; }
+  .hero-dots   { justify-content: center; }
+  .hero-stage  { display: flex; justify-content: center; }
+  .trust-strip { padding-top: 8px; }
+
+  /* 2-col layout kicks in at lg (1024px). Below that the hero stays
+     single-column and the trust strip rides at the bottom of the stack —
+     on narrower viewports we accept the trust bar falling below the fold. */
+  @media (min-width: 1024px) {
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      grid-template-rows: auto auto;
+      column-gap: 32px;
+      row-gap: 48px;
+      align-items: center;
+    }
+    .hero-copy  { grid-column: 1; grid-row: 1; }
+    .hero-stage { grid-column: 2; grid-row: 1; justify-content: center; }
+    .trust-strip {
+      grid-column: 1 / -1; grid-row: 2;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .hero-meta { flex-direction: row; align-items: center; gap: 24px; }
+    .hero-rating { justify-content: flex-start; }
+    .hero-dots   { justify-content: flex-start; }
+  }
+  /* Container — explicit breakpoint maxes per brief */
+  .wrap { width: 100%; margin-inline: auto; padding-inline: 20px; }
+  @media (min-width: 768px)  { .wrap { padding-inline: 32px; max-width: 768px; } }
+  @media (min-width: 1024px) { .wrap { padding-inline: 40px; max-width: 1024px; } }
+  @media (min-width: 1440px) { .wrap { padding-inline: 56px; max-width: 1280px; } }
+
+  /* Type scale (system display) */
+  .t-eyebrow { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .t-h1 { font-size: 32px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; }
+  .t-h2 { font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em; }
+  .t-h3 { font-size: 18px; line-height: 1.25; font-weight: 600; }
+  .t-body { font-size: 15px; line-height: 1.55; }
+  .t-small { font-size: 12px; line-height: 1.4; color: var(--muted); }
+  @media (min-width: 768px) {
+    .t-h1 { font-size: 44px; }
+    .t-h2 { font-size: 32px; }
+  }
+  @media (min-width: 1024px) {
+    .t-h1 { font-size: 56px; }
+    .t-h2 { font-size: 36px; }
+    .t-h3 { font-size: 20px; }
+    .t-body { font-size: 16px; }
+  }
+  @media (min-width: 1440px) {
+    .t-h1 { font-size: 64px; }
+  }
+
+  /* Pill button (light gray pill, black text) */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 48px; padding-inline: 28px;
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 600; font-size: 15px;
+    border: 1px solid var(--line);
+  }
+
+  /* Hero phone frame — vertical phone-shaped gray rectangle. Size driven by
+     CSS vars so the tweak panel can resize it live. */
+  .phone {
+    width: var(--phone-w);
+    height: var(--phone-h);
+    background: var(--surface);
+    border-radius: 28px;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  /* Comment card — white card with thin border, contains avatar + meta */
+  .comment {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    width: var(--comment-w);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .comment .avatar {
+    width: 24px; height: 24px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .comment .uname { font-weight: 600; color: var(--ink); font-size: 12px; }
+  .comment .meta { color: var(--muted); font-size: 11px; }
+  .comment .reply { color: var(--muted); font-size: 11px; }
+
+  /* Hero stage: the phone is its own positioning context, so comments anchor
+     to the phone's edges (not the viewport) and overlap it. */
+  .phone-stage { position: relative; display: inline-block; }
+  .phone-stage .comment {
+    position: absolute;
+    z-index: 2;
+    transform: rotate(var(--comment-tilt));
+    background: #fff;
+  }
+  /* On lg+ the cards overhang the phone edges by --comment-overlap.
+     A card's outer edge sits (comment-overlap) inside the phone face,
+     so increasing the value pushes the card further across the phone. */
+  @media (min-width: 1024px) {
+    /* c1: top-left — right edge of card sits inside the phone's left side */
+    .phone-stage .c1 { top:  4%; right: calc(100% - var(--comment-overlap)); }
+    /* c2: mid-right — left edge of card sits inside the phone's right side */
+    .phone-stage .c2 { top: 40%; left:  calc(100% - var(--comment-overlap)); }
+    /* c3: bottom-left */
+    .phone-stage .c3 { top: 72%; right: calc(100% - var(--comment-overlap) + 12px); }
+  }
+  /* Mobile/tablet (<1024px): cards stack below the phone instead of overhanging,
+     so the hero stays readable on narrow viewports. */
+  @media (max-width: 1023.9px) {
+    .phone-stage .comment { position: static; transform: none; width: 100%; max-width: 320px; margin: 12px auto 0; }
+  }
+
+  /* Tweak: hide-comments class on <html> hides the floating cards entirely */
+  html.hide-comments .phone-stage .comment { display: none; }
+  html.hide-rating   .hero-rating          { display: none; }
+  html.hide-dots     .hero-dots            { display: none; }
+
+  /* Process pills — staggered diagonal (legacy, unused after Gantt rewrite) */
+  .proc-pill {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 14px 22px;
+    display: inline-flex; align-items: center; gap: 16px;
+    font-weight: 600; font-size: 15px;
+    min-width: 220px;
+  }
+  .proc-week { color: var(--muted); font-weight: 400; font-size: 12px; font-family: ui-monospace, monospace; }
+
+  /* Process Gantt — 6-week timeline with overlapping phase bars. The grid
+     itself is a CSS grid with 30 day-columns (6 weeks × 5 working days) so
+     each bar can simply declare its start/span as `grid-column: N / span M`. */
+  .gantt {
+    display: grid;
+    grid-template-columns: 110px repeat(30, 1fr);
+    column-gap: 0;
+    align-items: center;
+  }
+  @media (max-width: 767.9px) {
+    .gantt { grid-template-columns: 92px repeat(30, 1fr); font-size: 12px; }
+  }
+  .gantt-head {
+    display: contents;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: ui-monospace, monospace;
+  }
+  .gantt-head .lbl   { grid-column: 1; }
+  .gantt-head .wk    {
+    grid-column: span 5;
+    padding: 6px 8px;
+    border-left: 1px solid var(--line);
+    text-align: left;
+    background: transparent;
+  }
+  .gantt-head .wk:last-child { border-right: 1px solid var(--line); }
+  .gantt-row {
+    display: contents;
+  }
+  .gantt-row .lbl {
+    grid-column: 1;
+    padding: 14px 12px 14px 0;
+    font-weight: 600; font-size: 15px;
+    color: var(--ink);
+  }
+  /* The bar track spans all 30 day-columns and provides the dotted vertical
+     week-grid backdrop. Each phase bar then sits inside its own grid using
+     start/span. We achieve this with a nested grid per row's track. */
+  .gantt-track {
+    grid-column: 2 / -1;
+    position: relative;
+    height: 56px;
+    background:
+      repeating-linear-gradient(
+        to right,
+        transparent 0,
+        transparent calc((100% / 6) - 1px),
+        var(--line) calc((100% / 6) - 1px),
+        var(--line) calc(100% / 6)
+      );
+  }
+  .gantt-bar {
+    position: absolute;
+    top: 10px; bottom: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    display: flex; align-items: center;
+    padding: 0 12px;
+    font-size: 12px; color: var(--muted);
+    font-family: ui-monospace, monospace;
+  }
+  .gantt-bar.solid { background: #DADADA; }
+  /* Footer week ruler under the chart */
+  .gantt-ruler {
+    grid-column: 2 / -1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+  .gantt-ruler span {
+    padding: 6px 8px;
+    border-left: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 11px;
+    font-family: ui-monospace, monospace;
+  }
+  .gantt-ruler span:first-child { border-left: 0; }
+
+  /* Testimonial cards — video tile (vertical phone-aspect) + text tile */
+  .tcard {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .tvideo {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    aspect-ratio: 9 / 16;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    color: var(--muted);
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+  }
+  .tvideo .play {
+    width: 48px; height: 48px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .tvideo .caption {
+    position: absolute; bottom: 12px; left: 12px; right: 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: var(--ink);
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+  .tvideo .caption .name { font-weight: 600; font-size: 12px; }
+  .tvideo .caption .role { color: var(--muted); font-size: 11px; }
+
+  /* Store-review tile — small phone-aspect screenshot of a review */
+  .review-tile {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    aspect-ratio: 9 / 16;
+    padding: 12px;
+    display: flex; flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+    width: 140px;
+  }
+  .review-tile .badge {
+    font-size: 9px;
+    font-family: ui-monospace, monospace;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .review-tile .stars-mini { font-size: 11px; color: var(--ink); letter-spacing: 1px; }
+  .review-tile .lines { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .review-tile .lines i {
+    display: block; background: var(--line); border-radius: 2px; height: 5px;
+  }
+  .review-tile .lines i:nth-child(3n) { width: 70%; }
+  .review-tile .lines i:nth-child(4n) { width: 85%; }
+  .review-tile .lines i:nth-child(5n) { width: 60%; }
+  .review-tile .author {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: ui-monospace, monospace;
+  }
+  .review-strip {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+
+  /* Pricing card */
+  .price-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex; flex-direction: column;
+    gap: 16px;
+  }
+  .price-card .feat { font-size: 14px; line-height: 1.55; }
+  .price-card .feat li { padding-block: 4px; border-bottom: 1px dashed var(--line); }
+  .price-card .feat li:last-child { border-bottom: 0; }
+  .price-card .addon {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  .price-strip {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .price-strip .amt { font-weight: 700; font-size: 18px; }
+  .price-strip .when { color: var(--muted); font-size: 13px; font-family: ui-monospace, monospace; }
+
+  /* Star rating — Unicode stars */
+  .stars { color: var(--ink); letter-spacing: 2px; font-size: 14px; }
+
+  /* Dots */
+  .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--muted); display: inline-block; }
+  .dot.on { background: var(--ink); }
+
+  /* Marker line for replace comments (visible only in dev) */
+  .marker { display: none; }
+
+  /* FAQ rows */
+  .faq-row { padding-block: 20px; border-top: 1px solid var(--line); }
+  .faq-q { font-weight: 600; font-size: 16px; }
+  .faq-a { font-size: 14px; color: #555; margin-top: 6px; line-height: 1.55; }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     PRINT styles. Landing pages don't paginate naturally — we make it look
+     like the lg+ desktop view regardless of paper width, then add page-
+     break hints so sections don't slice through mid-card. -->
+     ───────────────────────────────────────────────────────────────────── */
+  @page { size: A4 portrait; margin: 12mm; }
+
+  @media print {
+    /* Tighten the print page width so we have a wider canvas than 794px (A4
+       portrait), which keeps the 2-col hero readable. We do this with a CSS
+       transform-free zoom + custom page size. */
+    @page { size: 280mm 396mm; margin: 14mm; } /* ~ wide tabloid portrait */
+
+    html, body {
+      background: #fff;
+      color: #0A0A0A;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { overflow: visible; }
+
+    /* Force lg+ container width — the wrap caps itself to viewport otherwise. */
+    .wrap { max-width: none !important; padding-inline: 0 !important; }
+
+    /* Force the 2-col hero layout regardless of paper width, since the wireframe
+       only reaches 2-col at ≥1024px. */
+    .hero-grid {
+      display: grid !important;
+      grid-template-columns: 7fr 5fr !important;
+      grid-template-rows: auto auto !important;
+      column-gap: 24px !important;
+      row-gap: 36px !important;
+      align-items: center !important;
+    }
+    .hero-copy   { grid-column: 1 !important; grid-row: 1 !important; }
+    .hero-stage  { grid-column: 2 !important; grid-row: 1 !important; justify-content: center !important; }
+    .trust-strip {
+      grid-column: 1 / -1 !important; grid-row: 2 !important;
+      padding-top: 18px !important;
+      border-top: 1px solid var(--line) !important;
+    }
+    .hero-meta   { flex-direction: row !important; align-items: center; gap: 20px; }
+    .hero-rating { justify-content: flex-start !important; }
+    .hero-dots   { justify-content: flex-start !important; }
+
+    /* Comments overhang the phone same as on lg+ */
+    .phone-stage .comment { position: absolute !important; width: var(--comment-w) !important; margin: 0 !important; transform: rotate(var(--comment-tilt)); }
+    .phone-stage .c1 { top:  4%; right: calc(100% - var(--comment-overlap)); }
+    .phone-stage .c2 { top: 40%; left:  calc(100% - var(--comment-overlap)); }
+    .phone-stage .c3 { top: 72%; right: calc(100% - var(--comment-overlap) + 12px); }
+
+    /* Lg-layout overrides for testimonials section */
+    .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .lg\:gap-12     { gap: 3rem !important; }
+
+    /* Pricing — keep 3 columns on print regardless of page width */
+    #pricing .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+
+    /* Featured work — keep 2 cols on print */
+    #work .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+
+    /* Why-this-works — keep 3 cols */
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+
+    /* Reviews strip — expose the full row instead of horizontal scroll */
+    .review-strip {
+      overflow-x: visible !important;
+      flex-wrap: wrap !important;
+      justify-content: flex-start;
+    }
+    .review-tile { width: 120px !important; }
+
+    /* Section padding — gentler on paper */
+    .section { padding-block: 32px !important; }
+    .hero-section { padding-block: 16px 24px !important; }
+
+    /* Page-break hints */
+    section { break-inside: avoid-page; }
+    .price-card, .tcard, .faq-row, .gantt, .review-tile { break-inside: avoid; }
+
+    /* Hide everything chrome-y */
+    .twk-panel,
+    [data-omelette-chrome],
+    #tweaks-root { display: none !important; }
+
+    /* The header CTA button looks weird in print, keep it visible but flatten */
+    header .btn { box-shadow: none; }
+
+    /* Force comments visible in print regardless of the live `hide-comments` toggle */
+    .hide-comments .phone-stage .comment { display: flex !important; }
+    .hide-rating   .hero-rating          { display: flex !important; }
+    .hide-dots     .hero-dots            { display: flex !important; }
+
+    /* Anti-orphan: keep section headings with their content */
+    .t-h1, .t-h2, .t-h3 { break-after: avoid-page; }
+
+    /* Anchor links shouldn't render as URLs after the text */
+    a[href]:after { content: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =================================================================== -->
+<!-- TOP NAV (minimal, wireframe-level) -->
+<!-- =================================================================== -->
+<header class="hairline-b">
+  <div class="wrap flex items-center justify-between py-4">
+    <div class="ph ph-frame" style="width:120px; height:32px;">Logo</div>
+    <nav class="hidden md:flex items-center gap-8 text-[14px]">
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#cta" class="btn" style="height:40px; padding-inline:20px; font-size:14px;">Build My App</a>
+  </div>
+</header>
+
+<!-- =================================================================== -->
+<!-- 1. HERO + TRUST BAR (combined so logos sit in the first viewport)
+     - lg+ : two-column grid. Headline + CTA on the left, phone+comments
+             on the right. Trust strip pinned at the bottom of the section.
+     - <lg : stacked. Headline → CTA → phone → rating/dots → trust strip,
+             same content order, just laid out vertically. -->
+<!-- =================================================================== -->
+<section class="hero-section">
+  <div class="wrap hero-grid">
+
+    <!-- LEFT column on lg+: copy + CTA -->
+    <div class="hero-copy">
+      <h1 class="t-h1 max-w-[18ch] md:max-w-[22ch] lg:max-w-[16ch]">
+        <span style="font-weight:700;">Unrivaled mobile apps for B2C businesses,</span>
+        <span style="font-weight:400;">built using our Intelligent Experiences process. In 6 weeks.</span>
+      </h1>
+
+      <div class="mt-8">
+        <a href="#cta" class="btn">Build My App</a>
+      </div>
+
+      <!-- Rating + dots — inline together on lg+, separate rows on small.
+           Brief specified right-aligned rating below the phone; in the
+           2-col layout we keep the rating in the copy column so it sits
+           in the first viewport next to the CTA, still after-the-fact. -->
+      <div class="hero-meta mt-10">
+        <div class="hero-rating flex items-center gap-2">
+          <div class="stars" aria-label="4.5 stars">★★★★★</div>
+          <div class="t-small" style="color:var(--ink);">4.5 Star</div>
+        </div>
+        <div class="hero-dots flex items-center gap-2">
+          <span class="dot on"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT column on lg+: phone + overlapping comment cards -->
+    <div class="hero-stage">
+      <div class="phone-stage">
+        <div class="phone">
+          <!-- replace: hero app screen render (vertical, ~9:19) -->
+          App Screen
+        </div>
+
+        <!-- Three floating comment cards (overlap phone on md+) -->
+        <div class="comment c1">
+          <div class="flex items-center gap-2">
+            <div class="avatar"><!-- replace: avatar 1 --></div>
+            <div class="uname">kpm1805</div>
+          </div>
+          <div class="mt-2">Love the concept. Definitely innovative.</div>
+          <div class="mt-2 flex items-center justify-between">
+            <div class="meta">23w · 2 likes</div>
+            <div class="reply">Reply</div>
+          </div>
+        </div>
+        <div class="comment c2">
+          <div class="flex items-center gap-2">
+            <div class="avatar"><!-- replace: avatar 2 --></div>
+            <div class="uname">nanda_jivan_</div>
+          </div>
+          <div class="mt-2">Super!!!</div>
+          <div class="mt-2 flex items-center justify-between">
+            <div class="meta">26w · 1 like</div>
+            <div class="reply">Reply</div>
+          </div>
+        </div>
+        <div class="comment c3">
+          <div class="flex items-center gap-2">
+            <div class="avatar"><!-- replace: avatar 3 --></div>
+            <div class="uname">1608.gaurav</div>
+          </div>
+          <div class="mt-2">Wow, so easy and lovely</div>
+          <div class="mt-2 flex items-center justify-between">
+            <div class="meta">26w</div>
+            <div class="reply">Reply</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUST STRIP — full-width row at the bottom of the hero section.
+         On lg+ this spans both columns; on small it just follows the stack.
+         Sits in the first viewport on common desktop heights. -->
+    <div class="trust-strip">
+      <div class="t-eyebrow">Design partners to brands you know</div>
+      <div class="mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+        <div class="ph ph-frame h-12"><!-- replace: PUMA logo -->PUMA</div>
+        <div class="ph ph-frame h-12"><!-- replace: KIA logo -->KIA</div>
+        <div class="ph ph-frame h-12"><!-- replace: Axis Bank logo -->Axis Bank</div>
+        <div class="ph ph-frame h-12"><!-- replace: WeWork India logo -->WeWork India</div>
+        <div class="ph ph-frame h-12"><!-- replace: Protean logo -->Protean</div>
+        <div class="ph ph-frame h-12"><!-- replace: client logo 6 -->Logo</div>
+        <div class="ph ph-frame h-12"><!-- replace: client logo 7 -->Logo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 3. THE 6-WEEK PROCESS (Gantt — overlapping phases)
+     Timeline grid is 30 day-columns (6 weeks × 5 working days). Bars are
+     absolutely positioned within each row's full-width track. Schedule:
+       Scope Definition  Days 1–3   (left:0%      width:10%)
+       UX Design         Days 3–18  (left:7%      width:53%)  overlaps scope tail + into UI
+       UI Design         Days 9–27  (left:27%     width:63%)  overlaps UX + into prototype lead-in
+       Prototype         Days 28–30 (left:90%     width:10%)
+     Scope ↔ Prototype never touch; UX ↔ UI overlap heavily. -->
+<!-- =================================================================== -->
+<section id="process" class="section hairline-t">
+  <div class="wrap">
+    <h2 class="t-h2">6 weeks from scope to dev handoff</h2>
+    <p class="t-body mt-3 max-w-[60ch]" style="color:#444;">
+      Phases overlap on purpose. UX kicks off as soon as scope locks; UI starts
+      as soon as the first UX flows are stable; prototype assembles in the final
+      sprint. Below: the timeline at a glance.
+    </p>
+
+    <div class="mt-10 gantt">
+
+      <!-- Header row: week ticks across the top of the chart -->
+      <div class="gantt-head">
+        <div class="lbl"></div>
+        <div class="wk">Week 1</div>
+        <div class="wk">Week 2</div>
+        <div class="wk">Week 3</div>
+        <div class="wk">Week 4</div>
+        <div class="wk">Week 5</div>
+        <div class="wk">Week 6</div>
+      </div>
+
+      <!-- Row 1: Scope Definition (3 days) -->
+      <div class="gantt-row">
+        <div class="lbl">Scope<br />Definition</div>
+        <div class="gantt-track">
+          <div class="gantt-bar solid" style="left: 0%; width: 10%;">3 days</div>
+        </div>
+      </div>
+
+      <!-- Row 2: UX Design (Days 3–18) — overlaps scope tail, leads into UI -->
+      <div class="gantt-row">
+        <div class="lbl">UX Design</div>
+        <div class="gantt-track">
+          <div class="gantt-bar solid" style="left: 7%; width: 53%;">≈ 3 weeks</div>
+        </div>
+      </div>
+
+      <!-- Row 3: UI Design (Days 9–27) — overlaps UX, leads into Prototype -->
+      <div class="gantt-row">
+        <div class="lbl">UI Design</div>
+        <div class="gantt-track">
+          <div class="gantt-bar solid" style="left: 27%; width: 63%;">≈ 3.5 weeks</div>
+        </div>
+      </div>
+
+      <!-- Row 4: Prototype (last 3 days) -->
+      <div class="gantt-row">
+        <div class="lbl">Prototype</div>
+        <div class="gantt-track">
+          <div class="gantt-bar solid" style="left: 90%; width: 10%;">3 days</div>
+        </div>
+      </div>
+
+      <!-- Footer ruler -->
+      <div class="lbl"></div>
+      <div class="gantt-ruler">
+        <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 4. TESTIMONIALS — 2 vertical video testimonials + 3 text testimonials
+     Lg: 2-col video stack on the left, 3-text stack on the right.
+     Mobile/tablet: everything stacks. -->
+<!-- =================================================================== -->
+<section class="section hairline-t">
+  <div class="wrap">
+    <h2 class="t-h2">What clients say</h2>
+
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+      <!-- LEFT: two vertical video testimonials side by side -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="tvideo">
+          <!-- replace: video testimonial 1 (vertical, ~9:16, ~30s) -->
+          <div class="play">▶</div>
+          <div class="caption">
+            <div class="name">Client Name</div>
+            <div class="role">Role, Company</div>
+          </div>
+        </div>
+        <div class="tvideo">
+          <!-- replace: video testimonial 2 (vertical, ~9:16, ~30s) -->
+          <div class="play">▶</div>
+          <div class="caption">
+            <div class="name">Client Name</div>
+            <div class="role">Role, Company</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: three text testimonials stacked -->
+      <div class="flex flex-col gap-4">
+        <!-- Text testimonial 1 -->
+        <div class="tcard">
+          <div class="flex items-center gap-3">
+            <div class="ph ph-frame" style="width:44px; height:44px; border-radius:999px;"><!-- replace: avatar --></div>
+            <div>
+              <div class="t-h3" style="font-size:15px;">Client Name</div>
+              <div class="t-small">Role, Company</div>
+            </div>
+          </div>
+          <p class="t-body" style="color:#444;">
+            <!-- replace: testimonial copy describing measurable outcome -->
+            Quote text placeholder. Two to three lines describing the outcome we delivered and how it moved a specific business metric.
+          </p>
+        </div>
+        <!-- Text testimonial 2 -->
+        <div class="tcard">
+          <div class="flex items-center gap-3">
+            <div class="ph ph-frame" style="width:44px; height:44px; border-radius:999px;"><!-- replace: avatar --></div>
+            <div>
+              <div class="t-h3" style="font-size:15px;">Client Name</div>
+              <div class="t-small">Role, Company</div>
+            </div>
+          </div>
+          <p class="t-body" style="color:#444;">
+            <!-- replace: testimonial copy -->
+            Quote text placeholder. Two to three lines describing the outcome we delivered and how it moved a specific business metric.
+          </p>
+        </div>
+        <!-- Text testimonial 3 -->
+        <div class="tcard">
+          <div class="flex items-center gap-3">
+            <div class="ph ph-frame" style="width:44px; height:44px; border-radius:999px;"><!-- replace: avatar --></div>
+            <div>
+              <div class="t-h3" style="font-size:15px;">Client Name</div>
+              <div class="t-small">Role, Company</div>
+            </div>
+          </div>
+          <p class="t-body" style="color:#444;">
+            <!-- replace: testimonial copy -->
+            Quote text placeholder. Two to three lines describing the outcome we delivered and how it moved a specific business metric.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 5. PRICING — three offers. Sequence: wireframes FIRST, then UI screens.
+     Offers 2 & 3 inherit from Offer 1 (and 2) and only list deltas. -->
+<!-- =================================================================== -->
+<section id="pricing" class="section hairline-t">
+  <div class="wrap">
+    <h2 class="t-h2">Pick the depth you need</h2>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- ─────────────── Offer 1 ─────────────── -->
+      <div class="price-card">
+        <div class="t-eyebrow">Offer 1</div>
+
+        <!-- Wireframes first -->
+        <div>
+          <div class="t-eyebrow" style="font-size:10px;">Wireframes</div>
+          <ul class="feat mt-2">
+            <li>Limited wireframes</li>
+          </ul>
+        </div>
+
+        <!-- Then UI screens -->
+        <div>
+          <div class="t-eyebrow" style="font-size:10px;">UI screens</div>
+          <ul class="feat mt-2">
+            <li>Launch Screen</li>
+            <li>Features Screen</li>
+            <li>Login</li>
+            <li>Signup</li>
+            <li>Home</li>
+            <li>Top 3 features (up to 20 screens each)</li>
+            <li>Profile</li>
+            <li>Settings</li>
+            <li>Logout</li>
+          </ul>
+        </div>
+
+        <div class="addon">
+          <div class="t-eyebrow" style="font-size:11px;">Add-on</div>
+          <ul class="mt-2 space-y-1">
+            <li>Up to 5 illustrations</li>
+            <li>Clickable prototype</li>
+          </ul>
+        </div>
+
+        <div class="price-strip">
+          <span class="amt">just $4,000</span>
+          <span class="when">6 weeks</span>
+        </div>
+      </div>
+
+      <!-- ─────────────── Offer 2 ─────────────── -->
+      <div class="price-card">
+        <div class="t-eyebrow">Offer 2</div>
+
+        <!-- Inherits from Offer 1 -->
+        <div class="t-body" style="font-weight:600;">Everything in Offer 1, plus:</div>
+
+        <ul class="feat">
+          <li>All detailed wireframes</li>
+          <li>Onboarding flow</li>
+          <li>Empty, error and loading states</li>
+          <li>Push notifications</li>
+          <li>Search and filter modules</li>
+        </ul>
+
+        <div class="addon">
+          <div class="t-eyebrow" style="font-size:11px;">Add-on</div>
+          <ul class="mt-2 space-y-1">
+            <li>Up to 10 illustrations</li>
+            <li>Clickable prototype</li>
+          </ul>
+        </div>
+
+        <div class="price-strip">
+          <span class="amt">just $6,000</span>
+          <span class="when">9 weeks</span>
+        </div>
+      </div>
+
+      <!-- ─────────────── Offer 3 ─────────────── -->
+      <div class="price-card">
+        <div class="t-eyebrow">Offer 3</div>
+
+        <div class="t-body" style="font-weight:600;">Everything in Offer 1 &amp; 2, plus:</div>
+
+        <ul class="feat">
+          <li>Stakeholder discovery interviews (up to 5)</li>
+          <li>Competitive analysis</li>
+          <li>Information architecture</li>
+          <li>Detailed wireframes for all use cases</li>
+          <li>UI design for all use cases</li>
+        </ul>
+
+        <div class="addon">
+          <div class="t-eyebrow" style="font-size:11px;">Add-on</div>
+          <ul class="mt-2 space-y-1">
+            <li>Up to 30 illustrations</li>
+            <li>Clickable prototype</li>
+          </ul>
+        </div>
+
+        <div class="price-strip">
+          <span class="amt">just $10,000</span>
+          <span class="when">14 weeks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 6. WHAT MAKES IT WORK -->
+<!-- =================================================================== -->
+<section class="section hairline-t">
+  <div class="wrap">
+    <h2 class="t-h2">Why this works</h2>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div>
+        <div class="t-h3">We start with stakeholders, not screens.</div>
+        <p class="t-body mt-3" style="color:#444;">
+          Discovery interviews surface what your users actually do, not what your team assumes.
+        </p>
+      </div>
+      <div>
+        <div class="t-h3">We design for behavior, not just beauty.</div>
+        <p class="t-body mt-3" style="color:#444;">
+          Every screen is built around a decision the user is making.
+        </p>
+      </div>
+      <div>
+        <div class="t-h3">We hand off ready-to-build, not ready-to-debate.</div>
+        <p class="t-body mt-3" style="color:#444;">
+          Engineers receive a clickable prototype, spec'd components, and an asset library.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 7. FEATURED WORK + STORE REVIEW STRIP -->
+<!-- =================================================================== -->
+<section id="work" class="section hairline-t">
+  <div class="wrap">
+    <h2 class="t-h2">Selected work</h2>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Case study tile -->
+      <div class="flex flex-col gap-4">
+        <div class="ph ph-frame" style="aspect-ratio: 9/16; max-width: 360px;"><!-- replace: case study 1 hero screen -->App Screen</div>
+        <div>
+          <div class="t-h3">Client Name</div>
+          <div class="t-small">Outcome: +X% metric in Y days</div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="ph ph-frame" style="aspect-ratio: 9/16; max-width: 360px;"><!-- replace: case study 2 hero screen -->App Screen</div>
+        <div>
+          <div class="t-h3">Client Name</div>
+          <div class="t-small">Outcome: +X% metric in Y days</div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="ph ph-frame" style="aspect-ratio: 9/16; max-width: 360px;"><!-- replace: case study 3 hero screen -->App Screen</div>
+        <div>
+          <div class="t-h3">Client Name</div>
+          <div class="t-small">Outcome: +X% metric in Y days</div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="ph ph-frame" style="aspect-ratio: 9/16; max-width: 360px;"><!-- replace: case study 4 hero screen -->App Screen</div>
+        <div>
+          <div class="t-h3">Client Name</div>
+          <div class="t-small">Outcome: +X% metric in Y days</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store review strip — horizontally-scrolling row of small phone-aspect
+         screenshot tiles showing user reviews from the App Store and Play
+         Store. Each tile is a placeholder rectangle with badge + star line
+         + skeleton text lines. Real reviews drop in later. -->
+    <div class="mt-16 pt-10 hairline-t">
+      <div class="flex items-baseline justify-between gap-4">
+        <div class="t-eyebrow">From the App Store &amp; Play Store</div>
+        <div class="t-small">Live reviews from shipped apps</div>
+      </div>
+
+      <div class="mt-5 review-strip">
+        <div class="review-tile">
+          <div class="badge">App Store</div>
+          <div class="stars-mini">★★★★★</div>
+          <div class="lines"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 1</div>
+        </div>
+        <div class="review-tile">
+          <div class="badge">Play Store</div>
+          <div class="stars-mini">★★★★★</div>
+          <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 2</div>
+        </div>
+        <div class="review-tile">
+          <div class="badge">App Store</div>
+          <div class="stars-mini">★★★★☆</div>
+          <div class="lines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 3</div>
+        </div>
+        <div class="review-tile">
+          <div class="badge">Play Store</div>
+          <div class="stars-mini">★★★★★</div>
+          <div class="lines"><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 4</div>
+        </div>
+        <div class="review-tile">
+          <div class="badge">App Store</div>
+          <div class="stars-mini">★★★★★</div>
+          <div class="lines"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 5</div>
+        </div>
+        <div class="review-tile">
+          <div class="badge">Play Store</div>
+          <div class="stars-mini">★★★★★</div>
+          <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 6</div>
+        </div>
+        <div class="review-tile">
+          <div class="badge">App Store</div>
+          <div class="stars-mini">★★★★★</div>
+          <div class="lines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 7</div>
+        </div>
+        <div class="review-tile">
+          <div class="badge">Play Store</div>
+          <div class="stars-mini">★★★★☆</div>
+          <div class="lines"><i></i><i></i><i></i><i></i></div>
+          <div class="author"><!-- replace: reviewer handle -->— review 8</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 8. FAQ -->
+<!-- =================================================================== -->
+<section id="faq" class="section hairline-t">
+  <div class="wrap max-w-[820px]">
+    <h2 class="t-h2">Questions</h2>
+
+    <div class="mt-8">
+      <div class="faq-row">
+        <div class="faq-q">What happens after I click Build My App?</div>
+        <p class="faq-a">You’ll book a 30-minute intake call with our design lead. We send a one-page scoping doc within 48 hours, plus a fixed-fee contract. Work starts as soon as the contract is signed and the first invoice clears.</p>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">What if my app needs more than 3 core features?</div>
+        <p class="faq-a">The 3-feature scope is the productized version. Beyond that we quote a custom engagement — same process, same deliverables, sized to your scope. Most extensions add one to three weeks per additional feature set.</p>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Do you build the app or just design it?</div>
+        <p class="faq-a">Design only. You receive a clickable prototype, a Figma file with spec’d components, and an asset library that’s ready for engineering. We can introduce you to vetted dev partners we’ve shipped with, or work alongside your in-house team.</p>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Who owns the source files?</div>
+        <p class="faq-a">You do, on final payment. Full IP transfer covers the Figma file, exported assets, prototype, and any source illustrations we delivered. We retain the right to show the work in our portfolio unless you ask us not to.</p>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">What if we miss the 6-week window?</div>
+        <p class="faq-a">Delays caused by us are on us — we extend at no extra charge. Delays caused by feedback or scope drift on your side are quoted as additional weeks at our pro-rated rate. Either way, the price and scope you signed are locked.</p>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Can I see the contract before paying?</div>
+        <p class="faq-a">Yes — the scoping doc and contract are both shared before the first invoice. Standard terms, no surprises, lawyer-reviewable. We don’t take payment until you’ve signed.</p>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q">Do you work with non-Indian clients?</div>
+        <p class="faq-a">Yes — roughly 40% of our work is international. We invoice in USD or EUR, accept card or wire, and run sprints across timezones (we overlap with EU mornings and US afternoons).</p>
+      </div>
+      <div class="hairline-b"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 9. FINAL CTA -->
+<!-- =================================================================== -->
+<section id="cta" class="section" style="background: var(--surface);">
+  <div class="wrap text-center">
+    <h2 class="t-h1 max-w-[20ch] mx-auto">Your app deserves more than a template.</h2>
+    <div class="mt-8 flex flex-col items-center gap-4">
+      <a href="#" class="btn" style="background:#fff;">Build My App</a>
+      <a href="mailto:hello@designasylum.in" class="t-small underline">Or email hello@designasylum.in</a>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<!-- 10. FOOTER -->
+<!-- =================================================================== -->
+<footer style="background: var(--surface-2);" class="hairline-t">
+  <div class="wrap py-10">
+    <!-- Row 1 -->
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="ph ph-frame" style="width:120px; height:32px;">Logo</div>
+      <nav class="flex flex-wrap items-center gap-6 text-[14px]">
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="#pricing">Pricing</a>
+        <a href="mailto:hello@designasylum.in">Contact</a>
+      </nav>
+      <div class="flex flex-wrap items-center gap-5 text-[14px]">
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Dribbble</a>
+        <a href="#">Behance</a>
+      </div>
+    </div>
+
+    <!-- Hairline divider -->
+    <div class="my-8 hairline-b"></div>
+
+    <!-- Row 2 -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 t-small">
+      <div>© 2026 Design Asylum Studio · GSTIN 27AASFD0733F1ZH</div>
+      <div><!-- replace: full registered address -->Bibvewadi, Pune, Maharashtra, India</div>
+      <div class="flex gap-5">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- =================================================================== -->
+<!-- TWEAKS — React-mounted floating panel. Wireframe stays pure HTML; the
+     panel just drives CSS variables on :root + class toggles on <html>. -->
+<!-- =================================================================== -->
+<div id="tweaks-root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "commentOverlap": 88,
+    "phoneWidth": 248,
+    "commentTilt": 0,
+    "showComments": true,
+    "showRating": true,
+    "showDots": true,
+    "stagePadding": "compact"
+  }/*EDITMODE-END*/;
+
+  // Phone aspect ratio (~iPhone-ish) — height tracks width so resizing stays proportional.
+  const PHONE_ASPECT = 2.07;
+
+  // Section padding presets — applied as a CSS var override.
+  const STAGE_PRESETS = {
+    compact:  { sm: 40, md: 64,  lg: 80  },
+    regular:  { sm: 56, md: 88,  lg: 112 },
+    spacious: { sm: 72, md: 112, lg: 144 },
+  };
+
+  function HeroTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    // Push tweak state into CSS custom properties / utility classes on the root.
+    React.useEffect(() => {
+      const r = document.documentElement;
+      r.style.setProperty('--comment-overlap', t.commentOverlap + 'px');
+      r.style.setProperty('--phone-w', t.phoneWidth + 'px');
+      r.style.setProperty('--phone-h', Math.round(t.phoneWidth * PHONE_ASPECT) + 'px');
+      r.style.setProperty('--comment-tilt', t.commentTilt + 'deg');
+      r.classList.toggle('hide-comments', !t.showComments);
+      r.classList.toggle('hide-rating',   !t.showRating);
+      r.classList.toggle('hide-dots',     !t.showDots);
+
+      // Section padding rhythm — write a tag so the cascade order keeps tweaks winning.
+      const preset = STAGE_PRESETS[t.stagePadding] || STAGE_PRESETS.regular;
+      const id = '__stage-padding-style';
+      let s = document.getElementById(id);
+      if (!s) { s = document.createElement('style'); s.id = id; document.head.appendChild(s); }
+      s.textContent = `
+        .section { padding-block: ${preset.sm}px; }
+        @media (min-width: 768px)  { .section { padding-block: ${preset.md}px; } }
+        @media (min-width: 1024px) { .section { padding-block: ${preset.lg}px; } }
+      `;
+    }, [t]);
+
+    return (
+      <TweaksPanel title="Wireframe tweaks">
+        <TweakSection label="Hero — comments" />
+        <TweakSlider
+          label="Overlap onto phone"
+          value={t.commentOverlap} min={0} max={200} step={4} unit="px"
+          onChange={(v) => setTweak('commentOverlap', v)}
+        />
+        <TweakSlider
+          label="Card tilt"
+          value={t.commentTilt} min={-6} max={6} step={1} unit="°"
+          onChange={(v) => setTweak('commentTilt', v)}
+        />
+        <TweakToggle
+          label="Show comments"
+          value={t.showComments}
+          onChange={(v) => setTweak('showComments', v)}
+        />
+
+        <TweakSection label="Hero — phone" />
+        <TweakSlider
+          label="Phone width"
+          value={t.phoneWidth} min={220} max={340} step={4} unit="px"
+          onChange={(v) => setTweak('phoneWidth', v)}
+        />
+        <TweakToggle
+          label="Show 4.5★ rating"
+          value={t.showRating}
+          onChange={(v) => setTweak('showRating', v)}
+        />
+        <TweakToggle
+          label="Show carousel dots"
+          value={t.showDots}
+          onChange={(v) => setTweak('showDots', v)}
+        />
+
+        <TweakSection label="Layout" />
+        <TweakRadio
+          label="Section padding"
+          value={t.stagePadding}
+          options={['compact', 'regular', 'spacious']}
+          onChange={(v) => setTweak('stagePadding', v)}
+        />
+      </TweaksPanel>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<HeroTweaks />);
+</script>
+
+<!-- Auto-print: wait for fonts, Tailwind, Babel/React mount, then trigger print. -->
+<script type="text/babel">
+  (async () => {
+    try {
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    } catch (e) {}
+    // Two animation frames so the JSX-rendered tweaks root finishes hiding via
+    // print CSS, and Tailwind utilities (loaded async from CDN) get applied.
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    await new Promise(r => setTimeout(r, 500));
+    window.print();
+  })();
+</script>
+
+</body>
+</html>
