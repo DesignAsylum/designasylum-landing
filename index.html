@@ -216,8 +216,8 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 /* ---- Type helpers ---- */
 .display-xl {
   font-family: var(--font-display);
-  font-size: clamp(56px, 10vw, 156px);
-  line-height: 0.95;
+  font-size: clamp(32px, 4.2vw, 62px);
+  line-height: 1.05;
   letter-spacing: -0.035em;
   font-weight: 800;
   font-variation-settings: "wght" 720, "wdth" 98, "opsz" 120, "GRAD" 0;
@@ -336,7 +336,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .nav__inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: 24px;
-  padding-block: 16px;
+  padding-block: 9px;
 }
 .nav__brand {
   display: flex; align-items: center; gap: 12px;
@@ -359,30 +359,30 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 @media (max-width: 720px) { .nav__links { display: none; } }
 
 /* ---- Hero ---- */
-.hero { padding-block: 80px 64px; }
-@media (max-width: 900px) { .hero { padding-block: 56px 40px; } }
+.hero { padding-block: 36px 28px; }
+@media (max-width: 900px) { .hero { padding-block: 24px 18px; } }
 .hero__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 64px;
+  gap: 36px;
   align-items: end;
 }
 @media (min-width: 1024px) {
   .hero__grid {
     grid-template-columns: 7fr 5fr;
-    gap: 48px;
+    gap: 40px;
     align-items: center;
   }
 }
-.hero__title { margin-top: 20px; }
-.hero__sub { margin-top: 36px; }
-.hero__ctas { display: flex; gap: 14px; margin-top: 40px; flex-wrap: wrap; }
+.hero__title { margin-top: 10px; }
+.hero__sub { margin-top: 20px; }
+.hero__ctas { display: flex; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
 
 /* ---- Phone stage ---- */
 .stage { display: flex; justify-content: center; position: relative; }
 .phone {
   position: relative;
-  width: 280px;
+  width: 210px;
   aspect-ratio: 9 / 19;
   background: var(--ink);
   border-radius: 36px;
@@ -670,7 +670,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 @media (max-width: 900px) { .pricing { grid-template-columns: 1fr; } }
 .price {
   display: flex; flex-direction: column;
-  padding: 40px 36px;
+  padding: 22px 24px;
   border-right: 1px solid var(--hairline);
   position: relative;
   background: var(--paper);
@@ -684,11 +684,11 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .price__head { display: flex; flex-direction: column; gap: 8px; }
 .price__name {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 26px;
   line-height: 1;
   letter-spacing: -0.028em;
   font-weight: 700;
-  font-variation-settings: "wght" 680, "wdth" 100, "opsz" 36, "GRAD" 0;
+  font-variation-settings: "wght" 680, "wdth" 100, "opsz" 28, "GRAD" 0;
   text-transform: lowercase;
   color: var(--ink);
 }
@@ -706,24 +706,24 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   font-variation-settings: "wght" 500;
 }
 .price__pitch {
-  margin-top: 20px;
+  margin-top: 8px;
   font-family: var(--font-sans);
-  font-size: 19px;
+  font-size: 14px;
   line-height: 1.3;
   font-weight: 500;
-  letter-spacing: -0.015em;
-  color: var(--ink);
+  letter-spacing: -0.01em;
+  color: var(--fg-2);
   text-wrap: pretty;
   max-width: 28ch;
 }
-.price__mood { margin-top: 24px; }
+.price__mood { margin-top: 14px; }
 .price__mood-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 5px;
 }
 .mood {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 5 / 3;
   border-radius: var(--r-2);
   border: 1px solid var(--hairline);
   display: flex; align-items: flex-end;
@@ -789,29 +789,29 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .price--featured .price__mood-cap { color: var(--ink-muted); }
 
 .price__plus {
-  margin-top: 28px;
-  padding-top: 20px;
+  margin-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--hairline);
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--ink);
 }
 .price--featured .price__plus { border-top-color: rgba(10,10,10,0.2); }
 .price__feat {
   list-style: none;
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   padding: 0;
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: 13px;
+  line-height: 1.4;
 }
 .price__feat li {
-  padding: 8px 0;
+  padding: 5px 0;
   border-bottom: 1px dashed var(--hairline);
   color: var(--ink-soft);
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 .price__feat li::before {
   content: "";
@@ -823,16 +823,16 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .price__feat li:last-child { border-bottom: 0; }
 .price--featured .price__feat li { border-bottom-color: rgba(10,10,10,0.2); }
 
-.price__foot { margin-top: auto; padding-top: 28px; }
+.price__foot { margin-top: auto; padding-top: 14px; }
 .price__strip {
   display: flex; align-items: baseline; justify-content: space-between;
-  padding: 16px 0;
+  padding: 10px 0;
   border-top: 1px solid var(--hairline);
 }
 .price--featured .price__strip { border-top-color: rgba(10,10,10,0.2); }
 .price__amt {
   font-family: var(--font-display);
-  font-size: 40px;
+  font-size: 30px;
   line-height: 1;
   letter-spacing: -0.03em;
   font-weight: 800;
@@ -847,7 +847,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   color: var(--fg-3);
 }
 .price--featured .price__when { color: var(--ink-muted); }
-.price__cta { width: 100%; justify-content: center; margin-top: 16px; }
+.price__cta { width: 100%; justify-content: center; margin-top: 10px; padding: 10px 16px; }
 
 /* ---- Guarantees ---- */
 .guarantees {
@@ -1447,7 +1447,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 06 PRICING -->
 <section class="section" id="pricing">
   <div class="wrap">
-    <div style="display:flex; flex-direction:column; gap:20px; align-items:flex-start; margin-bottom:48px;">
+    <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; margin-bottom:28px;">
       <h2 class="display-l" style="max-width:20ch;">Pick the depth you need</h2>
       <p class="lede">
         Three productized tiers, fixed scope, fixed fee. Step up when your product needs more strategy, more screens, or a clickable prototype to sell internally.
@@ -1477,17 +1477,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
         </div>
 
         <ul class="price__feat">
-          <li>Defining scope (Story Acceptance Criteria)</li>
-          <li>Primary screen wireframes</li>
-          <li>Launch screen</li>
-          <li>Features screen</li>
-          <li>Onboarding screen</li>
-          <li>Login / Sign up</li>
-          <li>Home</li>
+          <li>Scope definition + wireframes</li>
           <li>Top 3 features (up to 20 screens each)</li>
-          <li>Profile screens</li>
-          <li>Settings screens</li>
-          <li>Logout</li>
+          <li>All standard screens (onboarding, login, home, profile, settings)</li>
           <li>Up to 5 illustrations</li>
         </ul>
 
@@ -1523,13 +1515,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 
         <div class="price__plus">Everything in Launchpad, plus:</div>
         <ul class="price__feat">
-          <li>2 stakeholder discovery interviews</li>
-          <li>Competitive analysis for 2 competitors</li>
-          <li>Information architecture</li>
-          <li>Detailed wireframes for all screens</li>
-          <li>Empty, error and loading states</li>
-          <li>Push notifications</li>
-          <li>Search and filter modules</li>
+          <li>2 stakeholder interviews + competitive analysis</li>
+          <li>Detailed wireframes + all edge states</li>
+          <li>Push notifications, search &amp; filter modules</li>
           <li>Up to 10 illustrations</li>
         </ul>
 
@@ -1564,11 +1552,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 
         <div class="price__plus">Everything in Accelerator, plus:</div>
         <ul class="price__feat">
-          <li>5 stakeholder discovery interviews</li>
-          <li>Competitive analysis for 4 competitors</li>
+          <li>5 stakeholder interviews + 4-competitor analysis</li>
           <li>Up to 5 key features (20 screens each)</li>
-          <li>Clickable prototype</li>
-          <li>App Store images</li>
+          <li>Clickable prototype + App Store images</li>
           <li>Up to 25 illustrations</li>
         </ul>
 
