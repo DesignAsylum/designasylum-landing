@@ -369,7 +369,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 @media (min-width: 1024px) {
   .hero__grid {
-    grid-template-columns: 7fr 5fr;
+    grid-template-columns: 5fr 7fr;
     gap: 40px;
     align-items: center;
   }
@@ -382,10 +382,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .stage { display: flex; justify-content: center; position: relative; }
 .phone {
   position: relative;
-  width: 210px;
-  aspect-ratio: 9 / 19;
+  width: 532px;
+  aspect-ratio: 532 / 1154;
   background: var(--ink);
-  border-radius: 36px;
+  border-radius: 64px;
   padding: 14px;
   color: var(--paper);
   flex-shrink: 0;
@@ -393,15 +393,15 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .phone::before {
   content: "";
   position: absolute;
-  top: 18px; left: 50%; transform: translateX(-50%);
-  width: 92px; height: 22px;
+  top: 22px; left: 50%; transform: translateX(-50%);
+  width: 160px; height: 30px;
   background: #000;
   border-radius: 999px;
 }
 .phone__screen {
   width: 100%; height: 100%;
   background: var(--ink-soft);
-  border-radius: 24px;
+  border-radius: 52px;
   overflow: hidden;
   position: relative;
 }
@@ -539,15 +539,17 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   padding: 28px 16px;
   border-right: 1px solid var(--hairline);
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--fg-1);
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
-  font-variation-settings: "wght" 600;
-  min-height: 84px;
+  min-height: 100px;
 }
 .trust__cell:last-child { border-right: 0; }
+.trust__logo {
+  height: 28px;
+  width: auto;
+  max-width: 120px;
+  display: block;
+  filter: brightness(0);
+  opacity: 0.75;
+}
 @media (max-width: 900px) {
   .trust__cell { border-right: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
   .trust__cell:nth-child(2n) { border-right: 0; }
@@ -1314,13 +1316,13 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
         <div class="eyebrow"><span>Design partners to brands you know</span></div>
       </div>
       <!-- replace: real client logos -->
-      <div class="trust__cell">PUMA</div>
-      <div class="trust__cell">KIA</div>
-      <div class="trust__cell">Axis&nbsp;Bank</div>
-      <div class="trust__cell">WeWork&nbsp;India</div>
-      <div class="trust__cell">Protean</div>
-      <div class="trust__cell">Logo</div>
-      <div class="trust__cell">Logo</div>
+      <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-abbott.svg" alt="Abbott" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-axisbank.svg" alt="Axis Bank" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-godrej.svg" alt="Godrej" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-goi.svg" alt="Government of India" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-kia.svg" alt="KIA" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-michelin.svg" alt="Michelin" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-saama.svg" alt="Saama" /></div>
     </div>
   </div>
 </section>
