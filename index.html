@@ -369,7 +369,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 @media (min-width: 1024px) {
   .hero__grid {
-    grid-template-columns: 5fr 7fr;
+    grid-template-columns: 7fr 5fr;
     gap: 40px;
     align-items: center;
   }
@@ -382,10 +382,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .stage { display: flex; justify-content: center; position: relative; }
 .phone {
   position: relative;
-  width: 532px;
-  aspect-ratio: 532 / 1154;
+  width: 315px;
+  aspect-ratio: 9 / 19;
   background: var(--ink);
-  border-radius: 64px;
+  border-radius: 54px;
   padding: 14px;
   color: var(--paper);
   flex-shrink: 0;
@@ -393,15 +393,15 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .phone::before {
   content: "";
   position: absolute;
-  top: 22px; left: 50%; transform: translateX(-50%);
-  width: 160px; height: 30px;
+  top: 27px; left: 50%; transform: translateX(-50%);
+  width: 138px; height: 33px;
   background: #000;
   border-radius: 999px;
 }
 .phone__screen {
   width: 100%; height: 100%;
   background: var(--ink-soft);
-  border-radius: 52px;
+  border-radius: 42px;
   overflow: hidden;
   position: relative;
 }
@@ -543,25 +543,17 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 .trust__cell:last-child { border-right: 0; }
 .trust__logo {
-  height: 28px;
+  height: 32px;
   width: auto;
-  max-width: 120px;
+  max-width: 130px;
   display: block;
-  filter: brightness(0);
-  opacity: 0.75;
 }
 @media (max-width: 900px) {
   .trust__cell { border-right: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
   .trust__cell:nth-child(2n) { border-right: 0; }
   .trust__cell:nth-last-child(-n+2) { border-bottom: 0; }
 }
-.trust__label {
-  grid-column: 1 / -1;
-  padding: 20px 16px;
-  border-bottom: 1px solid var(--hairline);
-  display: flex; justify-content: space-between; align-items: baseline;
-  gap: 16px; flex-wrap: wrap;
-}
+
 
 /* ---- Promise ---- */
 .promise-grid {
@@ -1312,10 +1304,6 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <section>
   <div class="wrap">
     <div class="trust">
-      <div class="trust__label">
-        <div class="eyebrow"><span>Design partners to brands you know</span></div>
-      </div>
-      <!-- replace: real client logos -->
       <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-abbott.svg" alt="Abbott" /></div>
       <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-axisbank.svg" alt="Axis Bank" /></div>
       <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-godrej.svg" alt="Godrej" /></div>
