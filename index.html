@@ -633,100 +633,164 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .gantt__bar.lime { background: var(--accent-lime); color: var(--ink); }
 
 /* ---- Pricing ---- */
-.pricing {
+.pricing-v2 { position: relative; background: var(--paper); overflow: hidden; }
+.pricing-v2::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 55%, transparent 100%);
+  pointer-events: none;
+}
+.pricing-v2__header { text-align: center; margin-bottom: 56px; }
+
+/* Vertical cut reveal */
+.rv-title {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 0 0.28em; margin: 0 0 16px;
+}
+.rv-word { display: inline-block; overflow: hidden; line-height: 1.15; }
+.rv-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rv-title.rv-revealed .rv-inner { transform: translateY(0); }
+.rv-word:nth-child(1) .rv-inner { transition-delay: 0s; }
+.rv-word:nth-child(2) .rv-inner { transition-delay: 0.1s; }
+.rv-word:nth-child(3) .rv-inner { transition-delay: 0.2s; }
+.rv-word:nth-child(4) .rv-inner { transition-delay: 0.3s; }
+.rv-word:nth-child(5) .rv-inner { transition-delay: 0.4s; }
+
+/* Timeline blur-fade reveal */
+.tl-reveal {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(-16px);
+  transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease;
+}
+.tl-reveal.tl-in { opacity: 1; filter: blur(0); transform: translateY(0); }
+.tl-reveal[data-tl="0"] { transition-delay: 0s; }
+.tl-reveal[data-tl="1"] { transition-delay: 0.35s; }
+.tl-reveal[data-tl="2"] { transition-delay: 0.55s; }
+.tl-reveal[data-tl="3"] { transition-delay: 0.75s; }
+
+/* Cards grid — align-items:end gives the stepped look */
+.pcards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  align-items: end;
 }
-@media (max-width: 900px) { .pricing { grid-template-columns: 1fr; } }
-.price {
-  display: flex; flex-direction: column;
-  padding: 28px;
+@media (max-width: 900px) { .pcards { grid-template-columns: 1fr; align-items: stretch; } }
+
+/* Base card (Launchpad & Flagship) */
+.pcard {
   background: var(--paper);
   border: 1px solid var(--hairline);
   border-radius: var(--r-3);
-  position: relative;
-  /* entrance */
-  opacity: 0;
-  translate: 0 30px;
-  transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
-              translate 0.6s cubic-bezier(0.16,1,0.3,1),
-              scale 0.2s ease,
-              box-shadow 0.2s ease;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: box-shadow 0.2s ease, scale 0.2s ease;
   scale: 1;
 }
-.price.in-view { opacity: 1; translate: 0 0; }
-.price:nth-child(2) { transition-delay: 0.1s; }
-.price:nth-child(3) { transition-delay: 0.2s; }
-.price:hover { scale: 0.99; box-shadow: 0 8px 32px rgba(10,10,10,0.08); }
-.price:active { scale: 0.97; }
-.price__head { display: flex; flex-direction: column; gap: 8px; }
-.price__name {
-  font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 1;
-  letter-spacing: -0.028em;
-  font-weight: 700;
-  font-variation-settings: "wght" 700, "wdth" 100, "opsz" 28, "GRAD" 0;
-  color: var(--ink);
-}
-.price__pitch {
-  margin-top: 12px;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--fg-2);
-  text-wrap: pretty;
-}
-.price__plus {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--hairline);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--ink);
-}
-.price__feat {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  line-height: 1.4;
-}
-.price__feat li {
-  padding: 9px 0;
-  border-bottom: 1px solid var(--hairline);
-  color: var(--fg-2);
-}
-.price__feat li:first-child { border-top: 1px solid var(--hairline); margin-top: 14px; }
-.price__feat li:last-child { border-bottom: 0; }
-.price__foot { margin-top: auto; padding-top: 14px; }
-.price__strip {
-  display: flex; align-items: center; justify-content: space-between;
+.pcard:hover { scale: 0.99; box-shadow: 0 8px 32px rgba(10,10,10,0.1); }
+.pcard:active { scale: 0.97; }
+.pcard__hd {
   background: var(--paper-soft);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-2);
-  padding: 14px 16px;
-  margin-bottom: 10px;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: var(--r-3);
+  padding: 20px 24px;
 }
-.price__amt {
+.pcard__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+  margin-bottom: 14px;
+}
+.pcard__name {
   font-family: var(--font-display);
-  font-size: 26px;
-  line-height: 1;
-  letter-spacing: -0.03em;
+  font-size: 22px;
   font-weight: 700;
-  font-variation-settings: "wght" 700, "wdth" 100, "opsz" 40, "GRAD" 0;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.pcard__price-row { display: flex; align-items: baseline; gap: 4px; }
+.pcard__amt {
+  font-family: var(--font-display);
+  font-size: 40px; font-weight: 700;
+  letter-spacing: -0.04em; line-height: 1;
   color: var(--ink);
 }
-.price__when {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--fg-3);
+.pcard__period { font-size: 14px; color: var(--fg-3); }
+.pcard__bd { padding: 20px 24px 24px; flex: 1; display: flex; flex-direction: column; }
+.pcard__pitch { font-size: 13px; line-height: 1.6; color: var(--fg-2); margin: 0 0 14px; }
+.pcard__plus {
+  font-weight: 600; font-size: 12px;
+  color: var(--ink); margin-bottom: 8px;
 }
-.price__cta { width: 100%; justify-content: center; padding: 12px 16px; }
+.pcard__feat {
+  list-style: none; margin: 0 0 22px; padding: 0;
+  font-size: 13px; flex: 1;
+}
+.pcard__feat li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--fg-2); line-height: 1.4;
+}
+.pcard__feat li:last-child { border-bottom: 0; }
+.pcard__cta {
+  display: block; width: 100%;
+  padding: 12px 16px; border-radius: 10px;
+  text-align: center; text-decoration: none;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  border: none; cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.pcard__cta:hover { transform: translateY(-1px); }
+.pcard__cta--ink {
+  background: var(--ink); color: var(--paper);
+  box-shadow: 0 4px 14px rgba(10,10,10,0.25);
+}
+.pcard__cta--ink:hover { background: var(--ink-soft); }
+.pcard__cta--electric {
+  background: #4338ca; color: #fff;
+  box-shadow: 0 4px 14px rgba(67,56,202,0.35);
+}
+.pcard__cta--electric:hover { background: #3730a3; }
+
+/* Featured card (Foundation — middle) */
+.pcard--featured {
+  background: #3730a3;
+  border-color: #3730a3;
+}
+.pcard--featured .pcard__hd {
+  background: #4338ca;
+  border-bottom: none;
+  border-radius: var(--r-3) var(--r-3) 0 0;
+  padding: 28px 24px;
+}
+.pcard--featured .pcard__eyebrow { color: rgba(255,255,255,0.45); }
+.pcard--featured .pcard__name { color: #fff; }
+.pcard--featured .pcard__amt { color: #fff; }
+.pcard--featured .pcard__period { color: rgba(255,255,255,0.55); }
+.pcard--featured .pcard__bd { padding: 24px 24px 28px; }
+.pcard--featured .pcard__pitch { color: rgba(255,255,255,0.7); }
+.pcard--featured .pcard__plus { color: rgba(255,255,255,0.9); }
+.pcard--featured .pcard__feat li { color: rgba(255,255,255,0.8); border-bottom-color: rgba(255,255,255,0.12); }
+.pcard--featured .pcard__feat li:last-child { border-bottom: 0; }
+.pcard__cta--dark {
+  background: #000; color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+.pcard__cta--dark:hover { background: #1a1a1a; }
 
 /* ---- Guarantees ---- */
 .guarantees {
@@ -1496,103 +1560,107 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 </section>
 
 <!-- 06 PRICING -->
-<section class="section" id="pricing">
+<section class="section pricing-v2" id="pricing">
   <div class="wrap">
-    <div style="display:flex; flex-direction:column; gap:12px; align-items:flex-start; margin-bottom:28px;">
-      <h2 class="display-l" style="max-width:20ch;">Pick the depth you need</h2>
-      <p class="lede">
+
+    <!-- Header -->
+    <div class="pricing-v2__header">
+      <h2 class="display-l rv-title" data-rv>
+        <span class="rv-word"><span class="rv-inner">Pick</span></span>
+        <span class="rv-word"><span class="rv-inner">the</span></span>
+        <span class="rv-word"><span class="rv-inner">depth</span></span>
+        <span class="rv-word"><span class="rv-inner">you</span></span>
+        <span class="rv-word"><span class="rv-inner">need</span></span>
+      </h2>
+      <p class="lede tl-reveal" data-tl="0" style="max-width:52ch; margin: 0 auto;">
         Three productized tiers, fixed scope, fixed fee. Step up when your product needs more strategy, more screens, or a clickable prototype to sell internally.
       </p>
     </div>
 
-    <div class="pricing">
+    <!-- Cards -->
+    <div class="pcards">
 
       <!-- Offer 1 — Launchpad -->
-      <div class="price" data-price-card>
-        <div class="price__head">
-          <div class="eyebrow"><span>Offer 1</span></div>
-          <h3 class="price__name">Launchpad</h3>
-        </div>
-        <p class="price__pitch">For founders who need a polished MVP shipped in six weeks. We design the core funnel — onboarding through your top three features — and hand off a clean, build-ready file.</p>
-
-        <ul class="price__feat">
-          <li>Defining scope (Story Acceptance Criteria)</li>
-          <li>Primary screen wireframes</li>
-          <li>Launch screen</li>
-          <li>Features screen</li>
-          <li>Onboarding screen</li>
-          <li>Login / Sign up</li>
-          <li>Home</li>
-          <li>Top 3 features (up to 20 screens each)</li>
-          <li>Profile screens</li>
-          <li>Settings screens</li>
-          <li>Logout</li>
-          <li>Up to 5 illustrations</li>
-        </ul>
-
-        <div class="price__foot">
-          <div class="price__strip">
-            <div class="price__amt">just $4,000</div>
-            <div class="price__when">6 weeks</div>
+      <div class="pcard tl-reveal" data-tl="1">
+        <div class="pcard__hd">
+          <div class="pcard__eyebrow">Offer 1</div>
+          <div class="pcard__name">Launchpad</div>
+          <div class="pcard__price-row">
+            <span class="pcard__amt">$4,000</span>
+            <span class="pcard__period">/ 6 weeks</span>
           </div>
-          <a href="#cta" class="btn btn--secondary price__cta">Start now</a>
+        </div>
+        <div class="pcard__bd">
+          <p class="pcard__pitch">For founders who need a polished MVP shipped in six weeks. We design the core funnel — onboarding through your top three features — and hand off a clean, build-ready file.</p>
+          <ul class="pcard__feat">
+            <li>Defining scope (Story Acceptance Criteria)</li>
+            <li>Primary screen wireframes</li>
+            <li>Launch screen</li>
+            <li>Features screen</li>
+            <li>Onboarding screen</li>
+            <li>Login / Sign up</li>
+            <li>Home</li>
+            <li>Top 3 features (up to 20 screens each)</li>
+            <li>Profile screens</li>
+            <li>Settings screens</li>
+            <li>Logout</li>
+            <li>Up to 5 illustrations</li>
+          </ul>
+          <a href="#cta" class="pcard__cta pcard__cta--electric">Start now</a>
         </div>
       </div>
 
-      <!-- Offer 2 — Foundation -->
-      <div class="price" data-price-card>
-        <div class="price__head">
-          <div class="eyebrow"><span>Offer 2</span></div>
-          <h3 class="price__name">Foundation</h3>
-        </div>
-        <p class="price__pitch">When you want strategy baked into the design. We add stakeholder interviews, competitor research, and an information architecture so the UX is grounded — not guessed.</p>
-
-        <div class="price__plus">Everything in Launchpad, plus:</div>
-        <ul class="price__feat">
-          <li>Interviews with up to 2 stakeholders</li>
-          <li>Competitive analysis for up to 2 competitors</li>
-          <li>Information architecture</li>
-          <li>Detailed wireframes for all screens</li>
-          <li>Empty, error and loading states</li>
-          <li>Push notifications</li>
-          <li>Search and filter modules</li>
-          <li>Up to 10 illustrations</li>
-        </ul>
-
-        <div class="price__foot">
-          <div class="price__strip">
-            <div class="price__amt">just $8,000</div>
-            <div class="price__when">9 weeks</div>
+      <!-- Offer 2 — Foundation (featured) -->
+      <div class="pcard pcard--featured tl-reveal" data-tl="2">
+        <div class="pcard__hd">
+          <div class="pcard__eyebrow">Offer 2</div>
+          <div class="pcard__name">Foundation</div>
+          <div class="pcard__price-row">
+            <span class="pcard__amt">$8,000</span>
+            <span class="pcard__period">/ 9 weeks</span>
           </div>
-          <a href="#cta" class="btn btn--secondary price__cta">Start now</a>
+        </div>
+        <div class="pcard__bd">
+          <p class="pcard__pitch">When you want strategy baked into the design. We add stakeholder interviews, competitor research, and an information architecture so the UX is grounded — not guessed.</p>
+          <div class="pcard__plus">Everything in Launchpad, plus:</div>
+          <ul class="pcard__feat">
+            <li>Interviews with up to 2 stakeholders</li>
+            <li>Competitive analysis for up to 2 competitors</li>
+            <li>Information architecture</li>
+            <li>Detailed wireframes for all screens</li>
+            <li>Empty, error and loading states</li>
+            <li>Push notifications</li>
+            <li>Search and filter modules</li>
+            <li>Up to 10 illustrations</li>
+          </ul>
+          <a href="#cta" class="pcard__cta pcard__cta--dark">Start now</a>
         </div>
       </div>
 
       <!-- Offer 3 — Flagship -->
-      <div class="price" data-price-card>
-        <div class="price__head">
-          <div class="eyebrow"><span>Offer 3</span></div>
-          <h3 class="price__name">Flagship</h3>
-        </div>
-        <p class="price__pitch">For products with real users to keep. Deeper discovery, more screens, more illustrations, and a clickable prototype your team and investors can actually click through.</p>
-
-        <div class="price__plus">Everything in Foundation, plus:</div>
-        <ul class="price__feat">
-          <li>Interviews with up to 5 stakeholders</li>
-          <li>Competitive analysis for up to 4 competitors</li>
-          <li>Up to 5 key features (20 screens each)</li>
-          <li>Clickable prototype</li>
-          <li>Up to 25 illustrations</li>
-        </ul>
-
-        <div class="price__foot">
-          <div class="price__strip">
-            <div class="price__amt">just $12,000</div>
-            <div class="price__when">14 weeks</div>
+      <div class="pcard tl-reveal" data-tl="3">
+        <div class="pcard__hd">
+          <div class="pcard__eyebrow">Offer 3</div>
+          <div class="pcard__name">Flagship</div>
+          <div class="pcard__price-row">
+            <span class="pcard__amt">$12,000</span>
+            <span class="pcard__period">/ 14 weeks</span>
           </div>
-          <a href="#cta" class="btn btn--secondary price__cta">Start now</a>
+        </div>
+        <div class="pcard__bd">
+          <p class="pcard__pitch">For products with real users to keep. Deeper discovery, more screens, more illustrations, and a clickable prototype your team and investors can actually click through.</p>
+          <div class="pcard__plus">Everything in Foundation, plus:</div>
+          <ul class="pcard__feat">
+            <li>Interviews with up to 5 stakeholders</li>
+            <li>Competitive analysis for up to 4 competitors</li>
+            <li>Up to 5 key features (20 screens each)</li>
+            <li>Clickable prototype</li>
+            <li>Up to 25 illustrations</li>
+          </ul>
+          <a href="#cta" class="pcard__cta pcard__cta--electric">Start now</a>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -2038,19 +2106,28 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 </footer>
 
 <script>
-  /* Pricing cards — scroll-triggered entrance */
+  /* Pricing — vertical cut reveal on heading */
   (function () {
-    var cards = document.querySelectorAll('[data-price-card]');
-    if (!cards.length) return;
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
+    var title = document.querySelector('[data-rv]');
+    if (!title) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('rv-revealed'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    obs.observe(title);
+  })();
+
+  /* Pricing — timeline blur-fade reveal */
+  (function () {
+    var els = document.querySelectorAll('.tl-reveal');
+    if (!els.length) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('tl-in'); obs.unobserve(e.target); }
       });
     }, { threshold: 0.15 });
-    cards.forEach(function (card) { observer.observe(card); });
+    els.forEach(function (el) { obs.observe(el); });
   })();
 
   /* Promise cards — scroll-triggered entrance */
