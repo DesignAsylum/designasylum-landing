@@ -183,8 +183,8 @@ a:hover { color: var(--link-hover); border-bottom-color: var(--link-hover); }
   .wrap { padding-inline: 20px; }
 }
 
-.section { padding-block: var(--s-9); position: relative; }
-.section--tight { padding-block: var(--s-7); }
+.section { padding-block: 144px; position: relative; }
+.section--tight { padding-block: 72px; }
 .section--ink {
   background: var(--ink);
   color: var(--paper);
@@ -923,6 +923,103 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   .work__tag, .work__result, .work__year { display: none; }
 }
 
+/* ---- Bento testimonials ---- */
+.tbento-section { background: var(--paper); }
+.tbento-header { text-align: center; margin-bottom: 48px; }
+.tbento-header__title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+.tbento-header__sub {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--fg-3);
+  margin: 0;
+}
+.tbento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.tbento__col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tbcard {
+  border-radius: 18px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+.tbcard.tb-in { opacity: 1; transform: translateY(0); }
+.tbcard--tall { flex: 7; min-height: 280px; }
+.tbcard--short { flex: 3; min-height: 160px; }
+.tbcard--light {
+  background: var(--paper-soft);
+  border-color: var(--hairline);
+}
+.tbcard--light::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.055) 1px, transparent 1px);
+  background-size: 50px 56px;
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%);
+  pointer-events: none;
+}
+.tbcard--blue  { background: #0038FF; color: white; }
+.tbcard--dark  { background: #111111; color: white; }
+.tbcard__quote {
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0 0 20px;
+  position: relative;
+}
+.tbcard--light .tbcard__quote { color: var(--fg-2); }
+.tbcard--blue  .tbcard__quote,
+.tbcard--dark  .tbcard__quote { color: rgba(255,255,255,0.85); }
+.tbcard__meta { display: flex; justify-content: space-between; align-items: flex-end; position: relative; }
+.tbcard__name { font-weight: 600; font-size: 14px; line-height: 1.2; }
+.tbcard__role { font-size: 12px; margin-top: 2px; }
+.tbcard--light .tbcard__name { color: var(--ink); }
+.tbcard--light .tbcard__role { color: var(--fg-3); }
+.tbcard--blue  .tbcard__name,
+.tbcard--dark  .tbcard__name { color: white; }
+.tbcard--blue  .tbcard__role,
+.tbcard--dark  .tbcard__role { color: rgba(255,255,255,0.6); }
+.tbcard__avatar {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .tbento { grid-template-columns: 1fr 1fr; }
+  .tbento__col:last-child { display: none; }
+  .tbcard--tall { min-height: 220px; }
+  .tbcard--short { min-height: 140px; }
+}
+@media (max-width: 600px) {
+  .tbento { grid-template-columns: 1fr; }
+  .tbento__col:not(:first-child) { display: none; }
+  .tbcard--tall, .tbcard--short { min-height: 180px; }
+}
+
 /* ---- Testimonials columns ---- */
 .testimonials { margin-top: 56px; }
 .testimonials__header {
@@ -1450,11 +1547,157 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   </div>
 </section>
 
-<!-- 04 OUR PROMISE -->
+<!-- 04 6-WEEK PROCESS -->
+<section class="section" id="process">
+  <div class="wrap">
+    <div style="display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center;">
+      <h2 class="display-l" style="max-width:20ch;">6 Weeks from Scope to Dev Handoff</h2>
+      <p class="lede">
+        Phases overlap on purpose. UX kicks off as soon as scope locks; UI starts as soon as the first UX flows are stable; prototype assembles in the final sprint. Below: the timeline at a glance.
+      </p>
+    </div>
+
+    <div class="gantt" style="margin-top: 40px;">
+      <div class="gantt__head">
+        <div class="lbl">Phase</div>
+        <div class="wk">Week 1</div>
+        <div class="wk">Week 2</div>
+        <div class="wk">Week 3</div>
+        <div class="wk">Week 4</div>
+        <div class="wk">Week 5</div>
+        <div class="wk">Week 6</div>
+      </div>
+      <div class="gantt__row">
+        <div class="lbl">Scope Definition</div>
+        <div class="track">
+          <div class="gantt__bar" style="left:0%; width:10%;">3 days</div>
+        </div>
+      </div>
+      <div class="gantt__row">
+        <div class="lbl">UX Design</div>
+        <div class="track">
+          <div class="gantt__bar alt" style="left:7%; width:53%;">≈ 3 weeks</div>
+        </div>
+      </div>
+      <div class="gantt__row">
+        <div class="lbl">UI Design</div>
+        <div class="track">
+          <div class="gantt__bar" style="left:27%; width:63%;">≈ 3.5 weeks</div>
+        </div>
+      </div>
+      <div class="gantt__row">
+        <div class="lbl">Prototype</div>
+        <div class="track">
+          <div class="gantt__bar lime" style="left:90%; width:10%;">3 days</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; margin-top: 24px;">
+      <a href="#cta" class="btn btn--secondary">Build My App</a>
+    </div>
+  </div>
+</section>
+
+<!-- 04b CLIENT TESTIMONIALS BENTO -->
+<section class="section tbento-section">
+  <div class="wrap">
+    <div class="tbento-header">
+      <h2 class="tbento-header__title">Trusted by Startups and the World's Largest Companies</h2>
+      <p class="tbento-header__sub">Hear from the product teams and founders behind the apps we've shipped.</p>
+    </div>
+
+    <div class="tbento" data-tbento>
+      <!-- Column 1 -->
+      <div class="tbento__col">
+        <div class="tbcard tbcard--light tbcard--tall" data-tbcard>
+          <p class="tbcard__quote">"Design Asylum delivered a polished, launch-ready app in exactly 6 weeks. The UX clarity they brought to our onboarding flow drove a 40% better activation rate on day one."</p>
+          <div class="tbcard__meta">
+            <div>
+              <div class="tbcard__name">Arjun Mehra</div>
+              <div class="tbcard__role">Co-founder, Sunroof</div>
+            </div>
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop" alt="Arjun Mehra" />
+          </div>
+        </div>
+        <div class="tbcard tbcard--blue tbcard--short" data-tbcard>
+          <p class="tbcard__quote">"Every screen felt intentional. They kept us focused on the core journey and shipped something tight."</p>
+          <div class="tbcard__meta">
+            <div>
+              <div class="tbcard__name">Priya Nair</div>
+              <div class="tbcard__role">Product Lead, KIA India</div>
+            </div>
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1512485694743-9c9538b4e6e0?q=80&w=200&auto=format&fit=crop" alt="Priya Nair" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="tbento__col">
+        <div class="tbcard tbcard--dark" style="flex:1;" data-tbcard>
+          <p class="tbcard__quote">"We'd been through two agencies that couldn't crack mobile. Design Asylum cracked it in week two. The design system they built scales with us."</p>
+          <div class="tbcard__meta">
+            <div>
+              <div class="tbcard__name">Rahul Sharma</div>
+              <div class="tbcard__role">CTO, NPS Trust</div>
+            </div>
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?q=80&w=200&auto=format&fit=crop" alt="Rahul Sharma" />
+          </div>
+        </div>
+        <div class="tbcard tbcard--dark" style="flex:1;" data-tbcard>
+          <p class="tbcard__quote">"Fixed scope, fixed fee, actually on time. That's not something I'd experienced with a design agency before. Highly recommend."</p>
+          <div class="tbcard__meta">
+            <div>
+              <div class="tbcard__name">Vikram Kapoor</div>
+              <div class="tbcard__role">Founder, Abbott Health India</div>
+            </div>
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1615109398623-88346a601842?q=80&w=200&auto=format&fit=crop" alt="Vikram Kapoor" />
+          </div>
+        </div>
+        <div class="tbcard tbcard--dark" style="flex:1;" data-tbcard>
+          <p class="tbcard__quote">"Their usability testing guarantee alone is worth it. Knowing that real users validated the core flow before we handed it to engineering was transformational."</p>
+          <div class="tbcard__meta">
+            <div>
+              <div class="tbcard__name">Meera Joshi</div>
+              <div class="tbcard__role">VP Product, Axis Bank</div>
+            </div>
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1740102074295-c13fae3e4f8a?q=80&w=200&auto=format&fit=crop" alt="Meera Joshi" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="tbento__col">
+        <div class="tbcard tbcard--blue tbcard--short" data-tbcard>
+          <p class="tbcard__quote">"Design Asylum has been a key partner in our growth journey. They understand B2C at a native level."</p>
+          <div class="tbcard__meta">
+            <div>
+              <div class="tbcard__name">Saurav Mehta</div>
+              <div class="tbcard__role">CEO, Godrej Digital</div>
+            </div>
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1563237023-b1e970526dcb?q=80&w=200&auto=format&fit=crop" alt="Saurav Mehta" />
+          </div>
+        </div>
+        <div class="tbcard tbcard--light tbcard--tall" data-tbcard>
+          <p class="tbcard__quote">"A true game-changer. Their exceptional service, combined with deep expertise and commitment to mobile-first thinking, made a significant impact on our product roadmap."</p>
+          <div class="tbcard__meta">
+            <div>
+              <div class="tbcard__name">Ananya Roy</div>
+              <div class="tbcard__role">Director of Product, Michelin India</div>
+            </div>
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=200&auto=format&fit=crop" alt="Ananya Roy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 OUR PROMISE -->
 <section class="section section--tight">
   <div class="wrap">
     <div style="display:flex; justify-content:space-between; align-items:baseline; gap: 16px; flex-wrap: wrap;">
-      <div class="eyebrow"><span>Our promise</span></div>
+      <div class="eyebrow"><span>Our Promise</span></div>
       <div class="mono" style="color: var(--fg-3); font-size: 12px;">Plain English. No asterisks.</div>
     </div>
 
@@ -1528,58 +1771,6 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   </div>
 </section>
 
-<!-- 05 6-WEEK PROCESS -->
-<section class="section" id="process">
-  <div class="wrap">
-    <div style="display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center;">
-      <h2 class="display-l" style="max-width:20ch;">6 weeks from scope to dev handoff</h2>
-      <p class="lede">
-        Phases overlap on purpose. UX kicks off as soon as scope locks; UI starts as soon as the first UX flows are stable; prototype assembles in the final sprint. Below: the timeline at a glance.
-      </p>
-    </div>
-
-    <div class="gantt" style="margin-top: 40px;">
-      <div class="gantt__head">
-        <div class="lbl">Phase</div>
-        <div class="wk">Week 1</div>
-        <div class="wk">Week 2</div>
-        <div class="wk">Week 3</div>
-        <div class="wk">Week 4</div>
-        <div class="wk">Week 5</div>
-        <div class="wk">Week 6</div>
-      </div>
-      <div class="gantt__row">
-        <div class="lbl">Scope Definition</div>
-        <div class="track">
-          <div class="gantt__bar" style="left:0%; width:10%;">3 days</div>
-        </div>
-      </div>
-      <div class="gantt__row">
-        <div class="lbl">UX Design</div>
-        <div class="track">
-          <div class="gantt__bar alt" style="left:7%; width:53%;">≈ 3 weeks</div>
-        </div>
-      </div>
-      <div class="gantt__row">
-        <div class="lbl">UI Design</div>
-        <div class="track">
-          <div class="gantt__bar" style="left:27%; width:63%;">≈ 3.5 weeks</div>
-        </div>
-      </div>
-      <div class="gantt__row">
-        <div class="lbl">Prototype</div>
-        <div class="track">
-          <div class="gantt__bar lime" style="left:90%; width:10%;">3 days</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="display:flex; justify-content:flex-end; margin-top: 24px;">
-      <a href="#cta" class="btn btn--secondary">Build My App</a>
-    </div>
-  </div>
-</section>
-
 <!-- 06 PRICING -->
 <section class="section pricing-v2" id="pricing">
   <div class="wrap">
@@ -1589,9 +1780,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
       <h2 class="display-l rv-title" data-rv>
         <span class="rv-word"><span class="rv-inner">Pick</span></span>
         <span class="rv-word"><span class="rv-inner">the</span></span>
-        <span class="rv-word"><span class="rv-inner">depth</span></span>
-        <span class="rv-word"><span class="rv-inner">you</span></span>
-        <span class="rv-word"><span class="rv-inner">need</span></span>
+        <span class="rv-word"><span class="rv-inner">Depth</span></span>
+        <span class="rv-word"><span class="rv-inner">You</span></span>
+        <span class="rv-word"><span class="rv-inner">Need</span></span>
       </h2>
       <p class="lede tl-reveal" data-tl="0" style="max-width:52ch; margin: 0 auto;">
         Three productized tiers, fixed scope, fixed fee. Step up when your product needs more strategy, more screens, or a clickable prototype to sell internally.
@@ -1690,7 +1881,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <section class="section">
   <div class="wrap">
     <div style="text-align:center;">
-      <h2 class="display-l" style="max-width:20ch; margin: 0 auto;">Three things we guarantee. In writing.</h2>
+      <h2 class="display-l" style="max-width:20ch; margin: 0 auto;">Three Things We Guarantee. In Writing.</h2>
       <p class="lede" style="margin-top: 18px; margin-left: auto; margin-right: auto;">
         Each productized engagement comes with the same three commitments. Miss any one and we keep working at no additional cost until we hit it.
       </p>
@@ -1724,7 +1915,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 08 WHY THIS WORKS -->
 <section class="section">
   <div class="wrap">
-    <h2 class="display-l" style="max-width:20ch; text-align:center; margin: 0 auto 48px;">Why this works</h2>
+    <h2 class="display-l" style="max-width:20ch; text-align:center; margin: 0 auto 48px;">Why This Works</h2>
     <div class="why">
       <div class="why__col">
         <div class="mono" style="color:var(--fg-3); font-size:12px;">01</div>
@@ -1748,7 +1939,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 09 SELECTED WORK -->
 <section class="section" id="work">
   <div class="wrap">
-    <h2 class="display-l" style="max-width:20ch; text-align:center; margin: 0 auto 40px;">Selected work</h2>
+    <h2 class="display-l" style="max-width:20ch; text-align:center; margin: 0 auto 40px;">Selected Work</h2>
 
     <div class="work" style="margin-top: 0;">
       <!-- replace: real client names, tags, outcomes, years -->
@@ -1790,7 +1981,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     <div class="testimonials">
       <div class="testimonials__header">
         <span class="testimonials__badge">Client Testimonials</span>
-        <h2 class="testimonials__title">What clients say</h2>
+        <h2 class="testimonials__title">What Clients Say</h2>
         <p class="testimonials__sub">Hear from the product teams and founders behind the apps we've shipped.</p>
       </div>
 
@@ -2209,6 +2400,22 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
       });
     }, { threshold: 0.15 });
     els.forEach(function (el) { obs.observe(el); });
+  })();
+
+  /* Bento testimonial cards — staggered entrance */
+  (function () {
+    var cards = document.querySelectorAll('[data-tbcard]');
+    if (!cards.length) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          var delay = Array.from(cards).indexOf(e.target) * 80;
+          setTimeout(function () { e.target.classList.add('tb-in'); }, delay);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    cards.forEach(function (c) { obs.observe(c); });
   })();
 
   /* Promise cards — scroll-triggered entrance */
