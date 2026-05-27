@@ -328,39 +328,64 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 /* ---- Nav ---- */
 .nav {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--hairline);
+  background: #0038FF;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 .nav__inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: 24px;
-  padding-block: 9px;
+  padding-block: 12px;
 }
 .nav__brand {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 10px;
   font-family: var(--font-sans);
   font-weight: 600; font-size: 15px;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: white;
   text-decoration: none;
   border: 0;
 }
-.nav__brand:hover { color: var(--ink); border: 0; }
-.nav__brand img { height: 22px; width: auto; }
-.nav__links { display: flex; gap: 28px; font-size: 14px; }
+.nav__brand:hover { color: white; border: 0; }
+.nav__brand img { height: 22px; width: auto; filter: invert(1) brightness(2); }
+.nav__links { display: flex; gap: 8px; font-size: 13px; }
 .nav__links a {
-  color: var(--fg-1);
-  border-bottom: 1px solid transparent;
-  padding: 4px 0;
+  color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: var(--r-pill);
+  padding: 6px 16px;
+  transition: background var(--dur-2), color var(--dur-2), border-color var(--dur-2);
 }
-.nav__links a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.nav__links a:hover {
+  color: white;
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.5);
+  border-bottom-color: rgba(255,255,255,0.5);
+}
+.nav .btn--primary {
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: white;
+  border-color: rgba(255,255,255,0.6);
+}
+.nav .btn--primary:hover {
+  background: white;
+  color: #0038FF;
+  border-color: white;
+  border-bottom: 0;
+}
 @media (max-width: 720px) { .nav__links { display: none; } }
 
 /* ---- Hero ---- */
-.hero { padding-block: 36px 28px; }
-@media (max-width: 900px) { .hero { padding-block: 24px 18px; } }
+.hero {
+  background: #0038FF;
+  background-image:
+    linear-gradient(to right,  rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  padding-block: 60px 80px;
+  color: white;
+}
+@media (max-width: 900px) { .hero { padding-block: 40px 60px; } }
 .hero__grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -374,9 +399,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     align-items: center;
   }
 }
-.hero__title { margin-top: 10px; }
+.hero__title { margin-top: 10px; color: white; }
+.hero .display-xl em { color: rgba(255,255,255,0.65); }
 .hero__sub { margin-top: 20px; }
-.hero__ctas { display: flex; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+.hero__ctas { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
 
 /* ---- Phone stage ---- */
 .stage { display: flex; justify-content: center; position: relative; }
@@ -421,111 +447,77 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   36%   { opacity: 0; }
   100%  { opacity: 0; }
 }
-.phone__chrome {
-  height: 56px;
-  display: flex; align-items: flex-end; justify-content: space-between;
-  padding: 8px 22px 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--fg-on-ink-2);
-  letter-spacing: 0.04em;
-}
-.phone__body {
-  flex: 1; padding: 14px 18px 18px;
-  display: flex; flex-direction: column; gap: 12px;
-}
-.phone__greet {
-  font-family: var(--font-display);
-  font-size: 26px;
-  letter-spacing: -0.022em;
-  line-height: 1;
-  font-variation-settings: "wght" 700, "wdth" 100, "opsz" 28, "GRAD" 0;
-  text-transform: lowercase;
-  color: var(--paper);
-  margin-top: 6px;
-}
-.phone__greet .accent { color: var(--accent-lime); }
-.phone__lede {
-  font-size: 11px; line-height: 1.45;
-  color: var(--fg-on-ink-2);
-  max-width: 22ch;
-}
-.phone__cards { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-.phone__card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px;
-  padding: 9px 11px;
-  display: flex; align-items: center; gap: 10px;
-}
-.phone__card .dot {
-  width: 22px; height: 22px;
-  border-radius: 999px;
-  background: var(--accent-lime);
-  flex-shrink: 0;
-}
-.phone__card.alt .dot { background: var(--accent-electric); }
-.phone__card.muted .dot { background: var(--paper-mute); opacity: 0.4; }
-.phone__card .meta { font-size: 10px; color: var(--fg-on-ink-2); }
-.phone__card .ttl {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--paper);
-  line-height: 1.25;
-}
-.phone__nav {
-  height: 52px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  align-items: center; justify-items: center;
-}
-.phone__nav i {
-  width: 22px; height: 4px; border-radius: 2px;
-  background: rgba(255,255,255,0.18);
-  font-style: normal;
-}
-.phone__nav i.on { background: var(--accent-lime); height: 6px; }
 
-/* Floating comment cards */
+/* ---- Floating glass cards ---- */
 .stage__cards { position: relative; display: inline-block; }
-.comment {
-  background: var(--paper);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-3);
-  padding: 12px 14px;
-  width: 220px;
+.glass-card {
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 20px;
+  padding: 14px 16px;
+  width: 196px;
   font-family: var(--font-sans);
   font-size: 12px;
   line-height: 1.4;
+  box-shadow: 0 8px 32px rgba(0,0,56,0.3);
   z-index: 2;
 }
-.comment__head { display: flex; align-items: center; gap: 8px; }
-.comment__avatar {
-  width: 22px; height: 22px;
+.glass-card .comment__head { display: flex; align-items: center; gap: 8px; }
+.glass-card .comment__avatar {
+  width: 26px; height: 26px;
   border-radius: 999px;
-  background: var(--paper-mute);
-  border: 1px solid var(--hairline);
+  background: linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0.18));
+  border: 1px solid rgba(255,255,255,0.4);
   flex-shrink: 0;
 }
-.comment__name { font-weight: 600; color: var(--ink); font-size: 12px; }
-.comment__body { margin-top: 8px; color: var(--fg-1); }
-.comment__foot {
+.glass-card .comment__name { font-weight: 600; color: white; font-size: 12px; }
+.glass-card .comment__body { margin-top: 8px; color: rgba(255,255,255,0.9); }
+.glass-card .comment__foot {
   margin-top: 8px;
   display: flex; align-items: center; justify-content: space-between;
   font-family: var(--font-mono);
-  color: var(--fg-3); font-size: 10px;
+  color: rgba(255,255,255,0.55); font-size: 10px;
   letter-spacing: 0.04em;
 }
+@keyframes float-1 {
+  0%, 100% { transform: rotate(-8deg) translateY(0px); }
+  50%       { transform: rotate(-8deg) translateY(-10px); }
+}
+@keyframes float-2 {
+  0%, 100% { transform: rotate(5deg) translateY(0px); }
+  50%       { transform: rotate(5deg) translateY(-8px); }
+}
+@keyframes float-3 {
+  0%, 100% { transform: rotate(-4deg) translateY(0px); }
+  50%       { transform: rotate(-4deg) translateY(-12px); }
+}
+.glass-card.c1 { animation: float-1 5s ease-in-out infinite; }
+.glass-card.c2 { animation: float-2 6s ease-in-out infinite; animation-delay: -1.5s; }
+.glass-card.c3 { animation: float-3 4.5s ease-in-out infinite; animation-delay: -0.8s; }
 @media (min-width: 1024px) {
-  .stage__cards .comment { position: absolute; }
+  .stage__cards .glass-card { position: absolute; }
   .stage__cards .c1 { top:  8%;  right: calc(100% - 60px); }
   .stage__cards .c2 { top: 42%;  left:  calc(100% - 60px); }
   .stage__cards .c3 { top: 74%;  right: calc(100% - 70px); }
 }
 @media (max-width: 1023.9px) {
   .stage { flex-wrap: wrap; gap: 16px; }
-  .stage__cards .comment { width: auto; max-width: 320px; margin: 0 auto; }
+  .stage__cards .glass-card { width: auto; max-width: 320px; margin: 0 auto; }
 }
+
+/* ---- Second fold (white rounded top) ---- */
+.trust-fold {
+  background: var(--paper);
+  border-radius: 2.5rem 2.5rem 0 0;
+  box-shadow: 0 -24px 60px rgba(0,0,0,0.18);
+  margin-top: -2.5rem;
+  padding-top: 8px;
+  position: relative;
+  z-index: 1;
+}
+.trust-fold .trust { border-top: none; }
 
 /* ---- Trust strip ---- */
 .trust {
@@ -1355,7 +1347,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
           <em>(Without the typical agency bloat or endless revisions.)</em>
         </h1>
         <div class="hero__ctas">
-          <a href="#cta" class="btn btn--primary">
+          <a href="#cta" class="btn btn--on-ink">
             Build My App
             <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
           </a>
@@ -1373,7 +1365,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
             </div>
           </div>
 
-          <div class="comment c1">
+          <div class="glass-card c1">
             <div class="comment__head">
               <div class="comment__avatar"></div>
               <div class="comment__name">kpm1805</div>
@@ -1385,7 +1377,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
             </div>
           </div>
 
-          <div class="comment c2">
+          <div class="glass-card c2">
             <div class="comment__head">
               <div class="comment__avatar"></div>
               <div class="comment__name">nanda_jivan_</div>
@@ -1397,7 +1389,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
             </div>
           </div>
 
-          <div class="comment c3">
+          <div class="glass-card c3">
             <div class="comment__head">
               <div class="comment__avatar"></div>
               <div class="comment__name">1608.gaurav</div>
@@ -1415,7 +1407,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 </section>
 
 <!-- 02 TRUST STRIP -->
-<section>
+<section class="trust-fold">
   <div class="wrap">
     <div class="trust">
       <div class="trust__cell"><img class="trust__logo" src="https://mobileapps.designasylum.in/assets/images/logo-abbott.svg" alt="Abbott" /></div>
