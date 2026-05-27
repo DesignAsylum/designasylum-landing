@@ -1008,16 +1008,91 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   object-fit: cover;
   flex-shrink: 0;
 }
-@media (max-width: 900px) {
-  .tbento { grid-template-columns: 1fr 1fr; }
-  .tbento__col:last-child { display: none; }
+/* Video card unit — thumb + caption joined seamlessly */
+.tbcard-video {
+  flex: 1;
+  min-height: 420px;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+.tbcard-video.tb-in { opacity: 1; transform: translateY(0); }
+.tbcard-video__thumb {
+  flex: 1;
+  position: relative;
+  background: #111111;
+  overflow: hidden;
+  min-height: 300px;
+}
+.tbcard-video__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.72;
+}
+.tbcard-video__play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.tbcard-video__play-btn {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.28);
+}
+.tbcard-video__play-btn svg {
+  width: 22px; height: 22px;
+  fill: #111111;
+  margin-left: 3px;
+}
+.tbcard-video__caption {
+  background: #0038FF;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.tbcard-video__caption-text { flex: 1; }
+.tbcard-video__caption-quote {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.88);
+  margin: 0 0 8px;
+}
+.tbcard-video__caption-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: white;
+  line-height: 1.2;
+}
+.tbcard-video__caption-role {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 2px;
+}
+.tbcard-video__avatar {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+
+@media (max-width: 768px) {
+  .tbento { grid-template-columns: 1fr; }
+  .tbcard-video { min-height: 360px; }
+  .tbcard-video__thumb { min-height: 240px; }
   .tbcard--tall { min-height: 220px; }
   .tbcard--short { min-height: 140px; }
-}
-@media (max-width: 600px) {
-  .tbento { grid-template-columns: 1fr; }
-  .tbento__col:not(:first-child) { display: none; }
-  .tbcard--tall, .tbcard--short { min-height: 180px; }
 }
 
 /* ---- Testimonials columns ---- */
@@ -1608,33 +1683,31 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     </div>
 
     <div class="tbento" data-tbento>
-      <!-- Column 1 -->
+      <!-- Column 1 — video card -->
       <div class="tbento__col">
-        <div class="tbcard tbcard--light tbcard--tall" data-tbcard>
-          <p class="tbcard__quote">"Design Asylum delivered a polished, launch-ready app in exactly 6 weeks. The UX clarity they brought to our onboarding flow drove a 40% better activation rate on day one."</p>
-          <div class="tbcard__meta">
-            <div>
-              <div class="tbcard__name">Arjun Mehra</div>
-              <div class="tbcard__role">Co-founder, Sunroof</div>
+        <div class="tbcard-video" data-tbcard>
+          <div class="tbcard-video__thumb">
+            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=600&auto=format&fit=crop" alt="Client testimonial video" />
+            <div class="tbcard-video__play">
+              <div class="tbcard-video__play-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+              </div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop" alt="Arjun Mehra" />
           </div>
-        </div>
-        <div class="tbcard tbcard--blue tbcard--short" data-tbcard>
-          <p class="tbcard__quote">"Every screen felt intentional. They kept us focused on the core journey and shipped something tight."</p>
-          <div class="tbcard__meta">
-            <div>
-              <div class="tbcard__name">Priya Nair</div>
-              <div class="tbcard__role">Product Lead, KIA India</div>
+          <div class="tbcard-video__caption">
+            <div class="tbcard-video__caption-text">
+              <p class="tbcard-video__caption-quote">"Design Asylum cracked our onboarding in week two. 40% better activation on launch day."</p>
+              <div class="tbcard-video__caption-name">Arjun Mehra</div>
+              <div class="tbcard-video__caption-role">Co-founder, Sunroof</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1512485694743-9c9538b4e6e0?q=80&w=200&auto=format&fit=crop" alt="Priya Nair" />
+            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop" alt="Arjun Mehra" />
           </div>
         </div>
       </div>
 
-      <!-- Column 2 -->
+      <!-- Column 2 — three text cards: light / dark / light -->
       <div class="tbento__col">
-        <div class="tbcard tbcard--dark" style="flex:1;" data-tbcard>
+        <div class="tbcard tbcard--light" style="flex:1;" data-tbcard>
           <p class="tbcard__quote">"We'd been through two agencies that couldn't crack mobile. Design Asylum cracked it in week two. The design system they built scales with us."</p>
           <div class="tbcard__meta">
             <div>
@@ -1654,8 +1727,8 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
             <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1615109398623-88346a601842?q=80&w=200&auto=format&fit=crop" alt="Vikram Kapoor" />
           </div>
         </div>
-        <div class="tbcard tbcard--dark" style="flex:1;" data-tbcard>
-          <p class="tbcard__quote">"Their usability testing guarantee alone is worth it. Knowing that real users validated the core flow before we handed it to engineering was transformational."</p>
+        <div class="tbcard tbcard--light" style="flex:1;" data-tbcard>
+          <p class="tbcard__quote">"Their usability testing guarantee alone is worth it. Knowing real users validated the core flow before engineering was transformational."</p>
           <div class="tbcard__meta">
             <div>
               <div class="tbcard__name">Meera Joshi</div>
@@ -1666,26 +1739,24 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
         </div>
       </div>
 
-      <!-- Column 3 -->
+      <!-- Column 3 — video card (mirrors column 1) -->
       <div class="tbento__col">
-        <div class="tbcard tbcard--blue tbcard--short" data-tbcard>
-          <p class="tbcard__quote">"Design Asylum has been a key partner in our growth journey. They understand B2C at a native level."</p>
-          <div class="tbcard__meta">
-            <div>
-              <div class="tbcard__name">Saurav Mehta</div>
-              <div class="tbcard__role">CEO, Godrej Digital</div>
+        <div class="tbcard-video" data-tbcard>
+          <div class="tbcard-video__thumb">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" alt="Client testimonial video" />
+            <div class="tbcard-video__play">
+              <div class="tbcard-video__play-btn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+              </div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1563237023-b1e970526dcb?q=80&w=200&auto=format&fit=crop" alt="Saurav Mehta" />
           </div>
-        </div>
-        <div class="tbcard tbcard--light tbcard--tall" data-tbcard>
-          <p class="tbcard__quote">"A true game-changer. Their exceptional service, combined with deep expertise and commitment to mobile-first thinking, made a significant impact on our product roadmap."</p>
-          <div class="tbcard__meta">
-            <div>
-              <div class="tbcard__name">Ananya Roy</div>
-              <div class="tbcard__role">Director of Product, Michelin India</div>
+          <div class="tbcard-video__caption">
+            <div class="tbcard-video__caption-text">
+              <p class="tbcard-video__caption-quote">"A true game-changer. Deep mobile expertise and commitment to shipping something real."</p>
+              <div class="tbcard-video__caption-name">Ananya Roy</div>
+              <div class="tbcard-video__caption-role">Director of Product, Michelin India</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=200&auto=format&fit=crop" alt="Ananya Roy" />
+            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=200&auto=format&fit=crop" alt="Ananya Roy" />
           </div>
         </div>
       </div>
