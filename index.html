@@ -1501,6 +1501,61 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   border-top: 1px solid var(--hairline);
 }
 
+/* ---- Image auto-scroll gallery ---- */
+.img-scroll-section {
+  background: var(--ink);
+  padding-block: 80px;
+  overflow: hidden;
+  position: relative;
+}
+.img-scroll-section::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to top, var(--ink), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+.img-scroll-container {
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+@keyframes img-scroll-right {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.img-scroll-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: img-scroll-right 20s linear infinite;
+}
+.img-scroll-item {
+  flex-shrink: 0;
+  width: 280px;
+  height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.img-scroll-item:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+.img-scroll-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 720px) {
+  .img-scroll-item { width: 192px; height: 192px; }
+  .img-scroll-section { padding-block: 56px; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1965,6 +2020,31 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     <div class="gtee-backstop">
       <div style="font-family:var(--font-sans); font-weight:600; font-size:15px;">Miss any one — we keep working at no cost until we hit it.</div>
       <div class="mono" style="color:var(--fg-3); font-size:11px;">No retainer. No renegotiation. In the contract.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07b IMAGE SCROLL GALLERY -->
+<section class="img-scroll-section">
+  <div class="img-scroll-container">
+    <div class="img-scroll-track">
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://plus.unsplash.com/premium_photo-1673264933212-d78737f38e48?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://plus.unsplash.com/premium_photo-1711434824963-ca894373272e?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://plus.unsplash.com/premium_photo-1675705721263-0bbeec261c49?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1524799526615-766a9833dec0?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <!-- duplicate set for seamless loop -->
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://plus.unsplash.com/premium_photo-1673264933212-d78737f38e48?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://plus.unsplash.com/premium_photo-1711434824963-ca894373272e?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://plus.unsplash.com/premium_photo-1675705721263-0bbeec261c49?q=80&w=800&auto=format&fit=crop" alt="" /></div>
+      <div class="img-scroll-item"><img src="https://images.unsplash.com/photo-1524799526615-766a9833dec0?q=80&w=800&auto=format&fit=crop" alt="" /></div>
     </div>
   </div>
 </section>
