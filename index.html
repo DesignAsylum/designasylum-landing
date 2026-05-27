@@ -636,181 +636,88 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .pricing {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
+  gap: 20px;
 }
 @media (max-width: 900px) { .pricing { grid-template-columns: 1fr; } }
 .price {
   display: flex; flex-direction: column;
-  padding: 22px 24px;
-  border-right: 1px solid var(--hairline);
-  position: relative;
+  padding: 28px;
   background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-3);
+  position: relative;
+  /* entrance */
+  opacity: 0;
+  translate: 0 30px;
+  transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+              translate 0.6s cubic-bezier(0.16,1,0.3,1),
+              scale 0.2s ease,
+              box-shadow 0.2s ease;
+  scale: 1;
 }
-.price:last-child { border-right: 0; }
-@media (max-width: 900px) {
-  .price { border-right: 0; border-bottom: 1px solid var(--hairline); }
-  .price:last-child { border-bottom: 0; }
-}
-.price--featured { background: var(--accent-lime); }
+.price.in-view { opacity: 1; translate: 0 0; }
+.price:nth-child(2) { transition-delay: 0.1s; }
+.price:nth-child(3) { transition-delay: 0.2s; }
+.price:hover { scale: 0.99; box-shadow: 0 8px 32px rgba(10,10,10,0.08); }
+.price:active { scale: 0.97; }
 .price__head { display: flex; flex-direction: column; gap: 8px; }
 .price__name {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
   line-height: 1;
   letter-spacing: -0.028em;
   font-weight: 700;
-  font-variation-settings: "wght" 680, "wdth" 100, "opsz" 28, "GRAD" 0;
-  text-transform: lowercase;
+  font-variation-settings: "wght" 700, "wdth" 100, "opsz" 28, "GRAD" 0;
   color: var(--ink);
-}
-.price__sticker {
-  position: absolute;
-  top: -14px; left: 36px;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-variation-settings: "wght" 500;
 }
 .price__pitch {
-  margin-top: 8px;
+  margin-top: 12px;
   font-family: var(--font-sans);
   font-size: 14px;
-  line-height: 1.3;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  line-height: 1.55;
   color: var(--fg-2);
   text-wrap: pretty;
-  max-width: 28ch;
 }
-.price__mood { margin-top: 14px; }
-.price__mood-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-}
-.mood {
-  aspect-ratio: 5 / 3;
-  border-radius: var(--r-2);
-  border: 1px solid var(--hairline);
-  display: flex; align-items: flex-end;
-  padding: 8px;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  color: var(--ink);
-  text-transform: uppercase;
-  overflow: hidden;
-  position: relative;
-}
-.mood.m-min  { background: var(--paper); }
-.mood.m-min::before {
-  content: ""; position: absolute; left: 14%; right: 14%; top: 38%;
-  height: 1px; background: var(--ink);
-}
-.mood.m-warm { background: var(--accent-clay); color: var(--paper); }
-.mood.m-warm::before {
-  content: ""; position: absolute; left: 18%; right: 18%; top: 24%; bottom: 50%;
-  background: rgba(255,255,255,0.18); border-radius: 999px;
-}
-.mood.m-graphic { background: var(--ink); color: var(--paper); }
-.mood.m-graphic::before {
-  content: ""; position: absolute; left: 0; right: 0; top: 38%; height: 8px;
-  background: var(--accent-lime);
-}
-.mood.m-mono { background: var(--paper-soft); }
-.mood.m-mono::before {
-  content: ""; position: absolute; inset: 16% 16% 50% 16%;
-  background: repeating-linear-gradient(45deg, var(--ink) 0 1px, transparent 1px 6px);
-}
-.mood.m-electric { background: var(--accent-electric); color: var(--paper); }
-.mood.m-electric::before {
-  content: ""; position: absolute; left: 22%; right: 22%; top: 28%; bottom: 28%;
-  background: var(--accent-lime); border-radius: 999px;
-}
-.mood.m-coral { background: var(--accent-coral); color: var(--paper); }
-.mood.m-coral::before {
-  content: ""; position: absolute; left: 22%; right: 22%; top: 22%;
-  height: 30%; background: var(--paper); border-radius: 999px;
-}
-.mood.m-stripes { background: var(--paper-soft); }
-.mood.m-stripes::before {
-  content: ""; position: absolute; inset: 14%;
-  background: repeating-linear-gradient(0deg, var(--ink) 0 2px, transparent 2px 10px);
-}
-.mood.m-block { background: var(--paper); }
-.mood.m-block::before {
-  content: ""; position: absolute; left: 14%; right: 14%; top: 14%; bottom: 50%;
-  background: var(--ink);
-}
-.price--featured .mood { border-color: rgba(10,10,10,0.18); }
-.price__mood-cap {
-  margin-top: 10px;
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--fg-3);
-}
-.price--featured .price__mood-cap { color: var(--ink-muted); }
-
 .price__plus {
-  margin-top: 14px;
-  padding-top: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid var(--hairline);
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: 13px;
   color: var(--ink);
 }
-.price--featured .price__plus { border-top-color: rgba(10,10,10,0.2); }
 .price__feat {
   list-style: none;
-  margin: 8px 0 0;
+  margin: 0;
   padding: 0;
   font-family: var(--font-sans);
   font-size: 13px;
   line-height: 1.4;
 }
 .price__feat li {
-  padding: 5px 0;
-  border-bottom: 1px dashed var(--hairline);
-  color: var(--ink-soft);
-  display: flex;
-  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--fg-2);
 }
-.price__feat li::before {
-  content: "";
-  width: 8px; height: 8px; margin-top: 8px;
-  flex-shrink: 0;
-  background: var(--ink);
-  border-radius: 999px;
-}
+.price__feat li:first-child { border-top: 1px solid var(--hairline); margin-top: 14px; }
 .price__feat li:last-child { border-bottom: 0; }
-.price--featured .price__feat li { border-bottom-color: rgba(10,10,10,0.2); }
-
 .price__foot { margin-top: auto; padding-top: 14px; }
 .price__strip {
-  display: flex; align-items: baseline; justify-content: space-between;
-  padding: 10px 0;
-  border-top: 1px solid var(--hairline);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--paper-soft);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-2);
+  padding: 14px 16px;
+  margin-bottom: 10px;
 }
-.price--featured .price__strip { border-top-color: rgba(10,10,10,0.2); }
 .price__amt {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1;
   letter-spacing: -0.03em;
-  font-weight: 800;
-  font-variation-settings: "wght" 720, "wdth" 100, "opsz" 40, "GRAD" 0;
-  text-transform: lowercase;
+  font-weight: 700;
+  font-variation-settings: "wght" 700, "wdth" 100, "opsz" 40, "GRAD" 0;
   color: var(--ink);
 }
 .price__when {
@@ -819,8 +726,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   letter-spacing: 0.04em;
   color: var(--fg-3);
 }
-.price--featured .price__when { color: var(--ink-muted); }
-.price__cta { width: 100%; justify-content: center; margin-top: 10px; padding: 10px 16px; }
+.price__cta { width: 100%; justify-content: center; padding: 12px 16px; }
 
 /* ---- Guarantees ---- */
 .guarantees {
@@ -1602,29 +1508,25 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     <div class="pricing">
 
       <!-- Offer 1 — Launchpad -->
-      <div class="price">
+      <div class="price" data-price-card>
         <div class="price__head">
           <div class="eyebrow"><span>Offer 1</span></div>
           <h3 class="price__name">Launchpad</h3>
         </div>
-        <p class="price__pitch">Your idea, App&nbsp;Store-ready in six weeks.</p>
-
-        <div class="price__mood">
-          <div class="price__mood-grid">
-            <div class="mood m-min">Moodboard&nbsp;1</div>
-            <div class="mood m-warm">Moodboard&nbsp;2</div>
-            <div class="mood m-graphic">Moodboard&nbsp;3</div>
-          </div>
-          <div class="price__mood-cap">
-            <span>3 concept moodboards</span>
-            <span>pick one to refine</span>
-          </div>
-        </div>
+        <p class="price__pitch">For founders who need a polished MVP shipped in six weeks. We design the core funnel — onboarding through your top three features — and hand off a clean, build-ready file.</p>
 
         <ul class="price__feat">
-          <li>Scope definition + wireframes</li>
+          <li>Defining scope (Story Acceptance Criteria)</li>
+          <li>Primary screen wireframes</li>
+          <li>Launch screen</li>
+          <li>Features screen</li>
+          <li>Onboarding screen</li>
+          <li>Login / Sign up</li>
+          <li>Home</li>
           <li>Top 3 features (up to 20 screens each)</li>
-          <li>All standard screens (onboarding, login, home, profile, settings)</li>
+          <li>Profile screens</li>
+          <li>Settings screens</li>
+          <li>Logout</li>
           <li>Up to 5 illustrations</li>
         </ul>
 
@@ -1637,75 +1539,55 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
         </div>
       </div>
 
-      <!-- Offer 2 — Accelerator (Most Popular) -->
-      <div class="price price--featured">
-        <div class="price__sticker">Most Popular</div>
+      <!-- Offer 2 — Foundation -->
+      <div class="price" data-price-card>
         <div class="price__head">
-          <div class="eyebrow" style="color:var(--ink-muted);"><span>Offer 2</span></div>
-          <h3 class="price__name">Accelerator</h3>
+          <div class="eyebrow"><span>Offer 2</span></div>
+          <h3 class="price__name">Foundation</h3>
         </div>
-        <p class="price__pitch">World-class interface that keeps users hooked.</p>
-
-        <div class="price__mood">
-          <div class="price__mood-grid">
-            <div class="mood m-mono">Moodboard&nbsp;1</div>
-            <div class="mood m-electric">Moodboard&nbsp;2</div>
-            <div class="mood m-graphic">Moodboard&nbsp;3</div>
-          </div>
-          <div class="price__mood-cap">
-            <span>3 concept moodboards</span>
-            <span>pick one to refine</span>
-          </div>
-        </div>
+        <p class="price__pitch">When you want strategy baked into the design. We add stakeholder interviews, competitor research, and an information architecture so the UX is grounded — not guessed.</p>
 
         <div class="price__plus">Everything in Launchpad, plus:</div>
         <ul class="price__feat">
-          <li>2 stakeholder interviews + competitive analysis</li>
-          <li>Detailed wireframes + all edge states</li>
-          <li>Push notifications, search &amp; filter modules</li>
+          <li>Interviews with up to 2 stakeholders</li>
+          <li>Competitive analysis for up to 2 competitors</li>
+          <li>Information architecture</li>
+          <li>Detailed wireframes for all screens</li>
+          <li>Empty, error and loading states</li>
+          <li>Push notifications</li>
+          <li>Search and filter modules</li>
           <li>Up to 10 illustrations</li>
         </ul>
 
         <div class="price__foot">
           <div class="price__strip">
-            <div class="price__amt">just $7,000</div>
+            <div class="price__amt">just $8,000</div>
             <div class="price__when">9 weeks</div>
           </div>
-          <a href="#cta" class="btn btn--primary price__cta">Start now</a>
+          <a href="#cta" class="btn btn--secondary price__cta">Start now</a>
         </div>
       </div>
 
       <!-- Offer 3 — Flagship -->
-      <div class="price">
+      <div class="price" data-price-card>
         <div class="price__head">
           <div class="eyebrow"><span>Offer 3</span></div>
           <h3 class="price__name">Flagship</h3>
         </div>
-        <p class="price__pitch">The exact tool you need to close your next seed round.</p>
+        <p class="price__pitch">For products with real users to keep. Deeper discovery, more screens, more illustrations, and a clickable prototype your team and investors can actually click through.</p>
 
-        <div class="price__mood">
-          <div class="price__mood-grid">
-            <div class="mood m-coral">Moodboard&nbsp;1</div>
-            <div class="mood m-stripes">Moodboard&nbsp;2</div>
-            <div class="mood m-block">Moodboard&nbsp;3</div>
-          </div>
-          <div class="price__mood-cap">
-            <span>3 concept moodboards</span>
-            <span>pick one to refine</span>
-          </div>
-        </div>
-
-        <div class="price__plus">Everything in Accelerator, plus:</div>
+        <div class="price__plus">Everything in Foundation, plus:</div>
         <ul class="price__feat">
-          <li>5 stakeholder interviews + 4-competitor analysis</li>
+          <li>Interviews with up to 5 stakeholders</li>
+          <li>Competitive analysis for up to 4 competitors</li>
           <li>Up to 5 key features (20 screens each)</li>
-          <li>Clickable prototype + App Store images</li>
+          <li>Clickable prototype</li>
           <li>Up to 25 illustrations</li>
         </ul>
 
         <div class="price__foot">
           <div class="price__strip">
-            <div class="price__amt">just $10,000</div>
+            <div class="price__amt">just $12,000</div>
             <div class="price__when">14 weeks</div>
           </div>
           <a href="#cta" class="btn btn--secondary price__cta">Start now</a>
@@ -2156,6 +2038,21 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 </footer>
 
 <script>
+  /* Pricing cards — scroll-triggered entrance */
+  (function () {
+    var cards = document.querySelectorAll('[data-price-card]');
+    if (!cards.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    cards.forEach(function (card) { observer.observe(card); });
+  })();
+
   /* Promise cards — scroll-triggered entrance */
   (function () {
     var cards = document.querySelectorAll('[data-promise-card]');
