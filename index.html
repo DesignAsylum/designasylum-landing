@@ -670,12 +670,12 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .tl-reveal[data-tl="2"] { transition-delay: 0.55s; }
 .tl-reveal[data-tl="3"] { transition-delay: 0.75s; }
 
-/* Cards grid — align-items:end gives the stepped look */
+/* Cards grid */
 .pcards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  align-items: end;
+  align-items: stretch;
 }
 @media (max-width: 900px) { .pcards { grid-template-columns: 1fr; align-items: stretch; } }
 
@@ -1343,7 +1343,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     <div class="hero__grid">
       <div class="hero__copy">
         <h1 class="display-xl hero__title">
-          How to launch a <span class="hl">venture-grade</span> B2C mobile app in exactly 6 weeks.<br />
+          Launch a venture-grade B2C mobile app in exactly 6 weeks.<br />
           <em>(Without the typical agency bloat or endless revisions.)</em>
         </h1>
         <div class="hero__ctas">
@@ -1502,7 +1502,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 05 6-WEEK PROCESS -->
 <section class="section" id="process">
   <div class="wrap">
-    <div style="display:flex; flex-direction:column; gap:20px; align-items:flex-start;">
+    <div style="display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center;">
       <h2 class="display-l" style="max-width:20ch;">6 weeks from scope to dev handoff</h2>
       <p class="lede">
         Phases overlap on purpose. UX kicks off as soon as scope locks; UI starts as soon as the first UX flows are stable; prototype assembles in the final sprint. Below: the timeline at a glance.
@@ -1660,9 +1660,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 07 THREE THINGS WE GUARANTEE -->
 <section class="section">
   <div class="wrap">
-    <div style="max-width: 60ch;">
-      <h2 class="display-l" style="max-width:20ch;">Three things we guarantee. In writing.</h2>
-      <p class="lede" style="margin-top: 18px;">
+    <div style="text-align:center;">
+      <h2 class="display-l" style="max-width:20ch; margin: 0 auto;">Three things we guarantee. In writing.</h2>
+      <p class="lede" style="margin-top: 18px; margin-left: auto; margin-right: auto;">
         Each productized engagement comes with the same three commitments. Miss any one and we keep working at no additional cost until we hit it.
       </p>
     </div>
@@ -1695,7 +1695,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 08 WHY THIS WORKS -->
 <section class="section">
   <div class="wrap">
-    <h2 class="display-l" style="max-width:20ch;">Why this works</h2>
+    <h2 class="display-l" style="max-width:20ch; text-align:center; margin: 0 auto 48px;">Why this works</h2>
     <div class="why">
       <div class="why__col">
         <div class="mono" style="color:var(--fg-3); font-size:12px;">01</div>
@@ -1719,9 +1719,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 09 SELECTED WORK -->
 <section class="section" id="work">
   <div class="wrap">
-    <h2 class="display-l" style="max-width:20ch;">Selected work</h2>
+    <h2 class="display-l" style="max-width:20ch; text-align:center; margin: 0 auto 40px;">Selected work</h2>
 
-    <div class="work" style="margin-top: 40px;">
+    <div class="work" style="margin-top: 0;">
       <!-- replace: real client names, tags, outcomes, years -->
       <div class="work__row">
         <div class="work__idx">01</div>
@@ -1979,9 +1979,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 <!-- 10 FAQ -->
 <section class="section" id="faq">
   <div class="wrap faq">
-    <h2 class="display-l" style="max-width:20ch;">Questions</h2>
+    <h2 class="display-l" style="max-width:30ch; text-align:center; margin: 0 auto 40px;">Frequently Asked Questions</h2>
 
-    <div style="margin-top: 40px;" data-faq-tabs>
+    <div data-faq-tabs>
       <div class="faq__tabs" role="tablist">
         <button class="faq__tab" role="tab" aria-selected="true"
                 aria-controls="faq-engagement" id="faq-tab-engagement"
