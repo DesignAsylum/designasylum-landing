@@ -131,6 +131,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 body {
   margin: 0;
@@ -403,6 +404,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .hero .display-xl em { color: rgba(255,255,255,0.65); }
 .hero__sub { margin-top: 20px; }
 .hero__ctas { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+@media (max-width: 1023px) {
+  .hero__copy { text-align: center; }
+  .hero__ctas { justify-content: center; }
+}
 
 /* ---- Phone stage ---- */
 .stage { display: flex; justify-content: center; position: relative; }
@@ -436,11 +441,11 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   width: 100%; height: 100%;
   object-fit: cover;
   opacity: 0;
-  animation: phone-fade 9s infinite;
+  animation: phone-fade 18s infinite;
 }
 .phone-screen-img:nth-child(1) { animation-delay: 0s; }
-.phone-screen-img:nth-child(2) { animation-delay: 3s; }
-.phone-screen-img:nth-child(3) { animation-delay: 6s; }
+.phone-screen-img:nth-child(2) { animation-delay: 6s; }
+.phone-screen-img:nth-child(3) { animation-delay: 12s; }
 @keyframes phone-fade {
   0%    { opacity: 1; }
   30%   { opacity: 1; }
@@ -496,15 +501,20 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .glass-card.c1 { animation: float-1 5s ease-in-out infinite; }
 .glass-card.c2 { animation: float-2 6s ease-in-out infinite; animation-delay: -1.5s; }
 .glass-card.c3 { animation: float-3 4.5s ease-in-out infinite; animation-delay: -0.8s; }
+/* Desktop: cards overhang into adjacent column */
 @media (min-width: 1024px) {
   .stage__cards .glass-card { position: absolute; }
   .stage__cards .c1 { top:  8%;  right: calc(100% - 60px); }
   .stage__cards .c2 { top: 42%;  left:  calc(100% - 60px); }
   .stage__cards .c3 { top: 74%;  right: calc(100% - 70px); }
 }
+/* Mobile: smaller phone, cards float to left/right within viewport */
 @media (max-width: 1023.9px) {
-  .stage { flex-wrap: wrap; gap: 16px; }
-  .stage__cards .glass-card { width: auto; max-width: 320px; margin: 0 auto; }
+  .phone { width: 240px; }
+  .stage__cards .glass-card { position: absolute; width: 152px; font-size: 11px; padding: 10px 12px; border-radius: 14px; }
+  .stage__cards .c1 { top:  8%;  left: -48px; right: auto; }
+  .stage__cards .c2 { top: 42%;  right: -48px; left: auto; }
+  .stage__cards .c3 { top: 74%;  left: -38px; right: auto; }
 }
 
 /* ---- Second fold (white rounded top) ---- */
@@ -973,6 +983,14 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 @media (min-width: 1024px) {
   .testimonials__col--3 { display: flex; }
 }
+@media (max-width: 719px) {
+  .testimonials__stage {
+    max-height: 420px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  }
+  .testimonials__col { width: min(300px, calc(100vw - 40px)); }
+}
 .testimonials__track {
   display: flex;
   flex-direction: column;
@@ -980,9 +998,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   padding-bottom: 24px;
   animation: testimonials-scroll linear infinite;
 }
-.testimonials__col--1 .testimonials__track { animation-duration: 15s; }
-.testimonials__col--2 .testimonials__track { animation-duration: 19s; }
-.testimonials__col--3 .testimonials__track { animation-duration: 17s; }
+.testimonials__col--1 .testimonials__track { animation-duration: 22s; }
+.testimonials__col--2 .testimonials__track { animation-duration: 26s; }
+.testimonials__col--3 .testimonials__track { animation-duration: 24s; }
 @keyframes testimonials-scroll {
   from { transform: translateY(0); }
   to   { transform: translateY(-50%); }
@@ -1026,53 +1044,64 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   line-height: 1.2;
 }
 
-/* ---- FAQ ---- */
-.faq { max-width: 820px; }
-.faq__tabs {
-  display: flex; gap: 28px;
-  border-bottom: 1px solid var(--hairline);
-  overflow-x: auto;
-}
-.faq__tab {
-  appearance: none; border: 0; background: transparent;
-  padding: 14px 0;
-  margin-bottom: -1px;
-  border-bottom: 2px solid transparent;
-  color: var(--fg-3);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  letter-spacing: -0.005em;
-  transition: color var(--dur-2) var(--ease-quiet),
-              border-color var(--dur-2) var(--ease-quiet);
-}
-.faq__tab:hover { color: var(--ink); }
-.faq__tab[aria-selected="true"] {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
-  font-weight: 600;
-}
-.faq__panel[hidden] { display: none; }
-.faq__row {
+/* ---- FAQ Accordion ---- */
+.faq-accordion { width: 100%; max-width: 760px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--hairline); }
+.faq-item:first-child { border-top: 1px solid var(--hairline); }
+.faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
   padding: 22px 0;
-  border-top: 1px solid var(--hairline);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
 }
-.faq__panel .faq__row:first-child { border-top: 0; }
-.faq__q {
-  font-family: var(--font-sans);
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -0.01em;
+.faq-trigger__idx {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--fg-4);
+  flex-shrink: 0;
+  width: 22px;
 }
-.faq__a {
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.6;
+.faq-trigger__title {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.8vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: rgba(10,10,10,0.22);
+  transition: color 0.2s ease;
+}
+.faq-item[data-open] .faq-trigger__title { color: var(--ink); }
+.faq-trigger__icon {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--fg-3);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+  line-height: 1;
+}
+.faq-item[data-open] .faq-trigger__icon { transform: rotate(45deg); color: var(--ink); }
+.faq-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.faq-content__inner {
+  padding: 0 0 24px 42px;
+  font-size: 15px;
+  line-height: 1.65;
   color: var(--fg-2);
   max-width: 64ch;
+}
+@media (max-width: 720px) {
+  .faq-trigger { gap: 14px; padding: 18px 0; }
+  .faq-content__inner { padding-left: 32px; }
 }
 
 /* ---- CTA terminal ---- */
@@ -1154,18 +1183,18 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   cursor: default;
   /* entrance */
   opacity: 0;
-  translate: 0 30px;
+  transform: translateY(30px);
   transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
-              translate 0.6s cubic-bezier(0.16,1,0.3,1),
-              scale 0.2s ease,
+              transform 0.6s cubic-bezier(0.16,1,0.3,1),
               box-shadow 0.2s ease;
-  scale: 1;
 }
-.promise-card.in-view { opacity: 1; translate: 0 0; }
+.promise-card.in-view { opacity: 1; transform: translateY(0); }
 .promise-card:nth-child(2) { transition-delay: 0.1s; }
 .promise-card:nth-child(3) { transition-delay: 0.2s; }
-.promise-card:hover { scale: 0.98; box-shadow: 0 8px 32px rgba(10,10,10,0.08); }
-.promise-card:active { scale: 0.96; }
+.promise-card:hover { box-shadow: 0 8px 32px rgba(10,10,10,0.08); }
+@media (max-width: 900px) {
+  .promise-card { min-height: 220px; padding: 24px; }
+}
 .promise-card__demo {
   flex: 1;
   display: flex;
@@ -1978,72 +2007,132 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 
 <!-- 10 FAQ -->
 <section class="section" id="faq">
-  <div class="wrap faq">
-    <h2 class="display-l" style="max-width:30ch; text-align:center; margin: 0 auto 40px;">Frequently Asked Questions</h2>
+  <div class="wrap">
+    <h2 class="display-l" style="max-width:30ch; text-align:center; margin: 0 auto 56px;">Frequently Asked Questions</h2>
 
-    <div data-faq-tabs>
-      <div class="faq__tabs" role="tablist">
-        <button class="faq__tab" role="tab" aria-selected="true"
-                aria-controls="faq-engagement" id="faq-tab-engagement"
-                data-faq-tab-btn>Working with us</button>
-        <button class="faq__tab" role="tab" aria-selected="false"
-                aria-controls="faq-promise" id="faq-tab-promise"
-                data-faq-tab-btn>Our promise &amp; testing</button>
-      </div>
+    <div class="faq-accordion" data-faq-accordion>
 
-      <div class="faq__panel" role="tabpanel"
-           id="faq-engagement" aria-labelledby="faq-tab-engagement"
-           data-faq-panel>
-        <div class="faq__row">
-          <div class="faq__q">What happens after I click Build My App?</div>
-          <p class="faq__a">You'll book a 30-minute intake call with our design lead. We send a one-page scoping doc within 48 hours, plus a fixed-fee contract. Work starts as soon as the contract is signed and the first invoice clears.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">What if my app needs more than 3 core features?</div>
-          <p class="faq__a">The 3-feature scope is the productized version. Beyond that we quote a custom engagement — same process, same deliverables, sized to your scope. Most extensions add one to three weeks per additional feature set.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">Do you build the app or just design it?</div>
-          <p class="faq__a">Design only. You receive a clickable prototype, a Figma file with spec'd components, and an asset library that's ready for engineering. We can introduce you to vetted dev partners we've shipped with, or work alongside your in-house team.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">Who owns the source files?</div>
-          <p class="faq__a">You do, on final payment. Full IP transfer covers the Figma file, exported assets, prototype, and any source illustrations we delivered. We retain the right to show the work in our portfolio unless you ask us not to.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">What if we miss the 6-week window?</div>
-          <p class="faq__a">Delays caused by us are on us — we extend at no extra charge. Delays caused by feedback or scope drift on your side are quoted as additional weeks at our pro-rated rate. Either way, the price and scope you signed are locked.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">Can I see the contract before paying?</div>
-          <p class="faq__a">Yes — the scoping doc and contract are both shared before the first invoice. Standard terms, no surprises, lawyer-reviewable. We don't take payment until you've signed.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">Do you work with non-Indian clients?</div>
-          <p class="faq__a">Yes — roughly 40% of our work is international. We invoice in USD or EUR, accept card or wire, and run sprints across timezones (we overlap with EU mornings and US afternoons).</p>
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">01</span>
+          <span class="faq-trigger__title">What Happens After I Click Build My App?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">You'll book a 30-minute intake call with our design lead. We send a one-page scoping doc within 48 hours, plus a fixed-fee contract. Work starts as soon as the contract is signed and the first invoice clears.</div>
         </div>
       </div>
 
-      <div class="faq__panel" role="tabpanel" hidden
-           id="faq-promise" aria-labelledby="faq-tab-promise"
-           data-faq-panel>
-        <div class="faq__row">
-          <div class="faq__q">Who runs the test?</div>
-          <p class="faq__a">The client. Testing is run via usertesting.com (or a comparable platform) at the client's cost. We write the test script and define what counts as a successful completion; you commission the sessions.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">Who recruits the testers?</div>
-          <p class="faq__a">The client, through usertesting.com or any recruit panel that matches the target audience profile. We help define the screener — age, region, behavior, prior product use — but the booking sits on your side.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">What counts as "the core flow"?</div>
-          <p class="faq__a">A core feature is anything reachable directly from the tab bar or hamburger menu. During scope definition we co-author the epics, stories, acceptance criteria and exit criteria for that feature. Each story = one screen. Use cases and error cases beyond what the user story specifies aren't included unless added to scope.</p>
-        </div>
-        <div class="faq__row">
-          <div class="faq__q">What is the time bound on the redesign?</div>
-          <p class="faq__a">The free redesign window is capped at 2 additional weeks beyond the original delivery date. If we still haven't hit the bar, we move into a custom engagement and quote the remaining work transparently — never silently extend the meter.</p>
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">02</span>
+          <span class="faq-trigger__title">What If My App Needs More Than 3 Core Features?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">The 3-feature scope is the productized version. Beyond that we quote a custom engagement — same process, same deliverables, sized to your scope. Most extensions add one to three weeks per additional feature set.</div>
         </div>
       </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">03</span>
+          <span class="faq-trigger__title">Do You Build the App or Just Design It?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">Design only. You receive a clickable prototype, a Figma file with spec'd components, and an asset library that's ready for engineering. We can introduce you to vetted dev partners we've shipped with, or work alongside your in-house team.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">04</span>
+          <span class="faq-trigger__title">Who Owns the Source Files?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">You do, on final payment. Full IP transfer covers the Figma file, exported assets, prototype, and any source illustrations we delivered. We retain the right to show the work in our portfolio unless you ask us not to.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">05</span>
+          <span class="faq-trigger__title">What If We Miss the 6-Week Window?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">Delays caused by us are on us — we extend at no extra charge. Delays caused by feedback or scope drift on your side are quoted as additional weeks at our pro-rated rate. Either way, the price and scope you signed are locked.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">06</span>
+          <span class="faq-trigger__title">Can I See the Contract Before Paying?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">Yes — the scoping doc and contract are both shared before the first invoice. Standard terms, no surprises, lawyer-reviewable. We don't take payment until you've signed.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">07</span>
+          <span class="faq-trigger__title">Do You Work With Non-Indian Clients?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">Yes — roughly 40% of our work is international. We invoice in USD or EUR, accept card or wire, and run sprints across timezones (we overlap with EU mornings and US afternoons).</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">08</span>
+          <span class="faq-trigger__title">Who Runs the Usability Test?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">The client. Testing is run via usertesting.com (or a comparable platform) at the client's cost. We write the test script and define what counts as a successful completion; you commission the sessions.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">09</span>
+          <span class="faq-trigger__title">Who Recruits the Testers?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">The client, through usertesting.com or any recruit panel that matches the target audience profile. We help define the screener — age, region, behavior, prior product use — but the booking sits on your side.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">10</span>
+          <span class="faq-trigger__title">What Counts as "The Core Flow"?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">A core feature is anything reachable directly from the tab bar or hamburger menu. During scope definition we co-author the epics, stories, acceptance criteria and exit criteria for that feature. Each story = one screen.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button class="faq-trigger" data-faq-trigger>
+          <span class="faq-trigger__idx">11</span>
+          <span class="faq-trigger__title">What Is the Time Bound on the Free Redesign?</span>
+          <span class="faq-trigger__icon">+</span>
+        </button>
+        <div class="faq-content" data-faq-content>
+          <div class="faq-content__inner">The free redesign window is capped at 2 additional weeks beyond the original delivery date. If we still haven't hit the bar, we move into a custom engagement and quote the remaining work transparently — never silently extending the meter.</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -2133,26 +2222,31 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     cards.forEach(function (card) { observer.observe(card); });
   })();
 
-  /* FAQ tabs */
+  /* FAQ accordion */
   (function () {
-    const root = document.querySelector('[data-faq-tabs]');
-    if (!root) return;
-    const tabs = root.querySelectorAll('[data-faq-tab-btn]');
-    const panels = root.querySelectorAll('[data-faq-panel]');
-    tabs.forEach(function (tab) {
-      tab.addEventListener('click', function () {
-        const targetId = tab.getAttribute('aria-controls');
-        tabs.forEach(function (t) {
-          t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+    var items = document.querySelectorAll('[data-faq-item]');
+    if (!items.length) return;
+    items.forEach(function (item) {
+      var trigger = item.querySelector('[data-faq-trigger]');
+      var content = item.querySelector('[data-faq-content]');
+      if (!trigger || !content) return;
+      trigger.addEventListener('click', function () {
+        var isOpen = item.hasAttribute('data-open');
+        /* close all */
+        items.forEach(function (i) {
+          i.removeAttribute('data-open');
+          var c = i.querySelector('[data-faq-content]');
+          if (c) c.style.maxHeight = '0';
         });
-        panels.forEach(function (p) {
-          if (p.id === targetId) p.removeAttribute('hidden');
-          else p.setAttribute('hidden', '');
-        });
+        /* open clicked if it was closed */
+        if (!isOpen) {
+          item.setAttribute('data-open', '');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
       });
     });
   })();
