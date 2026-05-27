@@ -1178,7 +1178,6 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   gap: 24px;
   padding-bottom: 24px;
   animation: testimonials-scroll linear infinite;
-  will-change: transform;
 }
 .testimonials__col--1 .testimonials__track { animation-duration: 22s; }
 .testimonials__col--2 .testimonials__track { animation-duration: 26s; }
@@ -1577,10 +1576,24 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 1ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 1ms !important;
+  /* Stop looping decorative animations entirely */
+  .glass-card,
+  .demo-user,
+  .phone-screen-img,
+  .demo-passrate__fill {
+    animation: none !important;
+  }
+  /* Make the fill bar show its "done" state statically */
+  .demo-passrate__fill {
+    transform: scaleX(0.8);
+    opacity: 1;
+  }
+  /* Slow continuous-scroll content (still moves, just gently) */
+  .testimonials__track { animation-duration: 120s !important; }
+  .img-scroll-track    { animation-duration: 120s !important; }
+  /* Make entrance transitions instant rather than played */
+  .tl-reveal, .tbcard, .promise-card, .rv-inner {
+    transition-duration: 0.01ms !important;
   }
 }
 </style>
