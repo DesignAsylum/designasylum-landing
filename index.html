@@ -1503,7 +1503,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 
 /* ---- Image auto-scroll gallery ---- */
 .img-scroll-section {
-  background: var(--ink);
+  background: var(--paper);
   padding-block: 80px;
   overflow: hidden;
   position: relative;
@@ -1513,15 +1513,15 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 80px;
-  background: linear-gradient(to top, var(--ink), transparent);
+  background: linear-gradient(to top, var(--paper), transparent);
   pointer-events: none;
   z-index: 2;
 }
 .img-scroll-container {
   width: 100%;
   overflow: hidden;
-  -webkit-mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
-  mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask: linear-gradient(90deg, transparent 0%, white 10%, white 90%, transparent 100%);
+  mask: linear-gradient(90deg, transparent 0%, white 10%, white 90%, transparent 100%);
 }
 @keyframes img-scroll-right {
   0%   { transform: translateX(0); }
