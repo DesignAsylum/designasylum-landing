@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WFDHT4CZ');</script>
+<!-- End Google Tag Manager -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Design Asylum — Mobile App Design</title>
@@ -359,17 +366,8 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   border-color: rgba(255,255,255,0.5);
   border-bottom-color: rgba(255,255,255,0.5);
 }
-.nav .btn--primary {
+.nav .btn--on-ink {
   border-radius: var(--r-pill);
-  background: transparent;
-  color: white;
-  border-color: rgba(255,255,255,0.6);
-}
-.nav .btn--primary:hover {
-  background: white;
-  color: #0038FF;
-  border-color: white;
-  border-bottom: 0;
 }
 @media (max-width: 720px) { .nav__links { display: none; } }
 
@@ -799,9 +797,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 @media (max-width: 900px) { .guarantees { grid-template-columns: 1fr; } }
 .gtee {
-  padding: 36px 36px 36px 0;
+  padding: 36px;
   border-right: 1px solid var(--hairline);
 }
+.gtee:first-child { padding-left: 0; }
 .gtee:last-child { border-right: 0; padding-right: 0; }
 @media (max-width: 900px) {
   .gtee { border-right: 0; border-bottom: 1px solid var(--hairline); padding: 32px 0; }
@@ -841,9 +840,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 @media (max-width: 900px) { .why { grid-template-columns: 1fr; } }
 .why__col {
-  padding: 36px 32px 0 0;
+  padding: 36px 32px;
   border-right: 1px solid var(--hairline);
 }
+.why__col:first-child { padding-left: 0; }
 .why__col:last-child { border-right: 0; padding-right: 0; }
 @media (max-width: 900px) {
   .why__col { border-right: 0; padding: 28px 0; border-bottom: 1px solid var(--hairline); }
@@ -1535,8 +1535,8 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 .img-scroll-item {
   flex-shrink: 0;
-  width: 280px;
-  height: 280px;
+  width: 560px;
+  height: 560px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0,0,0,0.45);
@@ -1552,7 +1552,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   display: block;
 }
 @media (max-width: 720px) {
-  .img-scroll-item { width: 192px; height: 192px; }
+  .img-scroll-item { width: 384px; height: 384px; }
   .img-scroll-section { padding-block: 56px; }
 }
 
@@ -1566,6 +1566,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFDHT4CZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- NAV -->
 <header class="nav">
@@ -1580,7 +1584,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#cta" class="btn btn--primary">
+    <a href="#cta" class="btn btn--on-ink">
       Build My App
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
     </a>
@@ -1929,7 +1933,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
             <li>Logout</li>
             <li>Up to 5 illustrations</li>
           </ul>
-          <a href="#cta" class="pcard__cta pcard__cta--electric">Start now</a>
+          <a href="#cta" class="btn btn--primary" style="width:100%; justify-content:center;">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -1956,7 +1960,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
             <li>Search and filter modules</li>
             <li>Up to 10 illustrations</li>
           </ul>
-          <a href="#cta" class="pcard__cta pcard__cta--dark">Start now</a>
+          <a href="#cta" class="btn btn--on-ink" style="width:100%; justify-content:center;">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -1980,7 +1984,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
             <li>Clickable prototype</li>
             <li>Up to 25 illustrations</li>
           </ul>
-          <a href="#cta" class="pcard__cta pcard__cta--electric">Start now</a>
+          <a href="#cta" class="btn btn--primary" style="width:100%; justify-content:center;">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
