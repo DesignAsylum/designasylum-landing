@@ -1227,24 +1227,24 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 
 /* ---- Featured video ---- */
 .video-feature {
-  background: var(--ink);
   padding-block: 80px;
 }
 .video-feature__inner {
-  max-width: var(--wrap);
+  max-width: var(--w-content);
   margin: 0 auto;
   padding-inline: 24px;
 }
 .video-feature__video {
-  width: 100%;
+  width: 75%;
   display: block;
+  margin: 0 auto;
   border-radius: 20px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.15);
 }
 @media (max-width: 720px) {
   .video-feature          { padding-block: 40px; }
   .video-feature__inner   { padding-inline: 16px; }
-  .video-feature__video   { border-radius: 12px; }
+  .video-feature__video   { width: 75%; border-radius: 12px; }
 }
 
 /* ---- FAQ Accordion ---- */
