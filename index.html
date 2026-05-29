@@ -1860,21 +1860,19 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .lightbox-close:hover { background: rgba(255,255,255,0.22); }
 .work__row { cursor: pointer; }
 
-/* ---- Lead popup ---- */
+/* ---- Lead popup — Radix Dialog style ---- */
 .lead-popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(10, 10, 20, 0.6);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 9000;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 2rem;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.2s ease;
 }
 .lead-popup-overlay.is-open {
   opacity: 1;
@@ -1882,118 +1880,131 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 .lead-popup {
   background: #fff;
-  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 12px;
   width: 100%;
-  max-width: 440px;
-  padding: 36px 32px 32px;
+  max-width: 480px;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding: 24px;
   position: relative;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
-  transform: translateY(18px) scale(0.97);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .lead-popup-overlay.is-open .lead-popup {
+  opacity: 1;
   transform: translateY(0) scale(1);
 }
 .lead-popup__close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.06);
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 17px;
-  color: #555;
-  transition: background 0.2s;
+  color: rgba(0,0,0,0.6);
+  transition: color 0.15s;
+  padding: 0;
 }
-.lead-popup__close:hover { background: rgba(0,0,0,0.12); }
+.lead-popup__close:hover { color: rgba(0,0,0,1); }
+.lead-popup__close svg { display: block; }
 .lead-popup__eyebrow {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #7c5cfc;
-  margin-bottom: 8px;
+  margin: 0 0 6px;
 }
 .lead-popup__title {
-  font-size: clamp(27px, 5vw, 33px);
-  font-weight: 800;
-  line-height: 1.2;
+  font-size: clamp(20px, 4vw, 24px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: #111;
-  margin-bottom: 8px;
+  margin: 0 0 6px;
 }
 .lead-popup__sub {
-  font-size: 20px;
+  font-size: 14px;
   color: #666;
-  margin-bottom: 24px;
-  line-height: 1.5;
+  margin: 0 0 20px;
+  line-height: 1.55;
 }
 .lead-popup__form { display: flex; flex-direction: column; gap: 12px; }
 .lead-popup__field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 .lead-popup__field label {
-  font-size: 11.5px;
-  font-weight: 600;
-  color: #444;
-  letter-spacing: 0.02em;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
 }
 .lead-popup__field input {
-  border: 1.5px solid #e2e2e8;
-  border-radius: 10px;
-  padding: 10px 13px;
+  border: 1px solid #e2e2e8;
+  border-radius: 8px;
+  padding: 9px 12px;
   font-size: 14px;
   color: #111;
-  background: #fafafa;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
   font-family: inherit;
 }
 .lead-popup__field input:focus {
   border-color: #7c5cfc;
   box-shadow: 0 0 0 3px rgba(124,92,252,0.12);
-  background: #fff;
 }
 .lead-popup__submit {
   margin-top: 4px;
-  padding: 13px 20px;
-  background: #7c5cfc;
+  padding: 10px 20px;
+  background: #111;
   color: #fff;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.15s;
   font-family: inherit;
 }
-.lead-popup__submit:hover { background: #6a47e8; transform: translateY(-1px); }
-.lead-popup__submit:active { transform: translateY(0); }
+.lead-popup__submit:hover { background: #333; }
+.lead-popup__submit:active { background: #000; }
+.lead-popup__submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* ---- Offer pill selector (CTA popup) ---- */
+/* ---- Offer pill selector ---- */
 .offer-pills { display: flex; gap: 8px; flex-wrap: wrap; }
 .offer-pill {
   flex: 1; min-width: 90px;
-  padding: 10px 8px; border: 1.5px solid var(--hairline, #e2e2e8);
-  border-radius: 10px; text-align: center; cursor: pointer;
+  padding: 9px 8px;
+  border: 1px solid #e2e2e8;
+  border-radius: 8px; text-align: center; cursor: pointer;
   font-size: 12px; font-weight: 600; color: #666;
-  background: #fafafa;
-  transition: border-color .2s, color .2s, background .2s;
+  background: #fff;
+  transition: border-color .15s, color .15s, background .15s;
   user-select: none;
 }
 .offer-pill:hover { border-color: #bbb; color: #333; }
 .offer-pill.selected { border-color: #7c5cfc; background: rgba(124,92,252,.08); color: #7c5cfc; }
 .offer-pill__name { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .offer-pill__label { font-size: 11px; font-weight: 500; color: inherit; margin-top: 2px; opacity: 0.75; }
-@media (max-width: 480px) {
-  .lead-popup { padding: 28px 20px 24px; }
+@media (max-width: 520px) {
+  .lead-popup { padding: 20px 16px 20px; max-height: 100vh; border-radius: 0; }
+  .lead-popup-overlay { padding: 0; align-items: flex-end; }
+  .lead-popup-overlay.is-open .lead-popup { transform: translateY(0) scale(1); }
+  .lead-popup { transform: translateY(40px) scale(1); border-radius: 16px 16px 0 0; }
   .offer-pill { min-width: 70px; }
 }
 </style>
@@ -3052,7 +3063,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- CTA popup (Build My App / Start Now buttons) -->
 <div class="lead-popup-overlay" id="cta-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="cta-popup-title" aria-hidden="true">
   <div class="lead-popup">
-    <button class="lead-popup__close" id="cta-popup-close" aria-label="Close">✕</button>
+    <button class="lead-popup__close" id="cta-popup-close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/></svg></button>
     <p class="lead-popup__eyebrow">Your app deserves this 🚀</p>
     <h2 class="lead-popup__title" id="cta-popup-title">You've just taken the first step towards a billion-dollar app.</h2>
     <p class="lead-popup__sub">Tell us who you are and which plan caught your eye. We'll get back to you within 24 hours — no pushy sales calls, just a straight conversation.</p>
@@ -3096,7 +3107,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Lead popup (must be before <script> so getElementById resolves on parse) -->
 <div class="lead-popup-overlay" id="lead-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" aria-hidden="true">
   <div class="lead-popup">
-    <button class="lead-popup__close" id="lead-popup-close" aria-label="Close">✕</button>
+    <button class="lead-popup__close" id="lead-popup-close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/></svg></button>
     <p class="lead-popup__eyebrow">Decision paralysis detected 🧠</p>
     <h2 class="lead-popup__title" id="popup-title">Still deciding? We've done this 50+ times.</h2>
     <p class="lead-popup__sub" id="popup-sub">You're probably wondering which offer is right for your app. That's exactly what we're here for — share your details and we'll tell you in one call.</p>
