@@ -405,54 +405,51 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   .hero__ctas { justify-content: center; }
 }
 
-/* ---- Phone stage ---- */
+/* ---- Banner carousel stage ---- */
 .stage { display: flex; justify-content: center; position: relative; }
-.phone {
+.stage__cards { position: relative; display: inline-block; }
+
+.banner-carousel {
   position: relative;
   width: 315px;
   aspect-ratio: 9 / 19;
-  background: var(--ink);
-  border-radius: 54px;
-  padding: 14px;
-  color: var(--paper);
+  flex-shrink: 0;
+  background: transparent;
+}
+.banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
+  z-index: 1;
+}
+
+/* Carousel indicator dots */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 14px;
+}
+.carousel-dots .dot {
+  height: 6px;
+  width: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.35);
+  transition: width 0.35s ease, background 0.35s ease;
+  cursor: pointer;
   flex-shrink: 0;
 }
-.phone::before {
-  content: "";
-  position: absolute;
-  top: 27px; left: 50%; transform: translateX(-50%);
-  width: 138px; height: 33px;
-  background: #000;
-  border-radius: 999px;
-}
-.phone__screen {
-  width: 100%; height: 100%;
-  background: var(--ink-soft);
-  border-radius: 42px;
-  overflow: hidden;
-  position: relative;
-}
-.phone-screen-img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  animation: phone-fade 24s infinite;
-  will-change: opacity;
-}
-.phone-screen-img:nth-child(1) { animation-delay: 0s; }
-.phone-screen-img:nth-child(2) { animation-delay: 8s; }
-.phone-screen-img:nth-child(3) { animation-delay: 16s; }
-@keyframes phone-fade {
-  0%    { opacity: 0; }
-  5%    { opacity: 1; }
-  33%   { opacity: 1; }
-  42%   { opacity: 0; }
-  100%  { opacity: 0; }
+.carousel-dots .dot.active {
+  width: 22px;
+  background: white;
 }
 
 /* ---- Floating glass cards ---- */
-.stage__cards { position: relative; display: inline-block; }
 .glass-card {
   background: rgba(255,255,255,0.18);
   backdrop-filter: blur(12px);
@@ -466,22 +463,34 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   line-height: 1.4;
   box-shadow: 0 8px 32px rgba(0,0,56,0.3);
   z-index: 2;
+  transition: opacity 0.35s ease;
 }
 .glass-card .comment__head { display: flex; align-items: center; gap: 8px; }
 .glass-card .comment__avatar {
-  width: 26px; height: 26px;
+  width: 28px; height: 28px;
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0.18));
-  border: 1px solid rgba(255,255,255,0.4);
+  object-fit: cover;
+  border: 1.5px solid rgba(255,255,255,0.5);
   flex-shrink: 0;
+  background: rgba(255,255,255,0.2);
+  display: block;
 }
 .glass-card .comment__name { font-weight: 600; color: white; font-size: 12px; }
 .glass-card .comment__body { margin-top: 8px; color: rgba(255,255,255,0.9); }
 .glass-card .comment__foot {
   margin-top: 8px;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; gap: 6px;
+}
+.glass-card .stars {
+  color: #FFD600;
+  font-size: 11px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.glass-card .rating-num {
   font-family: var(--font-mono);
-  color: rgba(255,255,255,0.55); font-size: 10px;
+  color: rgba(255,255,255,0.65);
+  font-size: 10px;
   letter-spacing: 0.04em;
 }
 @keyframes float-1 {
@@ -507,9 +516,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   .stage__cards .c2 { top: 42%;  left:  calc(100% - 60px); }
   .stage__cards .c3 { top: 74%;  right: calc(100% - 70px); }
 }
-/* Mobile: smaller phone, cards float to left/right within viewport */
+/* Mobile */
 @media (max-width: 1023.9px) {
-  .phone { width: 240px; }
+  .banner-carousel { width: 240px; }
   .stage__cards .glass-card { position: absolute; width: 152px; font-size: 11px; padding: 10px 12px; border-radius: 14px; }
   .stage__cards .c1 { top:  8%;  left: -48px; right: auto; }
   .stage__cards .c2 { top: 42%;  right: -48px; left: auto; }
@@ -1693,47 +1702,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- Phone stage with floating comment cards -->
       <div class="hero__stage stage">
         <div class="stage__cards">
-          <div class="phone" aria-hidden="true">
-            <div class="phone__screen">
-              <img class="phone-screen-img" src="https://mobileapps.designasylum.in/assets/images/screen-KIA.jpg" alt="KIA app" />
-              <img class="phone-screen-img" src="https://mobileapps.designasylum.in/assets/images/screen-NPS.jpg" alt="NPS app" />
-              <img class="phone-screen-img" src="https://mobileapps.designasylum.in/assets/images/screen-Sunrooof.jpg" alt="Sunroof app" />
-            </div>
+          <!-- Banner carousel (replaces phone mockup) -->
+          <div class="banner-carousel" id="banner-carousel">
+            <img class="banner-img" id="banner-0" src="assets/images/cosmx-banner.png" alt="cosmx app">
+            <img class="banner-img" id="banner-1" src="assets/images/kia-banner.png" alt="KIA app">
+            <img class="banner-img" id="banner-2" src="assets/images/prepmonkey-banner.png" alt="PrepMonkey app">
+            <img class="banner-img" id="banner-3" src="assets/images/sunrooof-banner.png" alt="Sunrooof app">
+          </div>
+          <div class="carousel-dots" id="carousel-dots">
+            <span class="dot active" data-idx="0"></span>
+            <span class="dot" data-idx="1"></span>
+            <span class="dot" data-idx="2"></span>
+            <span class="dot" data-idx="3"></span>
           </div>
 
+          <!-- Floating review cards — content updated per slide by JS -->
           <div class="glass-card c1">
             <div class="comment__head">
-              <div class="comment__avatar"></div>
-              <div class="comment__name">kpm1805</div>
+              <img class="comment__avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=56&h=56&fit=crop&crop=faces" alt="Priya Sharma">
+              <div class="comment__name">Priya Sharma</div>
             </div>
-            <div class="comment__body">Love the concept. Definitely innovative.</div>
+            <div class="comment__body">This app genuinely reads your energy. The cosmic readings are scarily accurate.</div>
             <div class="comment__foot">
-              <span>23w · 2 likes</span>
-              <span>Reply</span>
+              <span class="stars">★★★★★</span>
+              <span class="rating-num">5.0</span>
             </div>
           </div>
 
           <div class="glass-card c2">
             <div class="comment__head">
-              <div class="comment__avatar"></div>
-              <div class="comment__name">nanda_jivan_</div>
+              <img class="comment__avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=56&h=56&fit=crop&crop=faces" alt="James Whitfield">
+              <div class="comment__name">James Whitfield</div>
             </div>
-            <div class="comment__body">Super!!!</div>
+            <div class="comment__body">Mind-blowing. The tarot AI connected with me on a deeper level than I expected.</div>
             <div class="comment__foot">
-              <span>26w · 1 like</span>
-              <span>Reply</span>
+              <span class="stars">★★★★★</span>
+              <span class="rating-num">5.0</span>
             </div>
           </div>
 
           <div class="glass-card c3">
             <div class="comment__head">
-              <div class="comment__avatar"></div>
-              <div class="comment__name">1608.gaurav</div>
+              <img class="comment__avatar" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=56&h=56&fit=crop&crop=faces" alt="Ananya Krishnan">
+              <div class="comment__name">Ananya Krishnan</div>
             </div>
-            <div class="comment__body">Wow, so easy and lovely</div>
+            <div class="comment__body">Never felt so in sync with the universe. The daily briefings are pure gold.</div>
             <div class="comment__foot">
-              <span>26w</span>
-              <span>Reply</span>
+              <span class="stars">★★★★★</span>
+              <span class="rating-num">4.9</span>
             </div>
           </div>
         </div>
@@ -2708,6 +2724,154 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       idx = (idx + 1) % items.length;
       items[idx].classList.add('carousel-active');
     }, 1500);
+  })();
+
+  /* ── Hero banner carousel with left-wipe reveal + per-slide reviews ── */
+  (function () {
+    var WIPE_MS  = 2000;   /* clip-path wipe duration */
+    var HOLD_MS  = 4500;   /* how long each slide is held before wipe begins */
+    var EASE     = 'cubic-bezier(0.77, 0, 0.18, 1)';
+
+    /* Review data: 4 slides × 3 cards */
+    var REVIEWS = [
+      /* 0 — cosmx */
+      [
+        { name: 'Priya Sharma',
+          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'This app genuinely reads your energy. The cosmic readings are scarily accurate.' },
+        { name: 'James Whitfield',
+          avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'Mind-blowing. The tarot AI connected with me on a deeper level than I expected.' },
+        { name: 'Ananya Krishnan',
+          avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=56&h=56&fit=crop&crop=faces',
+          rating: '4.9', text: 'Never felt so in sync with the universe. The daily briefings are pure gold.' },
+      ],
+      /* 1 — kia */
+      [
+        { name: 'Rahul Mehta',
+          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'My eco score jumped from 6.2 to 8.9 in three weeks. Absolutely game-changing.' },
+        { name: 'Emily Carter',
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'Finally understand my driving habits. The UI is absolutely gorgeous.' },
+        { name: 'Arjun Nair',
+          avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=56&h=56&fit=crop&crop=faces',
+          rating: '4.9', text: 'Real-time feedback helped me cut fuel costs significantly. Love it.' },
+      ],
+      /* 2 — prepmonkey */
+      [
+        { name: 'Kavya Reddy',
+          avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'Cracked UPSC on my first attempt. PrepMonkey made all the difference.' },
+        { name: 'Michael Torres',
+          avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'The PYQ practice mode is addictive. My scores jumped 40% in a month.' },
+        { name: 'Shreya Iyer',
+          avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=56&h=56&fit=crop&crop=faces',
+          rating: '4.9', text: 'Like having a personal tutor in your pocket. Cannot recommend enough.' },
+      ],
+      /* 3 — sunrooof */
+      [
+        { name: 'Rohan Kapoor',
+          avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'My sleep has transformed completely. I wake up refreshed every single day.' },
+        { name: 'Sarah Mitchell',
+          avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=56&h=56&fit=crop&crop=faces',
+          rating: '5.0', text: 'The circadian scheduler is pure genius. My energy levels are through the roof.' },
+        { name: 'Deepa Verma',
+          avatar: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=56&h=56&fit=crop&crop=faces',
+          rating: '4.9', text: 'Our home lighting has never felt so natural and comfortable. Worth every rupee.' },
+      ],
+    ];
+
+    var imgs  = Array.from(document.querySelectorAll('.banner-img'));
+    var dots  = Array.from(document.querySelectorAll('#carousel-dots .dot'));
+    var cards = Array.from(document.querySelectorAll('.glass-card'));
+    if (!imgs.length) return;
+
+    var current = 0;
+    var timer;
+
+    /* Set initial clip states */
+    imgs[0].style.clipPath = 'inset(0 0% 0 0)';      /* slide 0 fully visible */
+    for (var i = 1; i < imgs.length; i++) {
+      imgs[i].style.clipPath = 'inset(0 100% 0 0)';  /* rest hidden off-right */
+    }
+
+    /* Swap review content on all 3 cards */
+    function updateReviews(slideIdx) {
+      /* fade out */
+      cards.forEach(function (c) { c.style.opacity = '0'; });
+      setTimeout(function () {
+        REVIEWS[slideIdx].forEach(function (r, i) {
+          var card = cards[i];
+          var av   = card.querySelector('.comment__avatar');
+          if (av) { av.src = r.avatar; av.alt = r.name; }
+          var nm = card.querySelector('.comment__name');
+          if (nm) nm.textContent = r.name;
+          var body = card.querySelector('.comment__body');
+          if (body) body.textContent = r.text;
+          var rn = card.querySelector('.rating-num');
+          if (rn) rn.textContent = r.rating;
+        });
+        /* fade back in */
+        cards.forEach(function (c) { c.style.opacity = '1'; });
+      }, 350);
+    }
+
+    /* Wipe transition from current → next */
+    function goTo(next) {
+      if (next === current) return;
+
+      imgs[next].style.zIndex   = '3';
+      imgs[current].style.zIndex = '2';
+
+      /* Entering image: reveal from left */
+      imgs[next].animate(
+        [{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)' }],
+        { duration: WIPE_MS, easing: EASE, fill: 'forwards' }
+      );
+
+      /* Exiting image: wipe out from left simultaneously */
+      var exitAnim = imgs[current].animate(
+        [{ clipPath: 'inset(0 0% 0 0)' }, { clipPath: 'inset(0 0 0 100%)' }],
+        { duration: WIPE_MS, easing: EASE, fill: 'forwards' }
+      );
+
+      /* Update reviews mid-wipe */
+      updateReviews(next);
+
+      /* Update dots */
+      dots[current].classList.remove('active');
+      dots[next].classList.add('active');
+
+      var leaving = current;
+      exitAnim.finished.then(function () {
+        imgs[leaving].style.zIndex   = '1';
+        imgs[leaving].style.clipPath = 'inset(0 100% 0 0)'; /* reset for re-entry */
+        current = next;
+      });
+    }
+
+    /* Auto-advance loop */
+    function scheduleNext() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        goTo((current + 1) % imgs.length);
+        timer = setTimeout(scheduleNext, WIPE_MS);
+      }, HOLD_MS);
+    }
+    scheduleNext();
+
+    /* Dot click navigation */
+    dots.forEach(function (dot, idx) {
+      dot.addEventListener('click', function () {
+        if (idx === current) return;
+        clearTimeout(timer);
+        goTo(idx);
+        timer = setTimeout(scheduleNext, WIPE_MS);
+      });
+    });
   })();
 </script>
 
