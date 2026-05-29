@@ -1733,6 +1733,59 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   }
 }
 
+/* ---- Lightbox ---- */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 9100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.lightbox-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: calc(100vh - 80px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 32px 96px rgba(0,0,0,0.6);
+  transform: scale(0.96);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lightbox-overlay.is-open .lightbox-img {
+  transform: scale(1);
+}
+.lightbox-close {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 9101;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.22); }
+.work__row { cursor: pointer; }
+
 /* ---- Lead popup ---- */
 .lead-popup-overlay {
   position: fixed;
@@ -2386,7 +2439,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="work" style="margin-top: 0;">
       <!-- replace: real client names, tags, outcomes, years -->
-      <div class="work__row">
+      <div class="work__row" data-lightbox="assets/images/work/work-01.png">
         <div class="work__idx">01</div>
         <div class="work__name">Client Name</div>
         <div class="work__tag">—</div>
@@ -2394,7 +2447,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="work__year">—</div>
         <svg class="work__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10" /></svg>
       </div>
-      <div class="work__row">
+      <div class="work__row" data-lightbox="assets/images/work/work-02.png">
         <div class="work__idx">02</div>
         <div class="work__name">Client Name</div>
         <div class="work__tag">—</div>
@@ -2402,7 +2455,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="work__year">—</div>
         <svg class="work__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10" /></svg>
       </div>
-      <div class="work__row">
+      <div class="work__row" data-lightbox="assets/images/work/work-03.png">
         <div class="work__idx">03</div>
         <div class="work__name">Client Name</div>
         <div class="work__tag">—</div>
@@ -2410,7 +2463,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="work__year">—</div>
         <svg class="work__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10" /></svg>
       </div>
-      <div class="work__row">
+      <div class="work__row" data-lightbox="assets/images/work/work-04.png">
         <div class="work__idx">04</div>
         <div class="work__name">Client Name</div>
         <div class="work__tag">—</div>
@@ -2907,6 +2960,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
+<!-- Lead popup (must be before <script> so getElementById resolves on parse) -->
+<div class="lead-popup-overlay" id="lead-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" aria-hidden="true">
+  <div class="lead-popup">
+    <button class="lead-popup__close" id="lead-popup-close" aria-label="Close">✕</button>
+    <p class="lead-popup__eyebrow">Decision paralysis detected 🧠</p>
+    <h2 class="lead-popup__title" id="popup-title">Three plans, one brain, zero decisions?<br>Let's fix that.</h2>
+    <p class="lead-popup__sub" id="popup-sub">You've been eyeing our plans. We've been watching. Professionally. Drop your details and we'll tell you exactly which one you need — no spreadsheets required.</p>
+    <form class="lead-popup__form" id="lead-popup-form" onsubmit="handlePopupSubmit(event)">
+      <div class="lead-popup__row">
+        <div class="lead-popup__field">
+          <label for="popup-first-name">First Name</label>
+          <input type="text" id="popup-first-name" name="first_name" placeholder="Ravi" required autocomplete="given-name">
+        </div>
+        <div class="lead-popup__field">
+          <label for="popup-last-name">Full Name</label>
+          <input type="text" id="popup-last-name" name="last_name" placeholder="Sharma" required autocomplete="family-name">
+        </div>
+      </div>
+      <div class="lead-popup__field">
+        <label for="popup-email">Email</label>
+        <input type="email" id="popup-email" name="email" placeholder="ravi@company.com" required autocomplete="email">
+      </div>
+      <div class="lead-popup__field">
+        <label for="popup-phone">Phone Number</label>
+        <input type="tel" id="popup-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
+      </div>
+      <button type="submit" class="lead-popup__submit">Help me decide →</button>
+    </form>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Case study preview" aria-hidden="true">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+</div>
+
 <script>
   /* Pricing — vertical cut reveal on heading */
   (function () {
@@ -3203,6 +3293,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   })();
 
+  // ---- Lightbox ----
+  (function() {
+    var lbOverlay = document.getElementById('lightbox-overlay');
+    var lbImg     = document.getElementById('lightbox-img');
+    var lbClose   = document.getElementById('lightbox-close');
+
+    function openLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lbOverlay.classList.add('is-open');
+      lbOverlay.removeAttribute('aria-hidden');
+    }
+
+    function closeLightbox() {
+      lbOverlay.classList.remove('is-open');
+      lbOverlay.setAttribute('aria-hidden', 'true');
+      lbImg.src = '';
+    }
+
+    document.querySelectorAll('.work__row[data-lightbox]').forEach(function(row) {
+      row.addEventListener('click', function() {
+        openLightbox(row.dataset.lightbox, row.querySelector('.work__name') ? row.querySelector('.work__name').textContent : '');
+      });
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbOverlay.addEventListener('click', function(e) {
+      if (e.target === lbOverlay) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lbOverlay.classList.contains('is-open')) closeLightbox();
+    });
+  })();
+
   function handlePopupSubmit(e) {
     e.preventDefault();
     var overlay = document.getElementById('lead-popup-overlay');
@@ -3212,36 +3336,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 </script>
 
-<!-- Lead popup -->
-<div class="lead-popup-overlay" id="lead-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title">
-  <div class="lead-popup">
-    <button class="lead-popup__close" id="lead-popup-close" aria-label="Close">✕</button>
-    <p class="lead-popup__eyebrow">Decision paralysis detected 🧠</p>
-    <h2 class="lead-popup__title" id="popup-title">Three plans, one brain, zero decisions?<br>Let's fix that.</h2>
-    <p class="lead-popup__sub" id="popup-sub">You've been eyeing our plans. We've been watching. Professionally. Drop your details and we'll tell you exactly which one you need — no spreadsheets required.</p>
-    <form class="lead-popup__form" id="lead-popup-form" onsubmit="handlePopupSubmit(event)">
-      <div class="lead-popup__row">
-        <div class="lead-popup__field">
-          <label for="popup-first-name">First Name</label>
-          <input type="text" id="popup-first-name" name="first_name" placeholder="Ravi" required autocomplete="given-name">
-        </div>
-        <div class="lead-popup__field">
-          <label for="popup-last-name">Full Name</label>
-          <input type="text" id="popup-last-name" name="last_name" placeholder="Sharma" required autocomplete="family-name">
-        </div>
-      </div>
-      <div class="lead-popup__field">
-        <label for="popup-email">Email</label>
-        <input type="email" id="popup-email" name="email" placeholder="ravi@company.com" required autocomplete="email">
-      </div>
-      <div class="lead-popup__field">
-        <label for="popup-phone">Phone Number</label>
-        <input type="tel" id="popup-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
-      </div>
-      <button type="submit" class="lead-popup__submit">Help me decide →</button>
-    </form>
-  </div>
-</div>
 
 </body>
 </html>
