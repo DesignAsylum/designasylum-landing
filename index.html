@@ -1976,8 +1976,25 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 .lead-popup__submit:hover { background: #6a47e8; transform: translateY(-1px); }
 .lead-popup__submit:active { transform: translateY(0); }
+
+/* ---- Offer pill selector (CTA popup) ---- */
+.offer-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.offer-pill {
+  flex: 1; min-width: 90px;
+  padding: 10px 8px; border: 1.5px solid var(--hairline, #e2e2e8);
+  border-radius: 10px; text-align: center; cursor: pointer;
+  font-size: 12px; font-weight: 600; color: #666;
+  background: #fafafa;
+  transition: border-color .2s, color .2s, background .2s;
+  user-select: none;
+}
+.offer-pill:hover { border-color: #bbb; color: #333; }
+.offer-pill.selected { border-color: #7c5cfc; background: rgba(124,92,252,.08); color: #7c5cfc; }
+.offer-pill__name { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.offer-pill__label { font-size: 11px; font-weight: 500; color: inherit; margin-top: 2px; opacity: 0.75; }
 @media (max-width: 480px) {
   .lead-popup { padding: 28px 20px 24px; }
+  .offer-pill { min-width: 70px; }
 }
 </style>
 </head>
@@ -2000,7 +2017,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#cta" class="btn btn--on-ink">
+    <a href="#" class="btn btn--on-ink" data-cta-popup>
       Build My App
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
     </a>
@@ -2017,7 +2034,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <em>(Without the typical agency bloat or endless revisions.)</em>
         </h1>
         <div class="hero__ctas">
-          <a href="#cta" class="btn btn--on-ink">
+          <a href="#" class="btn btn--on-ink" data-cta-popup>
             Build My App
             <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
           </a>
@@ -2356,7 +2373,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <li>Logout</li>
             <li>Up to 5 illustrations</li>
           </ul>
-          <a href="#cta" class="btn btn--primary" style="width:100%; justify-content:center;">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
+          <a href="#" class="btn btn--primary" style="width:100%; justify-content:center;" data-cta-popup data-offer="1">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -2383,7 +2400,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <li>Search and filter modules</li>
             <li>Up to 10 illustrations</li>
           </ul>
-          <a href="#cta" class="btn btn--on-ink" style="width:100%; justify-content:center;">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
+          <a href="#" class="btn btn--on-ink" style="width:100%; justify-content:center;" data-cta-popup data-offer="2">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -2410,7 +2427,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <li>Marketing landing page design for the app</li>
             <li>Up to 25 illustrations</li>
           </ul>
-          <a href="#cta" class="btn btn--primary" style="width:100%; justify-content:center;">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
+          <a href="#" class="btn btn--primary" style="width:100%; justify-content:center;" data-cta-popup data-offer="3">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -2995,11 +3012,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap" style="text-align: center;">
     <h2 class="cta__title" style="margin-inline: auto; max-width: 20ch;">Your App Deserves More Than a Template.</h2>
     <div class="cta__ctas" style="justify-content: center; flex-direction: column; align-items: center; gap: 16px;">
-      <a href="mailto:hello@designasylum.in" class="btn btn--on-ink">
+      <a href="#" class="btn btn--on-ink" data-cta-popup>
         Build My App
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
       </a>
-      <a href="mailto:hello@designasylum.in" style="font-size: 14px; color: var(--fg-on-ink-2); border-bottom: 0;">Or email hello@designasylum.in</a>
+      <a href="mailto:accounts@designasylum.in" style="font-size: 14px; color: var(--fg-on-ink-2); border-bottom: 0;">Or email accounts@designasylum.in</a>
     </div>
   </div>
 </section>
@@ -3031,6 +3048,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </footer>
+
+<!-- CTA popup (Build My App / Start Now buttons) -->
+<div class="lead-popup-overlay" id="cta-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="cta-popup-title" aria-hidden="true">
+  <div class="lead-popup">
+    <button class="lead-popup__close" id="cta-popup-close" aria-label="Close">✕</button>
+    <p class="lead-popup__eyebrow">Your app deserves this 🚀</p>
+    <h2 class="lead-popup__title" id="cta-popup-title">You've just taken the first step towards a billion-dollar app.</h2>
+    <p class="lead-popup__sub">Tell us who you are and which plan caught your eye. We'll get back to you within 24 hours — no pushy sales calls, just a straight conversation.</p>
+    <form class="lead-popup__form" id="cta-popup-form">
+      <!-- Honeypot — hidden from real users, filled by bots -->
+      <input type="text" id="cta-honeypot" name="_h" style="display:none" tabindex="-1" autocomplete="off">
+      <div class="lead-popup__field">
+        <label for="cta-name">Full Name</label>
+        <input type="text" id="cta-name" name="full_name" placeholder="Ravi Sharma" required autocomplete="name">
+      </div>
+      <div class="lead-popup__field">
+        <label for="cta-email">Email</label>
+        <input type="email" id="cta-email" name="email" placeholder="ravi@company.com" required autocomplete="email">
+      </div>
+      <div class="lead-popup__field">
+        <label for="cta-phone">Phone Number</label>
+        <input type="tel" id="cta-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
+      </div>
+      <div class="lead-popup__field">
+        <label>Which offer interests you?</label>
+        <div class="offer-pills">
+          <div class="offer-pill" data-offer="1" tabindex="0">
+            <div class="offer-pill__name">Offer 1</div>
+            <div class="offer-pill__label">Launchpad</div>
+          </div>
+          <div class="offer-pill selected" data-offer="2" tabindex="0">
+            <div class="offer-pill__name">Offer 2</div>
+            <div class="offer-pill__label">Foundation</div>
+          </div>
+          <div class="offer-pill" data-offer="3" tabindex="0">
+            <div class="offer-pill__name">Offer 3</div>
+            <div class="offer-pill__label">Flagship</div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="lead-popup__submit">Let's build it →</button>
+    </form>
+  </div>
+</div>
 
 <!-- Lead popup (must be before <script> so getElementById resolves on parse) -->
 <div class="lead-popup-overlay" id="lead-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title" aria-hidden="true">
@@ -3393,8 +3454,104 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   })();
 
+  // ---- Shared submission endpoint ----
+  // Replace the placeholder below with your Google Apps Script Web App URL
+  // after completing the one-time setup described in the README.
+  var SCRIPT_URL = 'PASTE_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+  function submitLead(payload) {
+    if (SCRIPT_URL.indexOf('PASTE_') === 0) return Promise.resolve(); // not configured yet
+    return fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    }).catch(function() {}); // silent fail — don't block the UX
+  }
+
+  // ---- CTA popup (Build My App / Start Now) ----
+  (function() {
+    var ctaOverlay = document.getElementById('cta-popup-overlay');
+    var ctaClose   = document.getElementById('cta-popup-close');
+    var ctaForm    = document.getElementById('cta-popup-form');
+
+    function openCta(preferredOffer) {
+      // Pre-select the offer if triggered from a pricing card
+      if (preferredOffer) {
+        document.querySelectorAll('.offer-pill').forEach(function(p) {
+          p.classList.toggle('selected', p.dataset.offer === String(preferredOffer));
+        });
+      }
+      ctaOverlay.classList.add('is-open');
+      ctaOverlay.removeAttribute('aria-hidden');
+      document.getElementById('cta-name').focus();
+    }
+
+    function closeCta() {
+      ctaOverlay.classList.remove('is-open');
+      ctaOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    // Intercept all [data-cta-popup] links
+    document.querySelectorAll('[data-cta-popup]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openCta(btn.dataset.offer || null);
+      });
+    });
+
+    // Offer pill keyboard + click selection
+    document.querySelectorAll('.offer-pill').forEach(function(pill) {
+      function selectPill() {
+        document.querySelectorAll('.offer-pill').forEach(function(p) { p.classList.remove('selected'); });
+        pill.classList.add('selected');
+      }
+      pill.addEventListener('click', selectPill);
+      pill.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPill(); } });
+    });
+
+    // Close behaviours
+    ctaClose.addEventListener('click', closeCta);
+    ctaOverlay.addEventListener('click', function(e) { if (e.target === ctaOverlay) closeCta(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && ctaOverlay.classList.contains('is-open')) closeCta();
+    });
+
+    // Form submit
+    ctaForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var selectedOffer = (document.querySelector('.offer-pill.selected') || {}).dataset && document.querySelector('.offer-pill.selected').dataset.offer || '2';
+      var payload = {
+        full_name: document.getElementById('cta-name').value,
+        email:     document.getElementById('cta-email').value,
+        phone:     document.getElementById('cta-phone').value,
+        offer:     selectedOffer,
+        source:    'cta-button',
+        _h:        document.getElementById('cta-honeypot').value
+      };
+      var btn = ctaForm.querySelector('button[type=submit]');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      submitLead(payload).then(function() { showCtaSuccess(); });
+    });
+
+    function showCtaSuccess() {
+      var popup = ctaOverlay.querySelector('.lead-popup');
+      popup.innerHTML = '<div style="text-align:center;padding:40px 0 32px"><div style="font-size:48px;margin-bottom:16px">🎉</div><h2 style="font-size:22px;font-weight:800;color:#111;margin-bottom:10px">We\'ll be in touch within 24 hours!</h2><p style="color:#666;font-size:15px;line-height:1.6">Your billion-dollar app journey has officially begun.<br>Check your inbox soon.</p></div>';
+      setTimeout(closeCta, 3500);
+    }
+  })();
+
+  // ---- 30s lead popup form submit ----
   function handlePopupSubmit(e) {
     e.preventDefault();
+    var payload = {
+      full_name: document.getElementById('popup-full-name').value,
+      email:     document.getElementById('popup-email').value,
+      phone:     document.getElementById('popup-phone').value,
+      offer:     '',
+      source:    'timer-popup',
+      _h:        ''
+    };
+    submitLead(payload);
     var overlay = document.getElementById('lead-popup-overlay');
     var popup = overlay.querySelector('.lead-popup');
     popup.innerHTML = '<div style="text-align:center;padding:32px 0;"><div style="font-size:40px;margin-bottom:16px;">🎉</div><h2 style="font-size:20px;font-weight:800;color:#111;margin-bottom:8px;">We\'ll be in touch!</h2><p style="color:#666;font-size:14px;line-height:1.6;">Decision incoming. Our team will reach out shortly and tell you exactly which plan fits you best.</p></div>';
