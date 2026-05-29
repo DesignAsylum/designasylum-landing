@@ -1732,6 +1732,128 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---- Lead popup ---- */
+.lead-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.lead-popup-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+.lead-popup {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  padding: 36px 32px 32px;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+  transform: translateY(18px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lead-popup-overlay.is-open .lead-popup {
+  transform: translateY(0) scale(1);
+}
+.lead-popup__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: #555;
+  transition: background 0.2s;
+}
+.lead-popup__close:hover { background: rgba(0,0,0,0.12); }
+.lead-popup__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7c5cfc;
+  margin-bottom: 8px;
+}
+.lead-popup__title {
+  font-size: clamp(18px, 4vw, 22px);
+  font-weight: 800;
+  line-height: 1.25;
+  color: #111;
+  margin-bottom: 6px;
+}
+.lead-popup__sub {
+  font-size: 13.5px;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.lead-popup__form { display: flex; flex-direction: column; gap: 12px; }
+.lead-popup__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.lead-popup__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lead-popup__field label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: 0.02em;
+}
+.lead-popup__field input {
+  border: 1.5px solid #e2e2e8;
+  border-radius: 10px;
+  padding: 10px 13px;
+  font-size: 14px;
+  color: #111;
+  background: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+.lead-popup__field input:focus {
+  border-color: #7c5cfc;
+  box-shadow: 0 0 0 3px rgba(124,92,252,0.12);
+  background: #fff;
+}
+.lead-popup__submit {
+  margin-top: 4px;
+  padding: 13px 20px;
+  background: #7c5cfc;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: inherit;
+}
+.lead-popup__submit:hover { background: #6a47e8; transform: translateY(-1px); }
+.lead-popup__submit:active { transform: translateY(0); }
+@media (max-width: 480px) {
+  .lead-popup { padding: 28px 20px 24px; }
+  .lead-popup__row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -2766,23 +2888,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="#work">Work</a>
         <a href="#process">Process</a>
         <a href="#pricing">Pricing</a>
-        <a href="mailto:hello@designasylum.in">Contact</a>
+        <a href="mailto:accounts@designasylum.in">Contact</a>
       </nav>
-      <div style="display:flex; flex-wrap: wrap; align-items: center; gap: 20px; font-size: 14px;">
-        <a href="#">Instagram</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Dribbble</a>
-        <a href="#">Behance</a>
+      <div style="display:flex; flex-wrap: wrap; align-items: center; gap: 20px; font-size: 14px; color: var(--fg-on-ink-2);">
+        <span>Dubai</span>
+        <span>New Jersey</span>
+        <span>Pune</span>
       </div>
     </div>
 
     <div class="footer__bottom">
-      <div>© 2026 Design Asylum Studio · GSTIN 27AASFD0733F1ZH</div>
-      <div>Bibvewadi, Pune, Maharashtra, India</div>
-      <div style="display:flex; gap: 20px;">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </div>
+      <div>© 2026 Design Asylum Studio</div>
+      <div><a href="mailto:accounts@designasylum.in" style="color:inherit;">accounts@designasylum.in</a></div>
     </div>
   </div>
 </footer>
@@ -3029,7 +3146,99 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
     });
   })();
+
+  // ---- Lead popup logic ----
+  (function() {
+    var overlay = document.getElementById('lead-popup-overlay');
+    var closeBtn = document.getElementById('lead-popup-close');
+    var titleEl = document.getElementById('popup-title');
+    var subEl = document.getElementById('popup-sub');
+
+    var TITLES = [
+      {
+        title: 'Three plans, one brain, zero decisions?<br>Let\'s fix that.',
+        sub: 'You\'ve been eyeing our plans. We\'ve been watching. Professionally. Drop your details and we\'ll tell you exactly which one you need — no spreadsheets required.'
+      },
+      {
+        title: '60 seconds in. We\'re basically best friends now.',
+        sub: 'Okay, you\'ve lingered. We respect the commitment. You\'re clearly serious, and so are we. Let\'s stop the window-shopping and actually get you started.'
+      }
+    ];
+
+    var appearance = 0;
+    var popupTimer = null;
+
+    function openPopup() {
+      var content = TITLES[Math.min(appearance, TITLES.length - 1)];
+      titleEl.innerHTML = content.title;
+      subEl.textContent = content.sub;
+      overlay.classList.add('is-open');
+      overlay.removeAttribute('aria-hidden');
+      closeBtn.focus();
+    }
+
+    function closePopup() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      appearance++;
+      if (appearance < 2) {
+        popupTimer = setTimeout(openPopup, 30000);
+      }
+    }
+
+    overlay.setAttribute('aria-hidden', 'true');
+    popupTimer = setTimeout(openPopup, 30000);
+
+    closeBtn.addEventListener('click', closePopup);
+
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closePopup();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closePopup();
+    });
+  })();
+
+  function handlePopupSubmit(e) {
+    e.preventDefault();
+    var overlay = document.getElementById('lead-popup-overlay');
+    var popup = overlay.querySelector('.lead-popup');
+    popup.innerHTML = '<div style="text-align:center;padding:32px 0;"><div style="font-size:40px;margin-bottom:16px;">🎉</div><h2 style="font-size:20px;font-weight:800;color:#111;margin-bottom:8px;">We\'ll be in touch!</h2><p style="color:#666;font-size:14px;line-height:1.6;">Decision incoming. Our team will reach out shortly and tell you exactly which plan fits you best.</p></div>';
+    setTimeout(function() { overlay.classList.remove('is-open'); }, 3000);
+  }
 </script>
+
+<!-- Lead popup -->
+<div class="lead-popup-overlay" id="lead-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="lead-popup">
+    <button class="lead-popup__close" id="lead-popup-close" aria-label="Close">✕</button>
+    <p class="lead-popup__eyebrow">Decision paralysis detected 🧠</p>
+    <h2 class="lead-popup__title" id="popup-title">Three plans, one brain, zero decisions?<br>Let's fix that.</h2>
+    <p class="lead-popup__sub" id="popup-sub">You've been eyeing our plans. We've been watching. Professionally. Drop your details and we'll tell you exactly which one you need — no spreadsheets required.</p>
+    <form class="lead-popup__form" id="lead-popup-form" onsubmit="handlePopupSubmit(event)">
+      <div class="lead-popup__row">
+        <div class="lead-popup__field">
+          <label for="popup-first-name">First Name</label>
+          <input type="text" id="popup-first-name" name="first_name" placeholder="Ravi" required autocomplete="given-name">
+        </div>
+        <div class="lead-popup__field">
+          <label for="popup-last-name">Full Name</label>
+          <input type="text" id="popup-last-name" name="last_name" placeholder="Sharma" required autocomplete="family-name">
+        </div>
+      </div>
+      <div class="lead-popup__field">
+        <label for="popup-email">Email</label>
+        <input type="email" id="popup-email" name="email" placeholder="ravi@company.com" required autocomplete="email">
+      </div>
+      <div class="lead-popup__field">
+        <label for="popup-phone">Phone Number</label>
+        <input type="tel" id="popup-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
+      </div>
+      <button type="submit" class="lead-popup__submit">Help me decide →</button>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>
