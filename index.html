@@ -3389,6 +3389,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var popupTimer = null;
 
     function openPopup() {
+      if (window._leadCaptured) return; // already submitted via CTA — don't interrupt
       var content = TITLES[Math.min(appearance, TITLES.length - 1)];
       titleEl.innerHTML = content.title;
       subEl.textContent = content.sub;
@@ -3518,13 +3519,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     // Form submit
     ctaForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      var selectedOffer = (document.querySelector('.offer-pill.selected') || {}).dataset && document.querySelector('.offer-pill.selected').dataset.offer || '2';
+      var offerNum = document.querySelector('.offer-pill.selected') ? document.querySelector('.offer-pill.selected').dataset.offer : '2';
+      var offerLabels = { '1': 'Offer 1 — Launchpad', '2': 'Offer 2 — Foundation', '3': 'Offer 3 — Flagship' };
       var payload = {
         full_name: document.getElementById('cta-name').value,
         email:     document.getElementById('cta-email').value,
         phone:     document.getElementById('cta-phone').value,
-        offer:     selectedOffer,
-        source:    'cta-button',
+        offer:     offerLabels[offerNum] || ('Offer ' + offerNum),
+        source:    'Build My App button',
         _h:        document.getElementById('cta-honeypot').value
       };
       var btn = ctaForm.querySelector('button[type=submit]');
@@ -3534,9 +3536,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
 
     function showCtaSuccess() {
+      window._leadCaptured = true; // suppress the 30s timer popup
       var popup = ctaOverlay.querySelector('.lead-popup');
       popup.innerHTML = '<div style="text-align:center;padding:40px 0 32px"><div style="font-size:48px;margin-bottom:16px">🎉</div><h2 style="font-size:22px;font-weight:800;color:#111;margin-bottom:10px">We\'ll be in touch within 24 hours!</h2><p style="color:#666;font-size:15px;line-height:1.6">Your billion-dollar app journey has officially begun.<br>Check your inbox soon.</p></div>';
-      setTimeout(closeCta, 3500);
+      setTimeout(closeCta, 8000); // give them time to read it
     }
   })();
 
@@ -3548,9 +3551,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       email:     document.getElementById('popup-email').value,
       phone:     document.getElementById('popup-phone').value,
       offer:     '',
-      source:    'timer-popup',
+      source:    '30-second popup',
       _h:        ''
     };
+    window._leadCaptured = true; // suppress any further timer popups
     submitLead(payload);
     var overlay = document.getElementById('lead-popup-overlay');
     var popup = overlay.querySelector('.lead-popup');
