@@ -643,7 +643,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .gantt__bar.lime { background: var(--accent-lime); color: var(--ink); }
 
 /* ---- Pricing ---- */
-.pricing-v2 { position: relative; background: var(--paper); overflow: hidden; }
+.pricing-v2 { position: relative; background: var(--paper); overflow: hidden; padding-block: 64px; }
 .pricing-v2::before {
   content: "";
   position: absolute; inset: 0;
@@ -655,7 +655,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 55%, transparent 100%);
   pointer-events: none;
 }
-.pricing-v2__header { text-align: center; margin-bottom: 56px; }
+.pricing-v2__header { text-align: center; margin-bottom: 28px; }
 
 /* Vertical cut reveal */
 .rv-title {
@@ -724,7 +724,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   background: var(--paper-soft);
   border-bottom: 1px solid var(--hairline);
   border-radius: var(--r-3);
-  padding: 20px 24px;
+  padding: 14px 20px;
 }
 .pcard__eyebrow {
   font-family: var(--font-mono);
@@ -732,45 +732,45 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--fg-4);
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 .pcard__name {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink);
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 .pcard__price-row { display: flex; align-items: baseline; gap: 4px; }
 .pcard__amt {
   font-family: var(--font-display);
-  font-size: 40px; font-weight: 700;
+  font-size: 30px; font-weight: 700;
   letter-spacing: -0.04em; line-height: 1;
   color: var(--ink);
 }
-.pcard__period { font-size: 14px; color: var(--fg-3); }
-.pcard__bd { padding: 20px 24px 24px; flex: 1; display: flex; flex-direction: column; }
-.pcard__pitch { font-size: 13px; line-height: 1.6; color: var(--fg-2); margin: 0 0 14px; }
+.pcard__period { font-size: 13px; color: var(--fg-3); }
+.pcard__bd { padding: 14px 20px 18px; flex: 1; display: flex; flex-direction: column; }
+.pcard__pitch { font-size: 11.5px; line-height: 1.55; color: var(--fg-2); margin: 0 0 10px; }
 .pcard__plus {
-  font-weight: 600; font-size: 12px;
-  color: var(--ink); margin-bottom: 8px;
+  font-weight: 600; font-size: 11px;
+  color: var(--ink); margin-bottom: 6px;
 }
 .pcard__feat {
-  list-style: none; margin: 0 0 22px; padding: 0;
-  font-size: 13px; flex: 1;
+  list-style: none; margin: 0 0 14px; padding: 0;
+  font-size: 11.5px; flex: 1;
 }
 .pcard__feat li {
-  padding: 8px 0;
+  padding: 4px 0;
   border-bottom: 1px solid var(--hairline);
   color: var(--fg-2); line-height: 1.4;
 }
 .pcard__feat li:last-child { border-bottom: 0; }
 .pcard__cta {
   display: block; width: 100%;
-  padding: 12px 16px; border-radius: 10px;
+  padding: 10px 16px; border-radius: 10px;
   text-align: center; text-decoration: none;
-  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 600;
   border: none; cursor: pointer;
   transition: background 0.15s, transform 0.15s;
 }
@@ -795,13 +795,13 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   background: #4338ca;
   border-bottom: none;
   border-radius: var(--r-3) var(--r-3) 0 0;
-  padding: 28px 24px;
+  padding: 18px 20px;
 }
 .pcard--featured .pcard__eyebrow { color: rgba(255,255,255,0.45); }
 .pcard--featured .pcard__name { color: #fff; }
 .pcard--featured .pcard__amt { color: #fff; }
 .pcard--featured .pcard__period { color: rgba(255,255,255,0.55); }
-.pcard--featured .pcard__bd { padding: 24px 24px 28px; }
+.pcard--featured .pcard__bd { padding: 16px 20px 20px; }
 .pcard--featured .pcard__pitch { color: rgba(255,255,255,0.7); }
 .pcard--featured .pcard__plus { color: rgba(255,255,255,0.9); }
 .pcard--featured .pcard__feat li { color: rgba(255,255,255,0.8); border-bottom-color: rgba(255,255,255,0.12); }
@@ -1732,6 +1732,128 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---- Lead popup ---- */
+.lead-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.lead-popup-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+.lead-popup {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  padding: 36px 32px 32px;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+  transform: translateY(18px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lead-popup-overlay.is-open .lead-popup {
+  transform: translateY(0) scale(1);
+}
+.lead-popup__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: #555;
+  transition: background 0.2s;
+}
+.lead-popup__close:hover { background: rgba(0,0,0,0.12); }
+.lead-popup__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7c5cfc;
+  margin-bottom: 8px;
+}
+.lead-popup__title {
+  font-size: clamp(18px, 4vw, 22px);
+  font-weight: 800;
+  line-height: 1.25;
+  color: #111;
+  margin-bottom: 6px;
+}
+.lead-popup__sub {
+  font-size: 13.5px;
+  color: #666;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.lead-popup__form { display: flex; flex-direction: column; gap: 12px; }
+.lead-popup__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.lead-popup__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lead-popup__field label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: 0.02em;
+}
+.lead-popup__field input {
+  border: 1.5px solid #e2e2e8;
+  border-radius: 10px;
+  padding: 10px 13px;
+  font-size: 14px;
+  color: #111;
+  background: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+.lead-popup__field input:focus {
+  border-color: #7c5cfc;
+  box-shadow: 0 0 0 3px rgba(124,92,252,0.12);
+  background: #fff;
+}
+.lead-popup__submit {
+  margin-top: 4px;
+  padding: 13px 20px;
+  background: #7c5cfc;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: inherit;
+}
+.lead-popup__submit:hover { background: #6a47e8; transform: translateY(-1px); }
+.lead-popup__submit:active { transform: translateY(0); }
+@media (max-width: 480px) {
+  .lead-popup { padding: 28px 20px 24px; }
+  .lead-popup__row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -2099,13 +2221,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <li>Defining scope (Story Acceptance Criteria)</li>
             <li>Primary screen wireframes</li>
             <li>Launch screen</li>
-            <li>Features screen</li>
-            <li>Onboarding screen</li>
+            <li>Onboarding / app-features screen</li>
             <li>Login / Sign up</li>
             <li>Home</li>
             <li>Top 3 features (up to 20 screens each)</li>
             <li>Profile screens</li>
             <li>Settings screens</li>
+            <li>Notifications screen</li>
             <li>Logout</li>
             <li>Up to 5 illustrations</li>
           </ul>
@@ -2152,12 +2274,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="pcard__bd">
           <p class="pcard__pitch">For products with real users to keep. Deeper discovery, more screens, more illustrations, and a clickable prototype your team and investors can actually click through.</p>
-          <div class="pcard__plus">Everything in Foundation, plus:</div>
+          <div class="pcard__plus">Everything in Offer 1 and Offer 2, plus:</div>
           <ul class="pcard__feat">
             <li>Interviews with up to 5 stakeholders</li>
             <li>Competitive analysis for up to 4 competitors</li>
             <li>Up to 5 key features (20 screens each)</li>
             <li>Clickable prototype</li>
+            <li>Animated splash / onboarding sequences</li>
+            <li>App store assets (screenshots, preview layouts)</li>
+            <li>Marketing landing page design for the app</li>
             <li>Up to 25 illustrations</li>
           </ul>
           <a href="#cta" class="btn btn--primary" style="width:100%; justify-content:center;">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
@@ -2766,23 +2891,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="#work">Work</a>
         <a href="#process">Process</a>
         <a href="#pricing">Pricing</a>
-        <a href="mailto:hello@designasylum.in">Contact</a>
+        <a href="mailto:accounts@designasylum.in">Contact</a>
       </nav>
-      <div style="display:flex; flex-wrap: wrap; align-items: center; gap: 20px; font-size: 14px;">
-        <a href="#">Instagram</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Dribbble</a>
-        <a href="#">Behance</a>
+      <div style="display:flex; flex-wrap: wrap; align-items: center; gap: 20px; font-size: 14px; color: var(--fg-on-ink-2);">
+        <span>Dubai</span>
+        <span>New Jersey</span>
+        <span>Pune</span>
       </div>
     </div>
 
     <div class="footer__bottom">
-      <div>© 2026 Design Asylum Studio · GSTIN 27AASFD0733F1ZH</div>
-      <div>Bibvewadi, Pune, Maharashtra, India</div>
-      <div style="display:flex; gap: 20px;">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </div>
+      <div>© 2026 Design Asylum Studio</div>
+      <div><a href="mailto:accounts@designasylum.in" style="color:inherit;">accounts@designasylum.in</a></div>
     </div>
   </div>
 </footer>
@@ -3029,7 +3149,99 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
     });
   })();
+
+  // ---- Lead popup logic ----
+  (function() {
+    var overlay = document.getElementById('lead-popup-overlay');
+    var closeBtn = document.getElementById('lead-popup-close');
+    var titleEl = document.getElementById('popup-title');
+    var subEl = document.getElementById('popup-sub');
+
+    var TITLES = [
+      {
+        title: 'Three plans, one brain, zero decisions?<br>Let\'s fix that.',
+        sub: 'You\'ve been eyeing our plans. We\'ve been watching. Professionally. Drop your details and we\'ll tell you exactly which one you need — no spreadsheets required.'
+      },
+      {
+        title: '60 seconds in. We\'re basically best friends now.',
+        sub: 'Okay, you\'ve lingered. We respect the commitment. You\'re clearly serious, and so are we. Let\'s stop the window-shopping and actually get you started.'
+      }
+    ];
+
+    var appearance = 0;
+    var popupTimer = null;
+
+    function openPopup() {
+      var content = TITLES[Math.min(appearance, TITLES.length - 1)];
+      titleEl.innerHTML = content.title;
+      subEl.textContent = content.sub;
+      overlay.classList.add('is-open');
+      overlay.removeAttribute('aria-hidden');
+      closeBtn.focus();
+    }
+
+    function closePopup() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      appearance++;
+      if (appearance < 2) {
+        popupTimer = setTimeout(openPopup, 30000);
+      }
+    }
+
+    overlay.setAttribute('aria-hidden', 'true');
+    popupTimer = setTimeout(openPopup, 30000);
+
+    closeBtn.addEventListener('click', closePopup);
+
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closePopup();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closePopup();
+    });
+  })();
+
+  function handlePopupSubmit(e) {
+    e.preventDefault();
+    var overlay = document.getElementById('lead-popup-overlay');
+    var popup = overlay.querySelector('.lead-popup');
+    popup.innerHTML = '<div style="text-align:center;padding:32px 0;"><div style="font-size:40px;margin-bottom:16px;">🎉</div><h2 style="font-size:20px;font-weight:800;color:#111;margin-bottom:8px;">We\'ll be in touch!</h2><p style="color:#666;font-size:14px;line-height:1.6;">Decision incoming. Our team will reach out shortly and tell you exactly which plan fits you best.</p></div>';
+    setTimeout(function() { overlay.classList.remove('is-open'); }, 3000);
+  }
 </script>
+
+<!-- Lead popup -->
+<div class="lead-popup-overlay" id="lead-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="lead-popup">
+    <button class="lead-popup__close" id="lead-popup-close" aria-label="Close">✕</button>
+    <p class="lead-popup__eyebrow">Decision paralysis detected 🧠</p>
+    <h2 class="lead-popup__title" id="popup-title">Three plans, one brain, zero decisions?<br>Let's fix that.</h2>
+    <p class="lead-popup__sub" id="popup-sub">You've been eyeing our plans. We've been watching. Professionally. Drop your details and we'll tell you exactly which one you need — no spreadsheets required.</p>
+    <form class="lead-popup__form" id="lead-popup-form" onsubmit="handlePopupSubmit(event)">
+      <div class="lead-popup__row">
+        <div class="lead-popup__field">
+          <label for="popup-first-name">First Name</label>
+          <input type="text" id="popup-first-name" name="first_name" placeholder="Ravi" required autocomplete="given-name">
+        </div>
+        <div class="lead-popup__field">
+          <label for="popup-last-name">Full Name</label>
+          <input type="text" id="popup-last-name" name="last_name" placeholder="Sharma" required autocomplete="family-name">
+        </div>
+      </div>
+      <div class="lead-popup__field">
+        <label for="popup-email">Email</label>
+        <input type="email" id="popup-email" name="email" placeholder="ravi@company.com" required autocomplete="email">
+      </div>
+      <div class="lead-popup__field">
+        <label for="popup-phone">Phone Number</label>
+        <input type="tel" id="popup-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
+      </div>
+      <button type="submit" class="lead-popup__submit">Help me decide →</button>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>
