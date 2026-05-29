@@ -642,6 +642,80 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .gantt__bar.alt { background: var(--paper); color: var(--ink); border: 1px solid var(--ink); }
 .gantt__bar.lime { background: var(--accent-lime); color: var(--ink); }
 
+/* ---- Gantt — mobile redesign (≤640px) ---- */
+@media (max-width: 640px) {
+  /* Switch gantt from CSS grid to plain block */
+  .gantt {
+    display: block;
+    margin-top: 32px;
+    border-top: none;
+    border-bottom: none;
+  }
+
+  /* Week axis: flex row, hidden label, 6 equal columns */
+  .gantt__head {
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .gantt__head .lbl { display: none; }
+  .gantt__head .wk {
+    flex: 1;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--fg-4);
+    border: none;
+    padding: 0;
+    grid-column: unset;
+  }
+
+  /* Each phase row: label on top, full-width bar below */
+  .gantt__row {
+    display: block;
+    padding: 14px 0 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .gantt__row:last-of-type { border-bottom: none; }
+
+  .gantt__row .lbl {
+    grid-column: unset;
+    padding: 0 0 10px;
+    border-bottom: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* Track spans full width; bar percentages remain correct */
+  .gantt__row .track {
+    grid-column: unset;
+    width: 100%;
+    height: 40px;
+    position: relative;
+    border-bottom: none;
+    background:
+      repeating-linear-gradient(
+        to right,
+        transparent 0,
+        transparent calc((100% / 6) - 1px),
+        var(--hairline) calc((100% / 6) - 1px),
+        var(--hairline) calc(100% / 6)
+      );
+  }
+
+  .gantt__bar {
+    top: 8px;
+    bottom: 8px;
+    font-size: 11px;
+    padding: 0 10px;
+  }
+}
+
 /* ---- Pricing ---- */
 .pricing-v2 { position: relative; background: var(--paper); overflow: hidden; padding-block: 64px; }
 .pricing-v2::before {
