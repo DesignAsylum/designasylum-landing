@@ -1847,20 +1847,19 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   margin-bottom: 8px;
 }
 .lead-popup__title {
-  font-size: clamp(18px, 4vw, 22px);
+  font-size: clamp(27px, 5vw, 33px);
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.2;
   color: #111;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .lead-popup__sub {
-  font-size: 13.5px;
+  font-size: 20px;
   color: #666;
   margin-bottom: 24px;
   line-height: 1.5;
 }
 .lead-popup__form { display: flex; flex-direction: column; gap: 12px; }
-.lead-popup__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .lead-popup__field {
   display: flex;
   flex-direction: column;
@@ -1905,7 +1904,6 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .lead-popup__submit:active { transform: translateY(0); }
 @media (max-width: 480px) {
   .lead-popup { padding: 28px 20px 24px; }
-  .lead-popup__row { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -2965,18 +2963,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="lead-popup">
     <button class="lead-popup__close" id="lead-popup-close" aria-label="Close">✕</button>
     <p class="lead-popup__eyebrow">Decision paralysis detected 🧠</p>
-    <h2 class="lead-popup__title" id="popup-title">Three plans, one brain, zero decisions?<br>Let's fix that.</h2>
-    <p class="lead-popup__sub" id="popup-sub">You've been eyeing our plans. We've been watching. Professionally. Drop your details and we'll tell you exactly which one you need — no spreadsheets required.</p>
+    <h2 class="lead-popup__title" id="popup-title">Still deciding? We've done this 50+ times.</h2>
+    <p class="lead-popup__sub" id="popup-sub">You're probably wondering which offer is right for your app. That's exactly what we're here for — share your details and we'll tell you in one call.</p>
     <form class="lead-popup__form" id="lead-popup-form" onsubmit="handlePopupSubmit(event)">
-      <div class="lead-popup__row">
-        <div class="lead-popup__field">
-          <label for="popup-first-name">First Name</label>
-          <input type="text" id="popup-first-name" name="first_name" placeholder="Ravi" required autocomplete="given-name">
-        </div>
-        <div class="lead-popup__field">
-          <label for="popup-last-name">Full Name</label>
-          <input type="text" id="popup-last-name" name="last_name" placeholder="Sharma" required autocomplete="family-name">
-        </div>
+      <div class="lead-popup__field">
+        <label for="popup-full-name">Full Name</label>
+        <input type="text" id="popup-full-name" name="full_name" placeholder="Ravi Sharma" required autocomplete="name">
       </div>
       <div class="lead-popup__field">
         <label for="popup-email">Email</label>
@@ -3249,11 +3241,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     var TITLES = [
       {
-        title: 'Three plans, one brain, zero decisions?<br>Let\'s fix that.',
-        sub: 'You\'ve been eyeing our plans. We\'ve been watching. Professionally. Drop your details and we\'ll tell you exactly which one you need — no spreadsheets required.'
+        title: 'Still deciding? We\'ve done this 50+ times.',
+        sub: 'You\'re probably wondering which offer is right for your app. That\'s exactly what we\'re here for — share your details and we\'ll tell you in one call.'
       },
       {
-        title: '60 seconds in. We\'re basically best friends now.',
+        title: '60 seconds in. We like your commitment.',
         sub: 'Okay, you\'ve lingered. We respect the commitment. You\'re clearly serious, and so are we. Let\'s stop the window-shopping and actually get you started.'
       }
     ];
