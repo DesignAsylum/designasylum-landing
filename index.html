@@ -2017,7 +2017,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#" class="btn btn--on-ink" data-cta-popup>
+    <a href="#" class="btn btn--on-ink" data-cta-popup data-source="Nav — Build My App">
       Build My App
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
     </a>
@@ -2034,7 +2034,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <em>(Without the typical agency bloat or endless revisions.)</em>
         </h1>
         <div class="hero__ctas">
-          <a href="#" class="btn btn--on-ink" data-cta-popup>
+          <a href="#" class="btn btn--on-ink" data-cta-popup data-source="Hero — Build My App">
             Build My App
             <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
           </a>
@@ -2373,7 +2373,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <li>Logout</li>
             <li>Up to 5 illustrations</li>
           </ul>
-          <a href="#" class="btn btn--primary" style="width:100%; justify-content:center;" data-cta-popup data-offer="1">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
+          <a href="#" class="btn btn--primary" style="width:100%; justify-content:center;" data-cta-popup data-offer="1" data-source="Pricing — Offer 1 Start Now">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -2400,7 +2400,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <li>Search and filter modules</li>
             <li>Up to 10 illustrations</li>
           </ul>
-          <a href="#" class="btn btn--on-ink" style="width:100%; justify-content:center;" data-cta-popup data-offer="2">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
+          <a href="#" class="btn btn--on-ink" style="width:100%; justify-content:center;" data-cta-popup data-offer="2" data-source="Pricing — Offer 2 Start Now">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -2427,7 +2427,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <li>Marketing landing page design for the app</li>
             <li>Up to 25 illustrations</li>
           </ul>
-          <a href="#" class="btn btn--primary" style="width:100%; justify-content:center;" data-cta-popup data-offer="3">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
+          <a href="#" class="btn btn--primary" style="width:100%; justify-content:center;" data-cta-popup data-offer="3" data-source="Pricing — Offer 3 Start Now">Start Now <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg></a>
         </div>
       </div>
 
@@ -3012,7 +3012,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap" style="text-align: center;">
     <h2 class="cta__title" style="margin-inline: auto; max-width: 20ch;">Your App Deserves More Than a Template.</h2>
     <div class="cta__ctas" style="justify-content: center; flex-direction: column; align-items: center; gap: 16px;">
-      <a href="#" class="btn btn--on-ink" data-cta-popup>
+      <a href="#" class="btn btn--on-ink" data-cta-popup data-source="Final CTA — Build My App">
         Build My App
         <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
       </a>
@@ -3495,6 +3495,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.querySelectorAll('[data-cta-popup]').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
+        window._ctaSource = btn.dataset.source || 'Unknown button';
         openCta(btn.dataset.offer || null);
       });
     });
@@ -3526,7 +3527,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         email:     document.getElementById('cta-email').value,
         phone:     document.getElementById('cta-phone').value,
         offer:     offerLabels[offerNum] || ('Offer ' + offerNum),
-        source:    'Build My App button',
+        source:    window._ctaSource || 'Unknown button',
         _h:        document.getElementById('cta-honeypot').value
       };
       var btn = ctaForm.querySelector('button[type=submit]');
