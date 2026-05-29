@@ -1235,6 +1235,84 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   line-height: 1.2;
 }
 
+/* ---- Store-style review cards (App Store / Google Play) ---- */
+.store-card { text-align: left; }
+.store-card__person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.store-card__avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--hairline);
+}
+.store-card__person-meta { flex: 1; min-width: 0; }
+.store-card__name {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.store-card__menu {
+  color: var(--fg-3);
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+.store-card__rowmeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.store-card__stars { font-size: 13px; letter-spacing: 1.5px; line-height: 1; }
+.store-card__stars--apple { color: #FF9500; }
+.store-card__stars--play  { color: #01875F; }
+.store-card__meta {
+  font-size: 12px;
+  color: var(--fg-3);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+.store-card__title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+.store-card__text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--fg-2);
+  margin: 0 0 14px;
+}
+.store-card__helpful {
+  font-size: 12px;
+  color: var(--fg-3);
+  margin: 0 0 14px;
+}
+.store-card__foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--hairline);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--fg-2);
+  letter-spacing: -0.01em;
+}
+.store-card__foot svg { flex-shrink: 0; }
+
 /* ---- Featured video ---- */
 .video-feature {
   padding-block: 80px;
@@ -1283,7 +1361,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .faq-trigger__title {
   flex: 1;
   font-family: var(--font-display);
-  font-size: clamp(18px, 2.8vw, 34px);
+  font-size: clamp(13px, 1.96vw, 24px);
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.1;
@@ -2220,213 +2298,291 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Testimonials columns -->
     <div class="testimonials">
       <div class="testimonials__header">
-        <span class="testimonials__badge">Client Testimonials</span>
+        <span class="testimonials__badge">App Store &amp; Google Play</span>
         <h2 class="testimonials__title">What Clients Say</h2>
-        <p class="testimonials__sub">Hear from the product teams and founders behind the apps we've shipped.</p>
+        <p class="testimonials__sub">Real reviews from the people using the apps we've shipped.</p>
       </div>
 
       <div class="testimonials__stage">
 
-        <!-- Column 1 (15s) -->
+        <!-- Column 1 -->
         <div class="testimonials__col testimonials__col--1">
           <div class="testimonials__track">
             <!-- set 1 -->
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Design Asylum delivered a polished, launch-ready app in exactly 6 weeks. The UX clarity they brought to our onboarding flow drove a 40% better activation rate on day one."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Arjun Mehra" />
-                <div>
-                  <div class="testimonials__card-name">Arjun Mehra</div>
-                  <div class="testimonials__card-role">Co-founder, Sunroof</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces" alt="Aarav Sharma" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Aarav Sharma</div>
+                  <div class="store-card__meta">18 Feb 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">Cracked Prelims on my first attempt</p>
+              <p class="store-card__text">The PYQ practice mode and spaced-revision flashcards are unreal. I went from random studying to a proper daily streak — 37 days and counting. Honestly the reason I cleared Prelims.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · PrepMonkey</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Every screen felt intentional. They pushed back on our scope in the best way — kept us focused on the core user journey and shipped something tight."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Nair" />
-                <div>
-                  <div class="testimonials__card-name">Priya Nair</div>
-                  <div class="testimonials__card-role">Product Lead, KIA India</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces" alt="Sneha Patel" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Sneha Patel</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">12/03/2025</span>
+              </div>
+              <p class="store-card__text">Been using Cosmx every morning for my daily reading and the accuracy is genuinely spooky. The tarot and numerology sections feel personal, not generic. Beautiful interface too.</p>
+              <div class="store-card__helpful">428 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · Cosmx</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"We'd been through two agencies that couldn't crack mobile. Design Asylum cracked it in week two. The design system they built scales with us."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/11.jpg" alt="Rahul Sharma" />
-                <div>
-                  <div class="testimonials__card-name">Rahul Sharma</div>
-                  <div class="testimonials__card-role">CTO, NPS Trust</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=faces" alt="Rajesh Iyer" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Rajesh Iyer</div>
+                  <div class="store-card__meta">04 Jan 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">Managing my pension is finally simple</p>
+              <p class="store-card__text">Contributions, tier switching and statements all in one place. The National Pension System app used to be painful — this redesign makes it effortless. The tax statement download alone saved me an afternoon.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · National Pension System</span></div>
             </div>
             <!-- set 2 (duplicate for infinite loop) -->
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Design Asylum delivered a polished, launch-ready app in exactly 6 weeks. The UX clarity they brought to our onboarding flow drove a 40% better activation rate on day one."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Arjun Mehra" />
-                <div>
-                  <div class="testimonials__card-name">Arjun Mehra</div>
-                  <div class="testimonials__card-role">Co-founder, Sunroof</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces" alt="Aarav Sharma" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Aarav Sharma</div>
+                  <div class="store-card__meta">18 Feb 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">Cracked Prelims on my first attempt</p>
+              <p class="store-card__text">The PYQ practice mode and spaced-revision flashcards are unreal. I went from random studying to a proper daily streak — 37 days and counting. Honestly the reason I cleared Prelims.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · PrepMonkey</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Every screen felt intentional. They pushed back on our scope in the best way — kept us focused on the core user journey and shipped something tight."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Nair" />
-                <div>
-                  <div class="testimonials__card-name">Priya Nair</div>
-                  <div class="testimonials__card-role">Product Lead, KIA India</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces" alt="Sneha Patel" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Sneha Patel</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">12/03/2025</span>
+              </div>
+              <p class="store-card__text">Been using Cosmx every morning for my daily reading and the accuracy is genuinely spooky. The tarot and numerology sections feel personal, not generic. Beautiful interface too.</p>
+              <div class="store-card__helpful">428 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · Cosmx</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"We'd been through two agencies that couldn't crack mobile. Design Asylum cracked it in week two. The design system they built scales with us."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/11.jpg" alt="Rahul Sharma" />
-                <div>
-                  <div class="testimonials__card-name">Rahul Sharma</div>
-                  <div class="testimonials__card-role">CTO, NPS Trust</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=faces" alt="Rajesh Iyer" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Rajesh Iyer</div>
+                  <div class="store-card__meta">04 Jan 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">Managing my pension is finally simple</p>
+              <p class="store-card__text">Contributions, tier switching and statements all in one place. The National Pension System app used to be painful — this redesign makes it effortless. The tax statement download alone saved me an afternoon.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · National Pension System</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Column 2 (19s, tablet+) -->
+        <!-- Column 2 (tablet+) -->
         <div class="testimonials__col testimonials__col--2">
           <div class="testimonials__track">
             <!-- set 1 -->
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Their sprint structure meant we had working prototypes by day 5. No fluff, no status theatre — just design decisions made fast and made right."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Deepika Rao" />
-                <div>
-                  <div class="testimonials__card-name">Deepika Rao</div>
-                  <div class="testimonials__card-role">VP Product, Godrej Capital</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&crop=faces" alt="Michael Reed" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Michael Reed</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">28/11/2024</span>
+              </div>
+              <p class="store-card__text">Remote start and cabin pre-cooling work flawlessly even from across town. I can check fuel, lock status and find my Kia in a crowded lot. Easily the best connected-car app I've used.</p>
+              <div class="store-card__helpful">1,204 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · Kia Connect</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"The attention to micro-interactions set our app apart in the Play Store. Users notice the polish — it's reflected in our store ratings."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Karan Bhatia" />
-                <div>
-                  <div class="testimonials__card-name">Karan Bhatia</div>
-                  <div class="testimonials__card-role">Head of Digital, Abbott India</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=faces" alt="Lakshmi Menon" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Lakshmi Menon</div>
+                  <div class="store-card__meta">22 Mar 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">A blessing for our whole family</p>
+              <p class="store-card__text">The Sri Family Guide Program app keeps our routines, learnings and milestones beautifully organised. The gentle daily nudges have genuinely brought us closer together. Five stars.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · Sri Family Guide Program</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"We came in with rough wireframes and left with a production-grade design system. The handoff to engineering was seamless — zero back-and-forth."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/29.jpg" alt="Ananya Krishnan" />
-                <div>
-                  <div class="testimonials__card-name">Ananya Krishnan</div>
-                  <div class="testimonials__card-role">Engineering Lead, Saama Tech</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=faces" alt="Emily Carter" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Emily Carter</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">09/02/2025</span>
+              </div>
+              <p class="store-card__text">I've sold more original pieces in two months on Art Marketplace than in a year elsewhere. Listing is quick, payouts are on time, and the discovery feed actually puts my work in front of real buyers.</p>
+              <div class="store-card__helpful">312 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · Art Marketplace</span></div>
             </div>
             <!-- set 2 (duplicate for infinite loop) -->
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Their sprint structure meant we had working prototypes by day 5. No fluff, no status theatre — just design decisions made fast and made right."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Deepika Rao" />
-                <div>
-                  <div class="testimonials__card-name">Deepika Rao</div>
-                  <div class="testimonials__card-role">VP Product, Godrej Capital</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&crop=faces" alt="Michael Reed" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Michael Reed</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">28/11/2024</span>
+              </div>
+              <p class="store-card__text">Remote start and cabin pre-cooling work flawlessly even from across town. I can check fuel, lock status and find my Kia in a crowded lot. Easily the best connected-car app I've used.</p>
+              <div class="store-card__helpful">1,204 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · Kia Connect</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"The attention to micro-interactions set our app apart in the Play Store. Users notice the polish — it's reflected in our store ratings."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/54.jpg" alt="Karan Bhatia" />
-                <div>
-                  <div class="testimonials__card-name">Karan Bhatia</div>
-                  <div class="testimonials__card-role">Head of Digital, Abbott India</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=faces" alt="Lakshmi Menon" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Lakshmi Menon</div>
+                  <div class="store-card__meta">22 Mar 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">A blessing for our whole family</p>
+              <p class="store-card__text">The Sri Family Guide Program app keeps our routines, learnings and milestones beautifully organised. The gentle daily nudges have genuinely brought us closer together. Five stars.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · Sri Family Guide Program</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"We came in with rough wireframes and left with a production-grade design system. The handoff to engineering was seamless — zero back-and-forth."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/29.jpg" alt="Ananya Krishnan" />
-                <div>
-                  <div class="testimonials__card-name">Ananya Krishnan</div>
-                  <div class="testimonials__card-role">Engineering Lead, Saama Tech</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=faces" alt="Emily Carter" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Emily Carter</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">09/02/2025</span>
+              </div>
+              <p class="store-card__text">I've sold more original pieces in two months on Art Marketplace than in a year elsewhere. Listing is quick, payouts are on time, and the discovery feed actually puts my work in front of real buyers.</p>
+              <div class="store-card__helpful">312 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · Art Marketplace</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Column 3 (17s, desktop only) -->
+        <!-- Column 3 (desktop only) -->
         <div class="testimonials__col testimonials__col--3">
           <div class="testimonials__track">
             <!-- set 1 -->
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Six weeks sounded impossible. We shipped on day 42. The fixed-scope model forced clarity we didn't know we were missing — best product decision we made."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/77.jpg" alt="Vivek Subramaniam" />
-                <div>
-                  <div class="testimonials__card-name">Vivek Subramaniam</div>
-                  <div class="testimonials__card-role">Founder & CEO, HealthStack</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=faces" alt="Daniel Brooks" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Daniel Brooks</div>
+                  <div class="store-card__meta">15 May 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">Feedback that actually gets heard</p>
+              <p class="store-card__text">Voice of SAP makes surveys and pulse checks effortless, and leadership actually acts on the results. Clean dashboards, quick submissions, zero friction. A model for internal tools.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · Voice of SAP</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"The Michelin brand standards are strict. Design Asylum navigated them without friction and still delivered something that felt fresh and native."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/15.jpg" alt="Sophie Laurent" />
-                <div>
-                  <div class="testimonials__card-name">Sophie Laurent</div>
-                  <div class="testimonials__card-role">Digital Director, Michelin APAC</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=faces" alt="Priya Nair" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Priya Nair</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">17/01/2025</span>
+              </div>
+              <p class="store-card__text">The mnemonics and revision streaks keep me coming back daily. My mock-test scores jumped 40% in a month. PrepMonkey turned a boring grind into something I actually look forward to.</p>
+              <div class="store-card__helpful">876 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · PrepMonkey</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"I've worked with studios in London and SF. Design Asylum matches that calibre — and moves twice as fast. The async workflow is surprisingly tight."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/62.jpg" alt="James Osei" />
-                <div>
-                  <div class="testimonials__card-name">James Osei</div>
-                  <div class="testimonials__card-role">CPO, Access Bank Digital</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=80&h=80&fit=crop&crop=faces" alt="Arjun Reddy" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Arjun Reddy</div>
+                  <div class="store-card__meta">30 Apr 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">My car in my pocket</p>
+              <p class="store-card__text">From climate control to trip stats and service reminders, Kia Connect does it all. The home-screen widget shows range and lock status at a glance. Polished, fast and reliable.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · Kia Connect</span></div>
             </div>
             <!-- set 2 (duplicate for infinite loop) -->
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"Six weeks sounded impossible. We shipped on day 42. The fixed-scope model forced clarity we didn't know we were missing — best product decision we made."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/77.jpg" alt="Vivek Subramaniam" />
-                <div>
-                  <div class="testimonials__card-name">Vivek Subramaniam</div>
-                  <div class="testimonials__card-role">Founder & CEO, HealthStack</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=faces" alt="Daniel Brooks" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Daniel Brooks</div>
+                  <div class="store-card__meta">15 May 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">Feedback that actually gets heard</p>
+              <p class="store-card__text">Voice of SAP makes surveys and pulse checks effortless, and leadership actually acts on the results. Clean dashboards, quick submissions, zero friction. A model for internal tools.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · Voice of SAP</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"The Michelin brand standards are strict. Design Asylum navigated them without friction and still delivered something that felt fresh and native."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/women/15.jpg" alt="Sophie Laurent" />
-                <div>
-                  <div class="testimonials__card-name">Sophie Laurent</div>
-                  <div class="testimonials__card-role">Digital Director, Michelin APAC</div>
+            <div class="testimonials__card store-card store-card--play">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=faces" alt="Priya Nair" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Priya Nair</div>
                 </div>
+                <span class="store-card__menu">⋮</span>
               </div>
+              <div class="store-card__rowmeta">
+                <span class="store-card__stars store-card__stars--play">★★★★★</span>
+                <span class="store-card__meta">17/01/2025</span>
+              </div>
+              <p class="store-card__text">The mnemonics and revision streaks keep me coming back daily. My mock-test scores jumped 40% in a month. PrepMonkey turned a boring grind into something I actually look forward to.</p>
+              <div class="store-card__helpful">876 people found this helpful</div>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="#00D3FF" d="M3.6 2.3 13 11.7l-9.4 9.4c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00F076" d="M3.6 2.3c.2-.1.5-.1.8 0L16 8.7l-3 3z"/><path fill="#FF3D44" d="M13 11.7 16 14.7 4.4 21.1c-.3.1-.6.1-.8 0z"/><path fill="#FFCE00" d="M16 8.7l4.4 2.4c.7.4.7 1.4 0 1.8L16 14.7l-3-3z"/></svg><span>Google Play · PrepMonkey</span></div>
             </div>
-            <div class="testimonials__card">
-              <p class="testimonials__card-text">"I've worked with studios in London and SF. Design Asylum matches that calibre — and moves twice as fast. The async workflow is surprisingly tight."</p>
-              <div class="testimonials__card-person">
-                <img class="testimonials__card-avatar" src="https://randomuser.me/api/portraits/men/62.jpg" alt="James Osei" />
-                <div>
-                  <div class="testimonials__card-name">James Osei</div>
-                  <div class="testimonials__card-role">CPO, Access Bank Digital</div>
+            <div class="testimonials__card store-card store-card--apple">
+              <div class="store-card__person">
+                <img class="store-card__avatar" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=80&h=80&fit=crop&crop=faces" alt="Arjun Reddy" />
+                <div class="store-card__person-meta">
+                  <div class="store-card__name">Arjun Reddy</div>
+                  <div class="store-card__meta">30 Apr 2025</div>
                 </div>
+                <span class="store-card__stars store-card__stars--apple">★★★★★</span>
               </div>
+              <p class="store-card__title">My car in my pocket</p>
+              <p class="store-card__text">From climate control to trip stats and service reminders, Kia Connect does it all. The home-screen widget shows range and lock status at a glance. Polished, fast and reliable.</p>
+              <div class="store-card__foot"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.13 3-.78.88-2.05 1.56-3.1 1.48-.13-1.1.42-2.27 1.1-3.02.77-.86 2.13-1.5 3.13-1.46zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.52-4.12 3.53-1.54.02-1.93-1-4.02-.99-2.09.01-2.52 1.01-4.06.99-1.73-.02-3.05-1.78-4.04-3.35C-.07 18.6-.32 14.06 1.13 11.6c1.04-1.78 2.68-2.82 4.22-2.82 1.57 0 2.56 1.04 3.86 1.04 1.26 0 2.03-1.04 3.85-1.04 1.36 0 2.8.74 3.83 2.02-3.36 1.84-2.82 6.63.6 7.93z"/></svg><span>App Store · Kia Connect</span></div>
             </div>
           </div>
         </div>
