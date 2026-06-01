@@ -1278,14 +1278,21 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .vid-modal__inner {
   position: relative;
   z-index: 1;
-  width: min(92vw, 960px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 90vh;
+  max-width: 92vw;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 32px 80px rgba(0,0,0,0.7);
 }
 .vid-modal__video {
-  width: 100%;
   display: block;
+  max-height: 90vh;
+  max-width: 92vw;
+  width: auto;
+  height: auto;
 }
 .vid-modal__close {
   position: absolute;
