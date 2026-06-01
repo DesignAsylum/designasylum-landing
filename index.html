@@ -1038,7 +1038,8 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   overflow: hidden;
   min-height: 300px;
 }
-.tbcard-video__thumb img {
+.tbcard-video__thumb img,
+.tbcard-video__thumb video {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
@@ -1058,7 +1059,12 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   background: rgba(255,255,255,0.92);
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 24px rgba(0,0,0,0.28);
+  pointer-events: auto;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
+.tbcard-video__play-btn:hover { transform: scale(1.08); background: #fff; }
 .tbcard-video__play-btn svg {
   width: 22px; height: 22px;
   fill: #111111;
@@ -1247,6 +1253,53 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   .video-feature__inner   { padding-inline: 16px; }
   .video-feature__video   { width: 86%; border-radius: 12px; }
 }
+
+/* ---- Testimonial video modal ---- */
+.vid-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.vid-modal--open { display: flex; }
+.vid-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.vid-modal__inner {
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 960px);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+}
+.vid-modal__video {
+  width: 100%;
+  display: block;
+}
+.vid-modal__close {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+  transition: background 0.2s;
+}
+.vid-modal__close:hover { background: rgba(0,0,0,0.8); }
 
 /* ---- FAQ Accordion ---- */
 .faq-accordion { width: 100%; max-width: 760px; margin: 0 auto; }
@@ -1819,11 +1872,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="tbento__col">
         <div class="tbcard-video" data-tbcard>
           <div class="tbcard-video__thumb">
-            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=600&auto=format&fit=crop" alt="Client testimonial video" />
+            <video autoplay muted loop playsinline>
+              <source src="assets/videos/OwlMinds-preview-video.webm" type="video/webm" />
+            </video>
             <div class="tbcard-video__play">
-              <div class="tbcard-video__play-btn">
+              <button class="tbcard-video__play-btn" data-video-src="assets/videos/OwlMinds-preview-video-testimonial.mp4" aria-label="Play testimonial">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
-              </div>
+              </button>
             </div>
           </div>
           <div class="tbcard-video__caption">
@@ -1875,11 +1930,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="tbento__col">
         <div class="tbcard-video" data-tbcard>
           <div class="tbcard-video__thumb">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" alt="Client testimonial video" />
+            <video autoplay muted loop playsinline>
+              <source src="assets/videos/OwlMinds-preview-video.webm" type="video/webm" />
+            </video>
             <div class="tbcard-video__play">
-              <div class="tbcard-video__play-btn">
+              <button class="tbcard-video__play-btn" data-video-src="assets/videos/OwlMinds-preview-video-testimonial.mp4" aria-label="Play testimonial">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
-              </div>
+              </button>
             </div>
           </div>
           <div class="tbcard-video__caption">
@@ -2693,6 +2750,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           content.style.maxHeight = content.scrollHeight + 'px';
         }
       });
+    });
+  })();
+
+  /* Testimonial video modal */
+  (function () {
+    var modal = document.createElement('div');
+    modal.className = 'vid-modal';
+    modal.innerHTML =
+      '<div class="vid-modal__backdrop"></div>' +
+      '<div class="vid-modal__inner">' +
+        '<button class="vid-modal__close" aria-label="Close">&#x2715;</button>' +
+        '<video class="vid-modal__video" controls preload="none"></video>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    var modalVideo = modal.querySelector('.vid-modal__video');
+
+    function openModal(src) {
+      modalVideo.src = src;
+      modal.classList.add('vid-modal--open');
+      document.body.style.overflow = 'hidden';
+      modalVideo.play();
+    }
+
+    function closeModal() {
+      modal.classList.remove('vid-modal--open');
+      document.body.style.overflow = '';
+      modalVideo.pause();
+      modalVideo.src = '';
+    }
+
+    document.querySelectorAll('.tbcard-video__play-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        openModal(btn.dataset.videoSrc);
+      });
+    });
+
+    modal.querySelector('.vid-modal__backdrop').addEventListener('click', closeModal);
+    modal.querySelector('.vid-modal__close').addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
     });
   })();
 
