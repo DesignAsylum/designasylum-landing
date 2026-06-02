@@ -1418,6 +1418,135 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   .video-feature__video   { width: 86%; border-radius: 12px; }
 }
 
+/* ---- WhatsApp floating button + popup ---- */
+.wa-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 8000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(37, 211, 102, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+.wa-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.55);
+}
+.wa-btn svg { flex-shrink: 0; }
+
+.wa-popup {
+  position: fixed;
+  bottom: 88px;
+  right: 24px;
+  z-index: 8001;
+  width: 340px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
+}
+.wa-popup--open {
+  display: flex;
+  transform: translateY(0);
+  opacity: 1;
+}
+.wa-popup__head {
+  background: #25D366;
+  padding: 20px 20px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.wa-popup__head-icon {
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wa-popup__head-text { flex: 1; }
+.wa-popup__head-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+.wa-popup__head-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+.wa-popup__close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+.wa-popup__close:hover { color: #fff; }
+.wa-popup__body { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.wa-popup__field {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--paper-mute, #f5f5f5);
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.wa-popup__field::placeholder { color: var(--fg-4, #aaa); }
+.wa-popup__field:focus { border-color: #25D366; background: #fff; }
+.wa-popup__submit {
+  width: 100%;
+  background: #25D366;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.15s;
+}
+.wa-popup__submit:hover { background: #1ebe5d; transform: translateY(-1px); }
+.wa-popup__submit:disabled { opacity: 0.5; cursor: default; transform: none; }
+@media (max-width: 420px) {
+  .wa-btn { bottom: 16px; right: 16px; padding: 12px 16px; font-size: 14px; }
+  .wa-popup { right: 16px; left: 16px; width: auto; bottom: 80px; }
+}
+
 /* ---- Testimonial video modal ---- */
 .vid-modal {
   display: none;
@@ -3324,6 +3453,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   })();
 
+  /* ---- WhatsApp floating button ---- */
+  (function () {
+    /* ▼▼▼ Replace with your WhatsApp number (country code + number, no +, no spaces) ▼▼▼ */
+    var WA_NUMBER = '918956879792';
+    /* ▲▲▲ ------------------------------------------------------------------ ▲▲▲ */
+
+    var btn     = document.getElementById('waBtn');
+    var popup   = document.getElementById('waPopup');
+    var closeBtn= document.getElementById('waClose');
+    var submit  = document.getElementById('waSubmit');
+    var nameEl  = document.getElementById('waName');
+    var emailEl = document.getElementById('waEmail');
+    var phoneEl = document.getElementById('waPhone');
+
+    function openPopup()  { popup.classList.add('wa-popup--open'); nameEl.focus(); }
+    function closePopup() { popup.classList.remove('wa-popup--open'); }
+
+    btn.addEventListener('click', function () {
+      popup.classList.contains('wa-popup--open') ? closePopup() : openPopup();
+    });
+    closeBtn.addEventListener('click', closePopup);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
+
+    /* Enable submit only when all three fields have content */
+    function checkFields() {
+      submit.disabled = !(nameEl.value.trim() && emailEl.value.trim() && phoneEl.value.trim());
+    }
+    [nameEl, emailEl, phoneEl].forEach(function (f) { f.addEventListener('input', checkFields); });
+
+    submit.addEventListener('click', function () {
+      var name  = nameEl.value.trim();
+      var email = emailEl.value.trim();
+      var phone = phoneEl.value.trim();
+      var msg   = ‘Hi! I\’m ‘ + name + ‘.\nEmail: ‘ + email + ‘\nPhone: ‘ + phone + ‘\nHi, I would like to build a mobile app for my business.’;
+      var url   = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+      window.open(url, '_blank', 'noopener');
+      closePopup();
+    });
+  })();
+
   /* Gallery — mobile auto-advance carousel (desktop scroll unchanged) */
   (function () {
     if (!window.matchMedia('(max-width: 720px)').matches) return;
@@ -3683,6 +3852,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 </script>
 
+<!-- WHATSAPP FLOATING BUTTON -->
+<button class="wa-btn" id="waBtn" aria-label="Chat on WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.428a.5.5 0 00.609.61l5.48-1.435A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.073-1.387l-.363-.214-3.754.983.999-3.645-.236-.374A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+  </svg>
+  Chat on WhatsApp
+</button>
+
+<!-- WHATSAPP POPUP FORM -->
+<div class="wa-popup" id="waPopup" role="dialog" aria-modal="true" aria-label="Chat with us on WhatsApp">
+  <div class="wa-popup__head">
+    <div class="wa-popup__head-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.428a.5.5 0 00.609.61l5.48-1.435A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.073-1.387l-.363-.214-3.754.983.999-3.645-.236-.374A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+    </div>
+    <div class="wa-popup__head-text">
+      <p class="wa-popup__head-title">Chat with Design Asylum</p>
+      <p class="wa-popup__head-sub">Typically replies within minutes</p>
+    </div>
+    <button class="wa-popup__close" id="waClose" aria-label="Close">&#x2715;</button>
+  </div>
+  <div class="wa-popup__body">
+    <input class="wa-popup__field" id="waName"  type="text"  placeholder="Full Name"     autocomplete="name" />
+    <input class="wa-popup__field" id="waEmail" type="email" placeholder="Email Address" autocomplete="email" />
+    <input class="wa-popup__field" id="waPhone" type="tel"   placeholder="Phone Number"  autocomplete="tel" />
+    <button class="wa-popup__submit" id="waSubmit" disabled>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.428a.5.5 0 00.609.61l5.48-1.435A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.94 9.94 0 01-5.073-1.387l-.363-.214-3.754.983.999-3.645-.236-.374A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      Start Chat
+    </button>
+  </div>
+</div>
 
 </body>
 </html>
