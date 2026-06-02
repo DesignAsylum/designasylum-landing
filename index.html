@@ -1631,10 +1631,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 /* ---- FAQ Category Tabs ---- */
 .faq-tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
-  max-width: 760px;
-  margin: 0 auto 48px;
+  margin: 0 0 48px;
 }
 .faq-tab {
   padding: 10px 20px;
@@ -1649,10 +1648,14 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   transition: background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
   white-space: nowrap;
 }
-.faq-tab:hover { border-color: var(--ink-soft); color: var(--ink); }
+.faq-tab:hover:not(.faq-tab--active) { background: rgba(10,10,10,0.06); border-color: var(--ink-soft); color: var(--ink); }
 .faq-tab--active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .faq-panel { display: none; }
 .faq-panel--active { display: block; }
+@media (max-width: 720px) {
+  .faq-tabs { flex-wrap: wrap; }
+  .faq-tab { flex: 0 0 calc(50% - 4px); text-align: center; }
+}
 .faq-trigger__title {
   flex: 1;
   font-family: var(--font-display);
