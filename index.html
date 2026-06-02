@@ -14,6 +14,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="description" content="Venture-grade B2C mobile app design delivered in 6 weeks. Fixed scope, fixed fee, guaranteed on time. Pune-based, shipping since 2014." />
 <link rel="icon" href="assets/images/logo-da-mark-black.png" />
 <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link rel="preload" as="font" href="project/ds/fonts/GoogleSansFlex-Variable.ttf" type="font/ttf" crossorigin />
+<link rel="preload" as="image" href="assets/images/cosmx-banner.png" />
 
 <style>
 /* =========================================================================
@@ -2249,10 +2252,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="stage__cards">
           <!-- Banner carousel (replaces phone mockup) -->
           <div class="banner-carousel" id="banner-carousel">
-            <img class="banner-img" id="banner-0" src="assets/images/cosmx-banner.png" alt="cosmx app">
-            <img class="banner-img" id="banner-1" src="assets/images/kia-banner.png" alt="KIA app">
-            <img class="banner-img" id="banner-2" src="assets/images/prepmonkey-banner.png" alt="PrepMonkey app">
-            <img class="banner-img" id="banner-3" src="assets/images/sunrooof-banner.png" alt="Sunrooof app">
+            <img class="banner-img" id="banner-0" src="assets/images/cosmx-banner.png" alt="cosmx app" width="315" height="664" loading="eager" fetchpriority="high">
+            <img class="banner-img" id="banner-1" src="assets/images/kia-banner.png" alt="KIA app" width="315" height="664" loading="lazy">
+            <img class="banner-img" id="banner-2" src="assets/images/prepmonkey-banner.png" alt="PrepMonkey app" width="315" height="664" loading="lazy">
+            <img class="banner-img" id="banner-3" src="assets/images/sunrooof-banner.png" alt="Sunrooof app" width="315" height="664" loading="lazy">
           </div>
           <div class="carousel-dots" id="carousel-dots">
             <span class="dot active" data-idx="0"></span>
@@ -2264,7 +2267,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <!-- Floating review cards — content updated per slide by JS -->
           <div class="glass-card c1">
             <div class="comment__head">
-              <img class="comment__avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=56&h=56&fit=crop&crop=faces" alt="Priya Sharma">
+              <img class="comment__avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=56&h=56&fit=crop&crop=faces" alt="Priya Sharma" width="56" height="56">
               <div class="comment__name">Priya Sharma</div>
             </div>
             <div class="comment__body">This app genuinely reads your energy. The cosmic readings are scarily accurate.</div>
@@ -2276,7 +2279,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="glass-card c2">
             <div class="comment__head">
-              <img class="comment__avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=56&h=56&fit=crop&crop=faces" alt="James Whitfield">
+              <img class="comment__avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=56&h=56&fit=crop&crop=faces" alt="James Whitfield" width="56" height="56">
               <div class="comment__name">James Whitfield</div>
             </div>
             <div class="comment__body">Mind-blowing. The tarot AI connected with me on a deeper level than I expected.</div>
@@ -2288,7 +2291,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="glass-card c3">
             <div class="comment__head">
-              <img class="comment__avatar" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=56&h=56&fit=crop&crop=faces" alt="Ananya Krishnan">
+              <img class="comment__avatar" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=56&h=56&fit=crop&crop=faces" alt="Ananya Krishnan" width="56" height="56">
               <div class="comment__name">Ananya Krishnan</div>
             </div>
             <div class="comment__body">Never felt so in sync with the universe. The daily briefings are pure gold.</div>
@@ -2307,13 +2310,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="trust-fold">
   <div class="wrap">
     <div class="trust">
-      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-abbott.svg" alt="Abbott" /></div>
-      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-axisbank.svg" alt="Axis Bank" /></div>
-      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-godrej.svg" alt="Godrej" /></div>
-      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-goi.svg" alt="Government of India" /></div>
-      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-kia.svg" alt="KIA" /></div>
-      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-michelin.svg" alt="Michelin" /></div>
-      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-saama.svg" alt="Saama" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-abbott.svg" alt="Abbott" loading="lazy" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-axisbank.svg" alt="Axis Bank" loading="lazy" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-godrej.svg" alt="Godrej" loading="lazy" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-goi.svg" alt="Government of India" loading="lazy" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-kia.svg" alt="KIA" loading="lazy" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-michelin.svg" alt="Michelin" loading="lazy" /></div>
+      <div class="trust__cell"><img class="trust__logo" src="assets/images/logo-saama.svg" alt="Saama" loading="lazy" /></div>
     </div>
   </div>
 </section>
@@ -2395,7 +2398,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="tbcard-video__caption-name">Arjun Mehra</div>
               <div class="tbcard-video__caption-role">Co-founder, Sunroof</div>
             </div>
-            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop" alt="Arjun Mehra" />
+            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop" alt="Arjun Mehra" loading="lazy" width="56" height="56" />
           </div>
         </div>
       </div>
@@ -2409,7 +2412,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="tbcard__name">Rahul Sharma</div>
               <div class="tbcard__role">CTO, NPS Trust</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?q=80&w=200&auto=format&fit=crop" alt="Rahul Sharma" />
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?q=80&w=200&auto=format&fit=crop" alt="Rahul Sharma" loading="lazy" width="56" height="56" />
           </div>
         </div>
         <div class="tbcard tbcard--dark" style="flex:1;" data-tbcard>
@@ -2419,7 +2422,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="tbcard__name">Vikram Kapoor</div>
               <div class="tbcard__role">Founder, Abbott Health India</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1615109398623-88346a601842?q=80&w=200&auto=format&fit=crop" alt="Vikram Kapoor" />
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1615109398623-88346a601842?q=80&w=200&auto=format&fit=crop" alt="Vikram Kapoor" loading="lazy" width="56" height="56" />
           </div>
         </div>
         <div class="tbcard tbcard--light" style="flex:1;" data-tbcard>
@@ -2429,7 +2432,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="tbcard__name">Meera Joshi</div>
               <div class="tbcard__role">VP Product, Axis Bank</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1740102074295-c13fae3e4f8a?q=80&w=200&auto=format&fit=crop" alt="Meera Joshi" />
+            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1740102074295-c13fae3e4f8a?q=80&w=200&auto=format&fit=crop" alt="Meera Joshi" loading="lazy" width="56" height="56" />
           </div>
         </div>
       </div>
@@ -2453,7 +2456,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="tbcard-video__caption-name">Ananya Roy</div>
               <div class="tbcard-video__caption-role">Director of Product, Michelin India</div>
             </div>
-            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=200&auto=format&fit=crop" alt="Ananya Roy" />
+            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=200&auto=format&fit=crop" alt="Ananya Roy" loading="lazy" width="56" height="56" />
           </div>
         </div>
       </div>
@@ -2682,23 +2685,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="img-scroll-section">
   <div class="img-scroll-container">
     <div class="img-scroll-track">
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-01.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-02.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-03.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-04.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-05.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-06.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-07.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-08.jpg" alt="" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-01.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-02.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-03.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-04.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-05.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-06.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-07.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-08.jpg" alt="" loading="lazy" /></div>
       <!-- duplicate set for seamless loop -->
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-01.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-02.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-03.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-04.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-05.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-06.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-07.jpg" alt="" /></div>
-      <div class="img-scroll-item"><img src="assets/images/gallery-work-08.jpg" alt="" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-01.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-02.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-03.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-04.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-05.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-06.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-07.jpg" alt="" loading="lazy" /></div>
+      <div class="img-scroll-item"><img src="assets/images/gallery-work-08.jpg" alt="" loading="lazy" /></div>
     </div>
   </div>
 </section>
