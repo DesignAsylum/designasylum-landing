@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunroof 5 – Circadian Cycle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Doto:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #c8c8c8;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 48px 20px 80px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── Phone shell ── */
+    .phone {
+      width: 390px;
+      background: #fdfcff;
+      border-radius: 44px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.28), 0 8px 20px rgba(0,0,0,0.12);
+      padding-bottom: 48px;
+    }
+
+    /* ── Status bar ── */
+    #status-bar {
+      height: 47px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 26px 8px;
+    }
+    .sb-time {
+      font-size: 17px;
+      font-weight: 590;
+      color: #121212;
+      letter-spacing: -0.5px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .sb-icons { display: flex; align-items: center; gap: 7px; }
+    .sb-icons img { height: 12px; display: block; }
+    .battery { position: relative; width: 27.33px; height: 13px; }
+    .bat-border {
+      position: absolute; inset: 0 8% 0 0;
+      border: 1px solid #121212; border-radius: 4px; opacity: 0.4;
+    }
+    .bat-fill {
+      position: absolute; inset: 15% 30% 15% 7%;
+      background: #121212; border-radius: 2px;
+    }
+
+    /* ── Header ── */
+    #header {
+      position: absolute; top: 71px; left: 16px; right: 16px;
+      display: flex; align-items: center; gap: 82px;
+    }
+    .back-btn { width: 36px; height: 36px; flex-shrink: 0; }
+    .back-btn img { width: 100%; height: 100%; display: block; }
+    .dropdown {
+      background: #f3f3f3; border-radius: 20px;
+      padding: 0 12px; height: 32px;
+      display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+      cursor: pointer;
+    }
+    .dropdown span { font-size: 13px; color: #121212; letter-spacing: -0.5px; white-space: nowrap; }
+    .dropdown img { width: 16px; height: 16px; }
+
+    /* ── Content ── */
+    #content {
+      position: absolute; top: 139px; left: 16px; width: 358px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    /* ── Title ── */
+    #title-row { text-align: center; }
+    .section-title {
+      font-size: 14px; font-weight: 500; color: #121212;
+      letter-spacing: -0.5px; display: inline-block;
+    }
+
+    /* ── Time cards ── */
+    .time-cards { display: flex; gap: 8px; }
+    .time-card {
+      flex: 1; background: rgba(243,243,243,0.5);
+      border-radius: 16px; padding: 16px 12px;
+      display: flex; flex-direction: column; gap: 8px;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .time-card:hover { background: rgba(243,243,243,0.85); }
+    .tc-label { font-size: 12px; color: rgba(18,18,18,0.5); letter-spacing: -0.5px; }
+    .tc-value { font-size: 24px; font-weight: 300; color: #121212; letter-spacing: -0.5px; white-space: nowrap; line-height: 1; }
+
+    /* ── Clock card ── */
+    #clock-card {
+      background: rgba(243,243,243,0.5);
+      border-radius: 24px; height: 381px;
+      width: 100%; position: relative; overflow: hidden;
+    }
+    .clock-card-title {
+      position: absolute; top: 24px; left: 118.5px;
+      font-size: 14px; font-weight: 500; color: #121212;
+      letter-spacing: -0.5px; white-space: nowrap;
+    }
+
+    /* Ring wrapper — positioned so center aligns with card center */
+    #ring-wrap {
+      position: absolute; left: 27px; top: 57px;
+      width: 300px; height: 300px;
+    }
+    #ring-wrap img.ring-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      display: block; pointer-events: none;
+    }
+    #ring-svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      overflow: visible; pointer-events: none;
+    }
+
+    /* Phase icons */
+    .phase-icon {
+      position: absolute;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .phase-icon img.pi-circle { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .phase-icon img.pi-inner { position: absolute; }
+
+    /* Center time */
+    #center-time {
+      position: absolute;
+      top: calc(50% + 16.5px); left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 44px; font-weight: 300; color: #121212;
+      letter-spacing: -0.5px; white-space: nowrap; line-height: 44px;
+    }
+
+    /* Warning */
+    #warning {
+      position: absolute; top: 237px; left: 50%;
+      transform: translateX(-50%);
+      color: #bd6610; font-size: 12px;
+      text-align: center; width: 165px;
+      line-height: 1.35; letter-spacing: -0.06px;
+    }
+
+    /* ── Brightness card ── */
+    #brightness-card {
+      background: rgba(243,243,243,0.5);
+      border-radius: 24px; height: 147px;
+      width: 100%; position: relative; overflow: hidden;
+    }
+    .b-numbers {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      display: flex; align-items: center; gap: 40px;
+    }
+    .b-num {
+      font-family: 'Doto', 'Courier New', monospace;
+      font-size: 24px; color: #121212; line-height: 1; user-select: none;
+    }
+    .b-num.big { font-size: 36px; font-weight: 600; }
+    .b-num.fade-l {
+      background: linear-gradient(-89.5deg, #2c2c2c 8.28%, rgba(249,249,249,0.5) 84%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .b-num.fade-r {
+      background: linear-gradient(91.05deg, #2c2c2c 18.9%, rgba(249,249,249,0.5) 67.2%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tick-row {
+      position: absolute; bottom: 4px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; align-items: flex-end; gap: 10px;
+    }
+    .tk { border-radius: 2px; background: rgba(18,18,18,0.2); flex-shrink: 0; }
+    .tk.d { background: rgba(18,18,18,0.3); }
+
+    #b-label {
+      font-size: 14px; font-weight: 500; color: #121212;
+      letter-spacing: -0.5px; text-align: center; padding-left: 62px;
+    }
+
+    /* ── Initial hidden state ── */
+    .will-animate { opacity: 0; }
+  </style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- Status Bar -->
+  <div id="status-bar" class="will-animate">
+    <div class="sb-time">9:41</div>
+    <div class="sb-icons">
+      <img src="https://www.figma.com/api/mcp/asset/5a3b039d-5ee4-4a27-846c-1355889be16c" alt="signal">
+      <img src="https://www.figma.com/api/mcp/asset/a462c25c-142f-4801-846d-a14fcbe16b8b" alt="wifi">
+      <div class="battery">
+        <div class="bat-border"></div>
+        <div class="bat-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div id="header" class="will-animate">
+    <div class="back-btn">
+      <img src="https://www.figma.com/api/mcp/asset/48974075-4b21-43ff-99b8-a9edc8a2b5f8" alt="back">
+    </div>
+    <div class="dropdown">
+      <span>French Window </span>
+      <img src="https://www.figma.com/api/mcp/asset/ee2c1465-7b38-47ec-871f-aa212c6b5860" alt="▾">
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div id="content">
+
+    <!-- Title -->
+    <div id="title-row" class="will-animate">
+      <span class="section-title">Schedule your circadian cycle</span>
+    </div>
+
+    <!-- Time cards -->
+    <div class="time-cards">
+      <div class="time-card will-animate" id="tc1">
+        <div class="tc-label">Wake up at</div>
+        <div class="tc-value">6:00 AM</div>
+      </div>
+      <div class="time-card will-animate" id="tc2">
+        <div class="tc-label">Peak at</div>
+        <div class="tc-value">11:00 AM</div>
+      </div>
+      <div class="time-card will-animate" id="tc3">
+        <div class="tc-label">Sleep at</div>
+        <div class="tc-value">8:00 PM</div>
+      </div>
+    </div>
+
+    <!-- Clock card -->
+    <div id="clock-card" class="will-animate">
+      <div class="clock-card-title">Select phase to edit</div>
+
+      <div id="ring-wrap">
+        <!-- Ring base (orange/blue gradient donut) -->
+        <img class="ring-img will-animate" id="ring-base"
+             src="https://www.figma.com/api/mcp/asset/2dd33279-b5f0-47e3-afd1-71c05509c927" alt="">
+        <!-- Ring colour overlay -->
+        <img class="ring-img will-animate" id="ring-grad"
+             src="https://www.figma.com/api/mcp/asset/67c444fe-c2c5-4c6f-bd90-e9e578e208d5" alt="">
+
+        <!-- SVG tick marks + cardinal labels (generated below) -->
+        <svg id="ring-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <g id="tick-g"></g>
+          <!-- Cardinal labels — initially invisible, faded in via JS -->
+          <text id="lbl-12a" x="150" y="54"   text-anchor="middle" dominant-baseline="central"
+                font-family="DM Sans,sans-serif" font-size="11" fill="#121212" letter-spacing="-0.5" opacity="0">12 AM</text>
+          <text id="lbl-6a"  x="240" y="151"  text-anchor="middle" dominant-baseline="central"
+                font-family="DM Sans,sans-serif" font-size="11" fill="#121212" letter-spacing="-0.5" opacity="0">6 AM</text>
+          <text id="lbl-12p" x="150" y="247"  text-anchor="middle" dominant-baseline="central"
+                font-family="DM Sans,sans-serif" font-size="11" fill="#121212" letter-spacing="-0.5" opacity="0">12 PM</text>
+          <text id="lbl-6p"  x="60"  y="151"  text-anchor="middle" dominant-baseline="central"
+                font-family="DM Sans,sans-serif" font-size="11" fill="#121212" letter-spacing="-0.5" opacity="0">6 PM</text>
+        </svg>
+
+        <!-- Peak icon  (≈6 AM on ring, top-right) -->
+        <div class="phase-icon will-animate" id="icon-peak"
+             style="left:193px;top:9px;width:25.8px;height:25.8px;">
+          <img class="pi-circle" src="https://www.figma.com/api/mcp/asset/42e9f6c5-6141-42a8-b5dc-253f106ec3e1" alt="">
+          <img class="pi-inner"  src="https://www.figma.com/api/mcp/asset/d643796d-38cb-4a82-8a12-bfe6c3f5645a" alt=""
+               style="inset:4px;width:16px;height:16px;">
+        </div>
+
+        <!-- Wake icon  (≈8 PM on ring, right) -->
+        <div class="phase-icon will-animate" id="icon-wake"
+             style="left:240px;top:234px;width:25.8px;height:25.8px;">
+          <img class="pi-circle" src="https://www.figma.com/api/mcp/asset/1043946d-ccc4-4438-aa8f-f1c7d0acea59" alt="">
+          <img class="pi-inner"  src="https://www.figma.com/api/mcp/asset/1235fcae-b18a-4eae-85e2-142f3a835399" alt=""
+               style="inset:4px;width:16px;height:16px;">
+        </div>
+
+        <!-- Sleep icon (bottom of ring) -->
+        <div class="phase-icon will-animate" id="icon-sleep"
+             style="left:198px;top:263px;width:28px;height:28px;">
+          <img class="pi-circle" src="https://www.figma.com/api/mcp/asset/cefbfef1-9248-4210-95d3-aab37fce68a1" alt="">
+          <img src="https://www.figma.com/api/mcp/asset/f06db884-a24f-49da-846b-fb13d64e554e" alt=""
+               style="position:absolute;inset:0;width:100%;height:100%;">
+          <img src="https://www.figma.com/api/mcp/asset/f6f0e35e-beab-4ede-b4e9-0c6083a644ac" alt=""
+               style="position:absolute;left:3px;top:3px;width:12px;height:12px;transform:rotate(-24.3deg);">
+        </div>
+      </div>
+
+      <!-- Center hours display -->
+      <div id="center-time" class="will-animate">
+        <span id="hour-count">0</span>h
+      </div>
+
+      <!-- Warning -->
+      <div id="warning" class="will-animate">Maximum cycle duration reached</div>
+    </div>
+
+    <!-- Brightness section -->
+    <div id="brightness-section" class="will-animate">
+      <div id="brightness-card">
+        <div class="b-numbers">
+          <div class="b-num fade-l">19</div>
+          <div class="b-num">20</div>
+          <div class="b-num big">21</div>
+          <div class="b-num">22</div>
+          <div class="b-num fade-r">23</div>
+        </div>
+        <div class="tick-row" id="tick-row"></div>
+      </div>
+      <div id="b-label" style="margin-top:16px;">Choose your peak daytime brightness</div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /phone -->
+
+<script type="module">
+import { animate, stagger } from "https://cdn.jsdelivr.net/npm/motion@11/+esm";
+
+/* ─── Build SVG tick marks ─── */
+const tickG = document.getElementById('tick-g');
+for (let i = 0; i < 24; i++) {
+  const angle = i * 15;
+  const isCardinal = angle % 90 === 0;
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  // Center (150,150), tick at radius 114 (y=36), length 4px (y=40)
+  line.setAttribute('x1', '150'); line.setAttribute('y1', '36');
+  line.setAttribute('x2', '150'); line.setAttribute('y2', '40');
+  line.setAttribute('stroke', '#121212');
+  line.setAttribute('stroke-width', '1');
+  line.setAttribute('stroke-linecap', 'round');
+  line.setAttribute('opacity', isCardinal ? '0.5' : '0.25');
+  line.setAttribute('transform', `rotate(${angle}, 150, 150)`);
+  tickG.appendChild(line);
+}
+
+/* ─── Build brightness tick row ─── */
+const tickDefs = [
+  {w:2.889,h:11.556},{w:2.889,h:11.556},{w:2.889,h:11.556},{w:2.889,h:11.556},{w:2.889,h:11.556},
+  {w:2,h:19,d:1},{w:2,h:12},{w:2,h:12},{w:2,h:12},{w:2,h:12},
+  {w:2,h:19,d:1},{w:2,h:12},{w:2,h:12},{w:2,h:12},{w:2,h:12},
+  {w:2,h:33,d:1},{w:2,h:12},{w:2,h:12},{w:2,h:12},{w:2,h:12},
+  {w:2,h:19,d:1},{w:2,h:12},{w:2,h:12},{w:2,h:12},{w:2,h:12},
+  {w:2.889,h:18.778},{w:2.889,h:11.556},{w:2.889,h:11.556},{w:2.889,h:11.556},{w:2.889,h:11.556},
+];
+const tickRow = document.getElementById('tick-row');
+tickDefs.forEach(t => {
+  const d = document.createElement('div');
+  d.className = 'tk' + (t.d ? ' d' : '');
+  d.style.cssText = `width:${t.w}px;height:${t.h}px;`;
+  tickRow.appendChild(d);
+});
+
+/* ─── Helper ─── */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+/* ─── Animation sequence ─── */
+async function run() {
+  // 1 — Status bar drops from top
+  animate('#status-bar', { opacity:[0,1], y:[-22,0] },
+    { duration:0.45, easing:'ease-out' });
+
+  await wait(160);
+
+  // 2 — Header slides from left
+  animate('#header', { opacity:[0,1], x:[-28,0] },
+    { duration:0.45, easing:[0.25,1,0.5,1] });
+
+  await wait(220);
+
+  // 3 — Title fades + scales
+  animate('#title-row', { opacity:[0,1], scale:[0.94,1] },
+    { duration:0.4, easing:'ease-out' });
+
+  await wait(200);
+
+  // 4 — Time cards stagger up with spring bounce
+  animate(['#tc1','#tc2','#tc3'],
+    { opacity:[0,1], y:[20,0], scale:[0.96,1] },
+    { duration:0.5, easing:[0.34,1.56,0.64,1], delay:stagger(0.1) });
+
+  await wait(520);
+
+  // 5 — Clock card rises
+  animate('#clock-card', { opacity:[0,1], y:[28,0] },
+    { duration:0.55, easing:[0.25,1,0.5,1] });
+
+  await wait(280);
+
+  // 6 — Ring base grows in
+  animate('#ring-base', { opacity:[0,1], scale:[0.88,1] },
+    { duration:0.7, easing:[0.34,1.2,0.64,1] });
+
+  await wait(180);
+
+  // 7 — Ring colour overlay cross-fades in
+  animate('#ring-grad', { opacity:[0,1] },
+    { duration:0.8, easing:'ease-out' });
+
+  await wait(300);
+
+  // 8 — Cardinal labels appear one by one
+  animate(['#lbl-12a','#lbl-6a','#lbl-12p','#lbl-6p'],
+    { opacity:[0,1] },
+    { duration:0.35, delay:stagger(0.12) });
+
+  // 9 — Center time fades in + counts up 0→23
+  animate('#center-time', { opacity:[0,1] }, { duration:0.3 });
+
+  const countEl = document.getElementById('hour-count');
+  const target = 23, dur = 950, t0 = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);          // ease-out cubic
+    countEl.textContent = Math.round(e * target);
+    if (p < 1) requestAnimationFrame(tick);
+  })(performance.now());
+
+  await wait(320);
+
+  // 10 — Phase icons pop in with spring overshoot
+  const icons = ['#icon-peak','#icon-wake','#icon-sleep'];
+  animate(icons,
+    { opacity:[0,1], scale:[0.3,1.15,1], rotate:[-25,4,0] },
+    { duration:0.55, easing:'ease-out', delay:stagger(0.15) });
+
+  await wait(750);
+
+  // 11 — Warning fades in then pulses
+  await animate('#warning', { opacity:[0,1] }, { duration:0.4 }).finished;
+  animate('#warning', { opacity:[1,0.4,1] },
+    { duration:2.4, repeat:Infinity, easing:'ease-in-out' });
+
+  await wait(180);
+
+  // 12 — Brightness section rises
+  await animate('#brightness-section', { opacity:[0,1], y:[22,0] },
+    { duration:0.5, easing:[0.25,1,0.5,1] }).finished;
+
+  // 13 — Subtle tick shimmer on the brightness card
+  animate('#tick-row .tk',
+    { scaleY:[0.6,1] },
+    { duration:0.4, delay:stagger(0.02, { start:0 }), easing:[0.34,1.4,0.64,1] });
+}
+
+// Wait for fonts, then kick off
+document.fonts.ready.then(() => setTimeout(run, 350));
+</script>
+</body>
+</html>
