@@ -3453,45 +3453,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   })();
 
-  /* ---- WhatsApp floating button ---- */
-  (function () {
-    /* ▼▼▼ Replace with your WhatsApp number (country code + number, no +, no spaces) ▼▼▼ */
-    var WA_NUMBER = '918956879792';
-    /* ▲▲▲ ------------------------------------------------------------------ ▲▲▲ */
-
-    var btn     = document.getElementById('waBtn');
-    var popup   = document.getElementById('waPopup');
-    var closeBtn= document.getElementById('waClose');
-    var submit  = document.getElementById('waSubmit');
-    var nameEl  = document.getElementById('waName');
-    var emailEl = document.getElementById('waEmail');
-    var phoneEl = document.getElementById('waPhone');
-
-    function openPopup()  { popup.classList.add('wa-popup--open'); nameEl.focus(); }
-    function closePopup() { popup.classList.remove('wa-popup--open'); }
-
-    btn.addEventListener('click', function () {
-      popup.classList.contains('wa-popup--open') ? closePopup() : openPopup();
-    });
-    closeBtn.addEventListener('click', closePopup);
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
-
-    /* Enable submit only when all three fields have content */
-    function checkFields() {
-      submit.disabled = !(nameEl.value.trim() && emailEl.value.trim() && phoneEl.value.trim());
-    }
-    [nameEl, emailEl, phoneEl].forEach(function (f) { f.addEventListener('input', checkFields); });
-
-    submit.addEventListener('click', function () {
-      var name  = nameEl.value.trim();
-      var email = emailEl.value.trim();
-      var phone = phoneEl.value.trim();
-      var msg   = ‘Hi! I\’m ‘ + name + ‘.\nEmail: ‘ + email + ‘\nPhone: ‘ + phone + ‘\nHi, I would like to build a mobile app for my business.’;
-      var url   = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
-      window.open(url, '_blank', 'noopener');
-      closePopup();
-    });
-  })();
+  /* WhatsApp IIFE moved after the WA HTML so getElementById finds the elements */
 
   /* Gallery — mobile auto-advance carousel (desktop scroll unchanged) */
   (function () {
@@ -3886,6 +3848,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </button>
   </div>
 </div>
+
+<script>
+  (function () {
+    var WA_NUMBER = '918956879792';
+    var btn     = document.getElementById('waBtn');
+    var popup   = document.getElementById('waPopup');
+    var closeBtn= document.getElementById('waClose');
+    var submit  = document.getElementById('waSubmit');
+    var nameEl  = document.getElementById('waName');
+    var emailEl = document.getElementById('waEmail');
+    var phoneEl = document.getElementById('waPhone');
+
+    function openPopup()  { popup.classList.add('wa-popup--open'); nameEl.focus(); }
+    function closePopup() { popup.classList.remove('wa-popup--open'); }
+
+    btn.addEventListener('click', function () {
+      popup.classList.contains('wa-popup--open') ? closePopup() : openPopup();
+    });
+    closeBtn.addEventListener('click', closePopup);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopup(); });
+
+    function checkFields() {
+      submit.disabled = !(nameEl.value.trim() && emailEl.value.trim() && phoneEl.value.trim());
+    }
+    [nameEl, emailEl, phoneEl].forEach(function (f) { f.addEventListener('input', checkFields); });
+
+    submit.addEventListener('click', function () {
+      var name  = nameEl.value.trim();
+      var email = emailEl.value.trim();
+      var phone = phoneEl.value.trim();
+      var msg   = 'Hi! I\'m ' + name + '.\nEmail: ' + email + '\nPhone: ' + phone + '\nHi, I would like to build a mobile app for my business.';
+      var url   = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+      window.open(url, '_blank', 'noopener');
+      closePopup();
+    });
+  })();
+</script>
 
 </body>
 </html>
