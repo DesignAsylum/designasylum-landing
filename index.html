@@ -1627,6 +1627,32 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   flex-shrink: 0;
   width: 22px;
 }
+
+/* ---- FAQ Category Tabs ---- */
+.faq-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 760px;
+  margin: 0 auto 48px;
+}
+.faq-tab {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--hairline);
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--ink-muted);
+  transition: background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+  white-space: nowrap;
+}
+.faq-tab:hover { border-color: var(--ink-soft); color: var(--ink); }
+.faq-tab--active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.faq-panel { display: none; }
+.faq-panel--active { display: block; }
 .faq-trigger__title {
   flex: 1;
   font-family: var(--font-display);
@@ -3086,132 +3112,275 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- 10 FAQ -->
 <section class="section" id="faq">
   <div class="wrap">
-    <h2 class="display-l" style="max-width:30ch; text-align:center; margin: 0 auto 56px;">Frequently Asked Questions</h2>
+    <h2 class="display-l" style="max-width:30ch; text-align:center; margin: 0 auto 40px;">Frequently Asked Questions</h2>
 
-    <div class="faq-accordion" data-faq-accordion>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">01</span>
-          <span class="faq-trigger__title">What Happens After I Click Build My App?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">You'll book a 30-minute intake call with our design lead. We send a one-page scoping doc within 48 hours, plus a fixed-fee contract. Work starts as soon as the contract is signed and the first invoice clears.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">02</span>
-          <span class="faq-trigger__title">What If My App Needs More Than 3 Core Features?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">The 3-feature scope is the productized version. Beyond that we quote a custom engagement — same process, same deliverables, sized to your scope. Most extensions add one to three weeks per additional feature set.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">03</span>
-          <span class="faq-trigger__title">Do You Build the App or Just Design It?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">Design only. You receive a clickable prototype, a Figma file with spec'd components, and an asset library that's ready for engineering. We can introduce you to vetted dev partners we've shipped with, or work alongside your in-house team.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">04</span>
-          <span class="faq-trigger__title">Who Owns the Source Files?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">You do, on final payment. Full IP transfer covers the Figma file, exported assets, prototype, and any source illustrations we delivered. We retain the right to show the work in our portfolio unless you ask us not to.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">05</span>
-          <span class="faq-trigger__title">What If We Miss the 6-Week Window?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">Delays caused by us are on us — we extend at no extra charge. Delays caused by feedback or scope drift on your side are quoted as additional weeks at our pro-rated rate. Either way, the price and scope you signed are locked.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">06</span>
-          <span class="faq-trigger__title">Can I See the Contract Before Paying?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">Yes — the scoping doc and contract are both shared before the first invoice. Standard terms, no surprises, lawyer-reviewable. We don't take payment until you've signed.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">07</span>
-          <span class="faq-trigger__title">Do You Work With Non-Indian Clients?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">Yes — roughly 40% of our work is international. We invoice in USD or EUR, accept card or wire, and run sprints across timezones (we overlap with EU mornings and US afternoons).</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">08</span>
-          <span class="faq-trigger__title">Who Runs the Usability Test?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">The client. Testing is run via usertesting.com (or a comparable platform) at the client's cost. We write the test script and define what counts as a successful completion; you commission the sessions.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">09</span>
-          <span class="faq-trigger__title">Who Recruits the Testers?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">The client, through usertesting.com or any recruit panel that matches the target audience profile. We help define the screener — age, region, behavior, prior product use — but the booking sits on your side.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">10</span>
-          <span class="faq-trigger__title">What Counts as "The Core Flow"?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">A core feature is anything reachable directly from the tab bar or hamburger menu. During scope definition we co-author the epics, stories, acceptance criteria and exit criteria for that feature. Each story = one screen.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-faq-item>
-        <button class="faq-trigger" data-faq-trigger>
-          <span class="faq-trigger__idx">11</span>
-          <span class="faq-trigger__title">What Is the Time Bound on the Free Redesign?</span>
-          <span class="faq-trigger__icon">+</span>
-        </button>
-        <div class="faq-content" data-faq-content>
-          <div class="faq-content__inner">The free redesign window is capped at 2 additional weeks beyond the original delivery date. If we still haven't hit the bar, we move into a custom engagement and quote the remaining work transparently — never silently extending the meter.</div>
-        </div>
-      </div>
-
+    <!-- Category tabs -->
+    <div class="faq-tabs" role="tablist">
+      <button class="faq-tab faq-tab--active" data-faq-tab="general" role="tab" aria-selected="true">General &amp; Expertise</button>
+      <button class="faq-tab" data-faq-tab="process" role="tab" aria-selected="false">Process &amp; Design</button>
+      <button class="faq-tab" data-faq-tab="development" role="tab" aria-selected="false">Development &amp; Ownership</button>
+      <button class="faq-tab" data-faq-tab="pricing" role="tab" aria-selected="false">Pricing &amp; Getting Started</button>
     </div>
+
+    <!-- General & Expertise -->
+    <div class="faq-panel faq-panel--active" data-faq-panel="general">
+      <div class="faq-accordion">
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">01</span>
+            <span class="faq-trigger__title">Are you a mobile app design agency or a full product design company?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Both, though we think of ourselves as a product design studio first, not just an app design company. An app is only the medium. The product, and whether real people actually use it, is the goal. We've spent 12+ years on mobile and shipped around 50 mobile apps in the last five years, with millions of people using them today. We're design-led, with in-house development available, so you can go from scope to a live app under one roof. We've designed for first-time founders and for some of the largest organisations in the world, including the National Pension System (delivered to Protean), Kia, Abbott, and Axis Bank. So yes, we operate as a mobile app design agency and a full product design agency. The difference is we measure ourselves on shipped products, not delivered screens.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">02</span>
+            <span class="faq-trigger__title">Which industries do you design mobile apps for?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Our mobile work spans fintech app design, healthcare app design, and ecommerce app design, plus consumer categories like wellness, edtech, and connected products. In fintech, we rebuilt the National Pension System app for Protean, serving 40 million existing investors, and we've worked with Axis Bank. In healthcare, we designed Abbott's aCare app and built Saama Technologies' clinical trials management platform, with deeper work across Pfizer, AstraZeneca, and Dr. Agarwal's Eye Hospital, plus consumer health brands like DirectMeds, Varalife, and Little Joys. In ecommerce and marketplaces, we created an art marketplace that helps small Indian artists sell to a global audience, Snob (artist discovery for the US), and the commerce flows inside Kia Connect.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">03</span>
+            <span class="faq-trigger__title">Do you specialise in fintech and healthcare app design?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Yes, and these are two of our strongest areas, because both demand trust, clarity, and careful handling of sensitive data. In fintech, our defining project is the National Pension System app, rebuilt from the ground up for Protean to serve 40 million existing NPS investors. After our redesign, users went to the App Store and Play Store to praise the design itself — which almost never happens. In healthcare, we designed Abbott's aCare app and built Saama Technologies' clinical trials management platform, alongside work with Pfizer, AstraZeneca, and Dr. Agarwal's Eye Hospital. In both sectors we lean on real research and proven UX patterns, so first-time and existing users can complete critical tasks without hand-holding.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">04</span>
+            <span class="faq-trigger__title">How do I choose the best app design and development company?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Look at two things: proof and process. Proof is the actual apps a team has shipped, and whether real people use them. Process is whether they follow clear, repeatable steps or improvise. Red flags: no defined scope, no research phase, junior-led delivery, and anyone who leads with "we're the best" instead of showing the work. Ask any agency to walk you through one shipped app, end to end. The good ones can. What we point to: a team led by designers with 12+ years of mobile experience, a research process built to deliver a product that beats what's already in the market, and design that isn't afraid to set new benchmarks rather than copy the category.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">05</span>
+            <span class="faq-trigger__title">What's the one thing you wish every founder knew before building an app?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">That more features do not equal happier customers. It's the most common and most expensive mistake we see. The apps that win almost always start simple and grow over time. The job of a first release is to do a few things genuinely well, prove people want them, and earn the right to add more. That belief shapes everything we do — from three-feature MVP scoping, to fixed-scope plans, to usability testing that most studios skip entirely. We've shipped around 50 mobile apps in the last five years, used by millions of people. The throughline isn't more. It's the right things, designed well, shipped on time.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">06</span>
+            <span class="faq-trigger__title">Do you work with non-Indian clients?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Yes. Around 40% of our work is international. We're based in Pune with presence in the US and the Middle East, we invoice in USD or EUR, and we accept card or wire. Sprints run across timezones, overlapping EU mornings and US afternoons, so reviews never stall and you're never waiting a day for an answer.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Process & Design -->
+    <div class="faq-panel" data-faq-panel="process">
+      <div class="faq-accordion">
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">01</span>
+            <span class="faq-trigger__title">Do you redesign existing mobile apps?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Yes, app redesigns are some of our most rewarding work. Three examples: the National Pension System app, rebuilt for 40 million investors; Kia Connect, enhanced so owners can buy AMCs, book service, shop accessories, and see their driving habits; and Voice of SAP, a US nonprofit whose old app went unused until we redesigned it from scratch after interviewing more than 40 stakeholders. Our view on redesigns: don't throw away the equity your users already have. We build on familiar, globally established UX patterns, so existing users onboard quickly into the new app while new users get a cleaner path. A redesign should feel like an upgrade, not a relearning exercise.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">02</span>
+            <span class="faq-trigger__title">What does your mobile app design and prototyping process look like?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Every project starts with a discovery questionnaire. From there we build a scope sheet covering Epics, Stories, Acceptance Criteria, Exit Criteria, and Status, so every screen and use case is accounted for. Next comes competitive analysis, then information architecture, then detailed wireframes with interactions and UX copy. Working in an Agile flow, approved wireframes move into UI, where our UI team applies your full brand language across every flow. We deliver every screen connected with flow arrows, dev comments on each screen, and every use case, error, and empty state designed — so engineers never guess. We run separate teams and separate leads for UX and UI, because depth in each discipline beats one generalist doing both.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">03</span>
+            <span class="faq-trigger__title">Who runs the usability test?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">You do. We write the test script and define exactly what a successful completion looks like, then you run the sessions through usertesting.com or a comparable platform. Keeping the test on your side keeps the results yours: unfiltered, independent, and impossible to game. We design the bar, your real users clear it.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">04</span>
+            <span class="faq-trigger__title">Who recruits the testers?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">You do, through usertesting.com or any panel that matches your target users. We help build the screener (age, region, behaviour, prior product use) so the right people show up, but the booking sits with you. That way the app gets validated by your actual audience, not ours.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">05</span>
+            <span class="faq-trigger__title">What counts as "the core flow"?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">A core feature is anything a user reaches straight from the tab bar or the main menu. During scope definition we co-author the Epics, Stories, Acceptance Criteria, and Exit Criteria for each one, where one story equals one screen. So "the core flow" isn't something we decide later. It's defined with you on day one, in writing, before a single pixel is drawn.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">06</span>
+            <span class="faq-trigger__title">What is the time bound on the free redesign?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">The free redesign window is capped at two extra weeks past the original delivery date. If we still haven't hit the testing bar by then, we move into a custom engagement and quote the remaining work openly. We never silently extend the meter, and you always see the number before we continue.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Development & Ownership -->
+    <div class="faq-panel" data-faq-panel="development">
+      <div class="faq-accordion">
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">01</span>
+            <span class="faq-trigger__title">Do you only design mobile apps, or do you build them too?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Both. Design Asylum is design-led, but we develop most of our apps in-house. Once design is approved, our development team recommends the right technology for your product (native, hybrid, or Flutter), and once you sign off, front-end development begins while the back-end team builds the architecture in parallel. Our DevOps team sets up your own App Store and Play Store developer accounts, so the moment the app is ready it can go live. Throughout, you test real builds through TestFlight and Play Store internal testing. You're never locked in either: take our design files and build in-house, or build the whole thing with us.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">02</span>
+            <span class="faq-trigger__title">Do you build the app or just design it?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Both, and you choose. Every engagement ends with a clickable prototype, a Figma file with spec'd components, and a build-ready asset library. From there you can ship the build with our team, hand the files to your in-house engineers, or take them to any partner you trust. You're never locked into us to get your app live.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">03</span>
+            <span class="faq-trigger__title">Who owns the source files?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">You do, on final payment. Full IP transfer covers the Figma file, exported assets, the prototype, and any illustrations we created. We keep the right to show the work in our portfolio, unless you'd rather we didn't. Just tell us, and it stays private.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">04</span>
+            <span class="faq-trigger__title">What if we miss the 6-week window?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">If the delay is on us, the extra weeks are free. If it's caused by feedback gaps or scope changes on your side, we quote those as additional weeks at our pro-rated rate. Either way, the price and scope you signed stay locked. No renegotiation, no surprise invoice. It's in the contract.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Pricing & Getting Started -->
+    <div class="faq-panel" data-faq-panel="pricing">
+      <div class="faq-accordion">
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">01</span>
+            <span class="faq-trigger__title">Do you design MVPs and apps for startups?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Yes. Helping founders launch is core to what we do, and our Launchpad plan exists specifically for a first version shipped in six weeks. Our strong opinion on MVPs: don't try to launch a feature-heavy app. App Store and Play Store review teams often reject bloated first releases. Pick three core features, launch them, test them, polish them, then ship everything else as updates instead of relaunches. That discipline is how we keep startups moving.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">02</span>
+            <span class="faq-trigger__title">How do I choose between your three plans, and what do they cost?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">The plans map to where your product is today. Launchpad ($4,000, 6 weeks) is for your first version: a polished MVP with your core funnel and top three features. Foundation ($8,000, 9 weeks) is for redesigning an existing app or adding new features to an MVP, with stakeholder interviews, competitor research, and information architecture baked in. Flagship ($12,000, 14 weeks) is for scaling a product with real users to keep, with deeper discovery, more screens, and a clickable prototype your team and investors can navigate. We work fixed-scope and fixed-fee on purpose — open-ended pricing never closes, because the scope is never defined and the app never ships.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">03</span>
+            <span class="faq-trigger__title">What happens after I click Build My App?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">You book a 30-minute intake call with our design lead. Within 48 hours you get a one-page scoping doc and a fixed-fee contract. We start the moment the contract is signed and the first invoice clears. No drawn-out sales process, no chasing, no surprise pricing later.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">04</span>
+            <span class="faq-trigger__title">What if my app needs more than 3 core features?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Three features is the productized scope. Need more? We quote a custom engagement with the same process and the same deliverables, sized to what you're building. Most additions run one to three weeks per feature set. You'll see the full scope and the cost before anything starts, so there's never a guess about what you're paying for.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-item>
+          <button class="faq-trigger" data-faq-trigger>
+            <span class="faq-trigger__idx">05</span>
+            <span class="faq-trigger__title">Can I see the contract before paying?</span>
+            <span class="faq-trigger__icon">+</span>
+          </button>
+          <div class="faq-content" data-faq-content>
+            <div class="faq-content__inner">Yes. You get the scoping doc and the full contract before the first invoice. Standard terms, lawyer-reviewable, no fine print. We don't take payment until you've signed and you're comfortable with exactly what's in scope.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -3390,8 +3559,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     cards.forEach(function (card) { observer.observe(card); });
   })();
 
-  /* FAQ accordion */
+  /* FAQ: category tabs + accordion */
   (function () {
+    /* --- tabs --- */
+    var tabs = Array.from(document.querySelectorAll('[data-faq-tab]'));
+    var panels = Array.from(document.querySelectorAll('[data-faq-panel]'));
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-faq-tab');
+        tabs.forEach(function (t) { t.classList.remove('faq-tab--active'); t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(function (p) { p.classList.remove('faq-panel--active'); });
+        tab.classList.add('faq-tab--active');
+        tab.setAttribute('aria-selected', 'true');
+        var panel = document.querySelector('[data-faq-panel="' + target + '"]');
+        if (panel) panel.classList.add('faq-panel--active');
+      });
+    });
+
+    /* --- accordion (close only within the same panel) --- */
     var items = document.querySelectorAll('[data-faq-item]');
     if (!items.length) return;
     items.forEach(function (item) {
@@ -3400,13 +3585,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (!trigger || !content) return;
       trigger.addEventListener('click', function () {
         var isOpen = item.hasAttribute('data-open');
-        /* close all */
-        items.forEach(function (i) {
+        var panel = item.closest('[data-faq-panel]') || document;
+        panel.querySelectorAll('[data-faq-item]').forEach(function (i) {
           i.removeAttribute('data-open');
           var c = i.querySelector('[data-faq-content]');
           if (c) c.style.maxHeight = '0';
         });
-        /* open clicked if it was closed */
         if (!isOpen) {
           item.setAttribute('data-open', '');
           content.style.maxHeight = content.scrollHeight + 'px';
