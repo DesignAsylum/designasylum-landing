@@ -2593,7 +2593,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pcard__eyebrow">Offer 1</div>
           <div class="pcard__name">Launchpad</div>
           <div class="pcard__price-row">
-            <span class="pcard__amt">$4,000</span>
+            <span class="pcard__amt">₹3.90 L</span>
             <span class="pcard__period">/ 6 weeks</span>
           </div>
         </div>
@@ -2623,7 +2623,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pcard__eyebrow">Offer 2</div>
           <div class="pcard__name">Foundation</div>
           <div class="pcard__price-row">
-            <span class="pcard__amt">$8,000</span>
+            <span class="pcard__amt">₹6.90 L</span>
             <span class="pcard__period">/ 9 weeks</span>
           </div>
         </div>
@@ -2650,7 +2650,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="pcard__eyebrow">Offer 3</div>
           <div class="pcard__name">Flagship</div>
           <div class="pcard__price-row">
-            <span class="pcard__amt">$12,000</span>
+            <span class="pcard__amt">₹9.90 L</span>
             <span class="pcard__period">/ 14 weeks</span>
           </div>
         </div>
@@ -3344,7 +3344,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="faq-trigger__icon">+</span>
           </button>
           <div class="faq-content" data-faq-content>
-            <div class="faq-content__inner">The plans map to where your product is today. Launchpad ($4,000, 6 weeks) is for your first version: a polished MVP with your core funnel and top three features. Foundation ($8,000, 9 weeks) is for redesigning an existing app or adding new features to an MVP, with stakeholder interviews, competitor research, and information architecture baked in. Flagship ($12,000, 14 weeks) is for scaling a product with real users to keep, with deeper discovery, more screens, and a clickable prototype your team and investors can navigate. We work fixed-scope and fixed-fee on purpose — open-ended pricing never closes, because the scope is never defined and the app never ships.</div>
+            <div class="faq-content__inner">The plans map to where your product is today. Launchpad ($4,000 / ₹3.90 L, 6 weeks) is for your first version: a polished MVP with your core funnel and top three features. Foundation ($7,000 / ₹6.90 L, 9 weeks) is for redesigning an existing app or adding new features to an MVP, with stakeholder interviews, competitor research, and information architecture baked in. Flagship ($10,000 / ₹9.90 L, 14 weeks) is for scaling a product with real users to keep, with deeper discovery, more screens, and a clickable prototype your team and investors can navigate. We work fixed-scope and fixed-fee on purpose — open-ended pricing never closes, because the scope is never defined and the app never ships.</div>
           </div>
         </div>
 
@@ -4074,6 +4074,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       closePopup();
     });
   })();
+</script>
+
+<script>
+/* ---- Geo-based pricing ---- */
+(function () {
+  var PRICES = {
+    IN:  ['₹3.90 L',    '₹6.90 L',    '₹9.90 L'   ],
+    AE:  ['AED 15,000', 'AED 27,000', 'AED 38,000' ],
+    USD: ['$4,000',     '$7,000',     '$10,000'    ]
+  };
+
+  function applyPrices(cc) {
+    var set = cc === 'AE' ? PRICES.AE : cc === 'IN' ? PRICES.IN : PRICES.USD;
+    document.querySelectorAll('.pcard__amt').forEach(function (el, i) {
+      if (set[i] !== undefined) el.textContent = set[i];
+    });
+  }
+
+  var cached = sessionStorage.getItem('_geo_cc');
+  if (cached) { applyPrices(cached); return; }
+
+  var timer = setTimeout(function () {
+    /* API too slow — keep INR fallback already in DOM */
+  }, 3000);
+
+  fetch('https://ipapi.co/country/', { cache: 'no-store' })
+    .then(function (r) { return r.text(); })
+    .then(function (cc) {
+      clearTimeout(timer);
+      cc = (cc || '').trim().toUpperCase();
+      if (cc.length === 2) sessionStorage.setItem('_geo_cc', cc);
+      applyPrices(cc);
+    })
+    .catch(function () { clearTimeout(timer); });
+})();
 </script>
 
 </body>
