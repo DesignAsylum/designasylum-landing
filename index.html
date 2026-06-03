@@ -1098,9 +1098,9 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .tbcard--dark  .tbcard__name { color: white; }
 .tbcard--blue  .tbcard__role,
 .tbcard--dark  .tbcard__role { color: rgba(255,255,255,0.6); }
-.tbcard__avatar {
+.tbcard__avatar, .tbcard-video__avatar {
   width: 52px; height: 52px;
-  border-radius: 12px;
+  border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -1186,7 +1186,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 .tbcard-video__avatar {
   width: 44px; height: 44px;
-  border-radius: 10px;
+  border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
   border: 1.5px solid rgba(255,255,255,0.3);
@@ -1226,7 +1226,7 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 .testimonials__title {
   font-family: var(--font-sans);
-  font-size: clamp(40px, 5.2vw, 88px);
+  font-size: clamp(28px, 3vw, 42px);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.15;
