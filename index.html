@@ -1194,8 +1194,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 
 @media (max-width: 768px) {
   .tbento { grid-template-columns: 1fr; }
-  .tbcard-video { min-height: 360px; }
-  .tbcard-video__thumb { min-height: 240px; }
+  .tbcard-video { min-height: 520px; }
+  .tbcard-video__thumb { min-height: auto; }
+  .tbcard-video__thumb video,
+  .tbcard-video__thumb img { object-position: top center; }
   .tbcard--tall { min-height: 220px; }
   .tbcard--short { min-height: 140px; }
 }
@@ -2297,7 +2299,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <!-- Floating review cards — content updated per slide by JS -->
           <div class="glass-card c1">
             <div class="comment__head">
-              <img class="comment__avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=56&h=56&fit=crop&crop=faces" alt="Priya Sharma" width="56" height="56">
+              <img class="comment__avatar" src="assets/images/avatar-priya-sharma.jpg" alt="Priya Sharma" width="56" height="56">
               <div class="comment__name">Priya Sharma</div>
             </div>
             <div class="comment__body">This app genuinely reads your energy. The cosmic readings are scarily accurate.</div>
@@ -2309,7 +2311,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="glass-card c2">
             <div class="comment__head">
-              <img class="comment__avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=56&h=56&fit=crop&crop=faces" alt="James Whitfield" width="56" height="56">
+              <img class="comment__avatar" src="assets/images/avatar-james-whitfield.jpg" alt="James Whitfield" width="56" height="56">
               <div class="comment__name">James Whitfield</div>
             </div>
             <div class="comment__body">Mind-blowing. The tarot AI connected with me on a deeper level than I expected.</div>
@@ -2321,7 +2323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="glass-card c3">
             <div class="comment__head">
-              <img class="comment__avatar" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=56&h=56&fit=crop&crop=faces" alt="Ananya Krishnan" width="56" height="56">
+              <img class="comment__avatar" src="assets/images/avatar-ananya-krishnan.jpg" alt="Ananya Krishnan" width="56" height="56">
               <div class="comment__name">Ananya Krishnan</div>
             </div>
             <div class="comment__body">Never felt so in sync with the universe. The daily briefings are pure gold.</div>
@@ -2425,10 +2427,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="tbcard-video__caption">
             <div class="tbcard-video__caption-text">
               <p class="tbcard-video__caption-quote">"Design Asylum cracked our onboarding in week two. 40% better activation on launch day."</p>
-              <div class="tbcard-video__caption-name">Arjun Mehra</div>
+              <div class="tbcard-video__caption-name">Mat</div>
               <div class="tbcard-video__caption-role">Co-founder, Sunroof</div>
             </div>
-            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop" alt="Arjun Mehra" loading="lazy" width="56" height="56" />
+            <img class="tbcard-video__avatar" src="assets/images/avatar-mat.jpg.jpg" alt="Mat" loading="lazy" width="56" height="56" />
           </div>
         </div>
       </div>
@@ -2439,30 +2441,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p class="tbcard__quote">"We'd been through two agencies that couldn't crack mobile. Design Asylum cracked it in week two. The design system they built scales with us."</p>
           <div class="tbcard__meta">
             <div>
-              <div class="tbcard__name">Rahul Sharma</div>
+              <div class="tbcard__name">Kuntal</div>
               <div class="tbcard__role">CTO, NPS Trust</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?q=80&w=200&auto=format&fit=crop" alt="Rahul Sharma" loading="lazy" width="56" height="56" />
+            <img class="tbcard__avatar" src="assets/images/avatar-kuntal.jpg" alt="Kuntal" loading="lazy" width="56" height="56" />
           </div>
         </div>
         <div class="tbcard tbcard--dark" style="flex:1;" data-tbcard>
           <p class="tbcard__quote">"Fixed scope, fixed fee, actually on time. That's not something I'd experienced with a design agency before. Highly recommend."</p>
           <div class="tbcard__meta">
             <div>
-              <div class="tbcard__name">Vikram Kapoor</div>
+              <div class="tbcard__name">Anjali Joshi</div>
               <div class="tbcard__role">Founder, Abbott Health India</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1615109398623-88346a601842?q=80&w=200&auto=format&fit=crop" alt="Vikram Kapoor" loading="lazy" width="56" height="56" />
+            <img class="tbcard__avatar" src="assets/images/avatar-anjali-joshi.jpg" alt="Anjali Joshi" loading="lazy" width="56" height="56" />
           </div>
         </div>
         <div class="tbcard tbcard--light" style="flex:1;" data-tbcard>
           <p class="tbcard__quote">"Their usability testing guarantee alone is worth it. Knowing real users validated the core flow before engineering was transformational."</p>
           <div class="tbcard__meta">
             <div>
-              <div class="tbcard__name">Meera Joshi</div>
+              <div class="tbcard__name">Shubham Mutha</div>
               <div class="tbcard__role">VP Product, Axis Bank</div>
             </div>
-            <img class="tbcard__avatar" src="https://images.unsplash.com/photo-1740102074295-c13fae3e4f8a?q=80&w=200&auto=format&fit=crop" alt="Meera Joshi" loading="lazy" width="56" height="56" />
+            <img class="tbcard__avatar" src="assets/images/avatar-shubham.jpg" alt="Shubham Mutha" loading="lazy" width="56" height="56" />
           </div>
         </div>
       </div>
@@ -2483,10 +2485,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="tbcard-video__caption">
             <div class="tbcard-video__caption-text">
               <p class="tbcard-video__caption-quote">"A true game-changer. Deep mobile expertise and commitment to shipping something real."</p>
-              <div class="tbcard-video__caption-name">Ananya Roy</div>
+              <div class="tbcard-video__caption-name">Ramanuj Singh</div>
               <div class="tbcard-video__caption-role">Director of Product, Michelin India</div>
             </div>
-            <img class="tbcard-video__avatar" src="https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=200&auto=format&fit=crop" alt="Ananya Roy" loading="lazy" width="56" height="56" />
+            <img class="tbcard-video__avatar" src="assets/images/avatar-ramanuj-singh.jpg" alt="Ramanuj Singh" loading="lazy" width="56" height="56" />
           </div>
         </div>
       </div>
@@ -2805,7 +2807,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="testimonials">
       <div class="testimonials__header">
         <span class="testimonials__badge">App Store &amp; Google Play</span>
-        <h2 class="testimonials__title">What Clients Say</h2>
+        <h2 class="testimonials__title">What App Users Say</h2>
         <p class="testimonials__sub">Real reviews from the people using the apps we've shipped.</p>
       </div>
 
@@ -3670,49 +3672,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       /* 0 — cosmx */
       [
         { name: 'Priya Sharma',
-          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-priya-sharma.jpg',
           rating: '5.0', text: 'This app genuinely reads your energy. The cosmic readings are scarily accurate.' },
         { name: 'James Whitfield',
-          avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-james-whitfield.jpg',
           rating: '5.0', text: 'Mind-blowing. The tarot AI connected with me on a deeper level than I expected.' },
         { name: 'Ananya Krishnan',
-          avatar: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-ananya-krishnan.jpg',
           rating: '4.9', text: 'Never felt so in sync with the universe. The daily briefings are pure gold.' },
       ],
       /* 1 — kia */
       [
         { name: 'Rahul Mehta',
-          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-rahul-mehta.jpg',
           rating: '5.0', text: 'My eco score jumped from 6.2 to 8.9 in three weeks. Absolutely game-changing.' },
         { name: 'Emily Carter',
-          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-emily-carter.jpg',
           rating: '5.0', text: 'Finally understand my driving habits. The UI is absolutely gorgeous.' },
         { name: 'Arjun Nair',
-          avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-arjun-nair.jpg',
           rating: '4.9', text: 'Real-time feedback helped me cut fuel costs significantly. Love it.' },
       ],
       /* 2 — prepmonkey */
       [
         { name: 'Kavya Reddy',
-          avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-kavya-reddy.jpg',
           rating: '5.0', text: 'Cracked UPSC on my first attempt. PrepMonkey made all the difference.' },
         { name: 'Michael Torres',
-          avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-michael-torres.jpg',
           rating: '5.0', text: 'The PYQ practice mode is addictive. My scores jumped 40% in a month.' },
         { name: 'Shreya Iyer',
-          avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-shreya-iyer.jpg',
           rating: '4.9', text: 'Like having a personal tutor in your pocket. Cannot recommend enough.' },
       ],
       /* 3 — sunrooof */
       [
         { name: 'Rohan Kapoor',
-          avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-rohan-kapoor.jpg',
           rating: '5.0', text: 'My sleep has transformed completely. I wake up refreshed every single day.' },
         { name: 'Sarah Mitchell',
-          avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-sarah-mitchell.jpg',
           rating: '5.0', text: 'The circadian scheduler is pure genius. My energy levels are through the roof.' },
         { name: 'Deepa Verma',
-          avatar: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=56&h=56&fit=crop&crop=faces',
+          avatar: 'assets/images/avatar-deepa-verma.jpg',
           rating: '4.9', text: 'Our home lighting has never felt so natural and comfortable. Worth every rupee.' },
       ],
     ];
