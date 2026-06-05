@@ -75,7 +75,7 @@ function sendConfirmation(sheet, rowNum) {
 // ── HTML email (template embedded — no extra file required) ──────────────────
 function buildEmail(firstName, offerData) {
   var F   = escHtml(firstName);
-  var FAM = "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif";
+  var FAM = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif";
 
   var offerCard = '';
   if (offerData) {
@@ -183,8 +183,8 @@ function buildEmail(firstName, offerData) {
     'Apps we designed have 10M+ downloads and 4.5&#9733;+ store ratings.</p>',
     '<div style="text-align:center;">',
     ['Kia','Abbott','Axis Bank','Godrej','Michelin'].map(function(b){
-      return '<span class="brand-chip" style="display:inline-block;margin:3px;padding:7px 14px;border:1px solid #E6E6E6;border-radius:999px;font-family:' + FAM + ';font-size:12px;font-weight:700;letter-spacing:1px;color:#0A0A0A;text-transform:uppercase;">' + b + '</span>';
-    }).join(''),
+      return '<span class="brand-chip" style="display:inline-block;margin:4px;padding:7px 14px;border:1px solid #E6E6E6;border-radius:999px;font-family:' + FAM + ';font-size:12px;font-weight:700;letter-spacing:1px;color:#0A0A0A;text-transform:uppercase;">' + b + '</span>';
+    }).join(' '),
     '</div></td></tr>',
 
     // Guarantee strip
