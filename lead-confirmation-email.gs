@@ -48,11 +48,16 @@ function installTrigger() {
 
 // ── Main handler — fires on every sheet change ────────────────────────────────
 function onNewRow(e) {
-  if (e.changeType !== 'INSERT_ROW') return;
-
   var sheet   = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return;
+
+  // Use PropertiesService to track the last row we already emailed,
+  // so we only send once per new row regardless of changeType.
+  var props      = PropertiesService.getScriptProperties();
+  var lastSent   = parseInt(props.getProperty('lastSentRow') || '1', 10);
+  if (lastRow <= lastSent) return;
+  props.setProperty('lastSentRow', lastRow.toString());
 
   var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
   var values  = sheet.getRange(lastRow, 1, 1, sheet.getLastColumn()).getValues()[0];
