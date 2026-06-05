@@ -15,37 +15,56 @@ var OFFER_MAP = {
 
 // ── Run ONCE to install the trigger ──────────────────────────────────────────
 function installTrigger() {
+  // Delete ALL existing onNewRow triggers (cleans up duplicates)
   ScriptApp.getProjectTriggers().forEach(function(t) {
     if (t.getHandlerFunction() === 'onNewRow') ScriptApp.deleteTrigger(t);
   });
+  // Create exactly one time-based trigger
   ScriptApp.newTrigger('onNewRow')
     .timeBased()
     .everyMinutes(1)
     .create();
-  // Reset the row counter so the next submission is caught fresh
-  PropertiesService.getScriptProperties().deleteProperty('lastSentRow');
-  Logger.log('Trigger installed and row counter reset.');
+  // Set lastSentRow to current sheet size so old rows aren't re-sent
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var currentLastRow = Math.max(sheet.getLastRow(), 1);
+  PropertiesService.getScriptProperties().setProperty('lastSentRow', currentLastRow.toString());
+  Logger.log('Trigger installed. lastSentRow set to ' + currentLastRow + '. Only NEW rows from here will trigger emails.');
 }
 
 // ── Runs every minute ─────────────────────────────────────────────────────────
 function onNewRow() {
-  var sheet   = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var lastRow = sheet.getLastRow();
-  if (lastRow < 2) return;
-
-  var props    = PropertiesService.getScriptProperties();
-  var lastSent = parseInt(props.getProperty('lastSentRow') || '1', 10);
-  if (lastRow <= lastSent) return;
-
-  // Process every new row since the last run (handles bursts)
-  for (var r = lastSent + 1; r <= lastRow; r++) {
-    try {
-      sendConfirmation(sheet, r);
-    } catch (err) {
-      Logger.log('Row ' + r + ' error: ' + err.message);
-    }
+  // Prevent two simultaneous executions from sending duplicate emails
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(8000);
+  } catch (e) {
+    Logger.log('Could not acquire lock — another execution is running. Skipping.');
+    return;
   }
-  props.setProperty('lastSentRow', lastRow.toString());
+
+  try {
+    var sheet   = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) return;
+
+    var props    = PropertiesService.getScriptProperties();
+    var lastSent = parseInt(props.getProperty('lastSentRow') || '1', 10);
+    if (lastRow <= lastSent) return;
+
+    // Update the counter FIRST before sending, so a crash doesn't cause re-sends
+    props.setProperty('lastSentRow', lastRow.toString());
+
+    // Process every new row since last run
+    for (var r = lastSent + 1; r <= lastRow; r++) {
+      try {
+        sendConfirmation(sheet, r);
+      } catch (err) {
+        Logger.log('Row ' + r + ' error: ' + err.message);
+      }
+    }
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function sendConfirmation(sheet, rowNum) {
