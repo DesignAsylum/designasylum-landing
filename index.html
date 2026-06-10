@@ -2212,6 +2212,10 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .lead-popup__submit:hover { background: #333; }
 .lead-popup__submit:active { background: #000; }
 .lead-popup__submit:disabled { opacity: 0.6; cursor: not-allowed; }
+/* reCAPTCHA v3 — badge hidden (attribution text shown in forms instead, per Google's terms) */
+.grecaptcha-badge { visibility: hidden; }
+.recaptcha-legal { margin: 2px 0 0; font-size: 10px; line-height: 1.5; color: #999; }
+.recaptcha-legal a { color: #999; text-decoration: underline; }
 
 /* ---- Offer pill selector ---- */
 .offer-pills { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -3475,6 +3479,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
       <button type="submit" class="lead-popup__submit">Let's build it →</button>
+      <p class="recaptcha-legal">Protected by reCAPTCHA — the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
     </form>
   </div>
 </div>
@@ -3500,6 +3505,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <input type="tel" id="popup-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
       </div>
       <button type="submit" class="lead-popup__submit">Help me decide →</button>
+      <p class="recaptcha-legal">Protected by reCAPTCHA — the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
     </form>
   </div>
 </div>
@@ -3904,11 +3910,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // after completing the one-time setup described in the README.
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCEEJBDA9chDI1rRYWfOshbInauHPb7nPUHO13EkS_9ZNlHrxkL3Gx4Cc_T3RarCe6pw/exec';
 
+  // ---- reCAPTCHA v3 (invisible spam protection) ----
+  // Paste your SITE key from google.com/recaptcha/admin (the SECRET key goes
+  // only into the Apps Script, never here).
+  var RECAPTCHA_SITE_KEY = 'PASTE_RECAPTCHA_SITE_KEY';
+
+  (function () {
+    if (RECAPTCHA_SITE_KEY.indexOf('PASTE_') === 0) return; // not configured yet
+    var s = document.createElement('script');
+    s.src = 'https://www.google.com/recaptcha/api.js?render=' + RECAPTCHA_SITE_KEY;
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
+
+  function getRecaptchaToken() {
+    return new Promise(function (resolve) {
+      if (RECAPTCHA_SITE_KEY.indexOf('PASTE_') === 0 || !window.grecaptcha) return resolve('');
+      try {
+        grecaptcha.ready(function () {
+          grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'lead_form' })
+            .then(resolve, function () { resolve(''); });
+        });
+      } catch (e) { resolve(''); }
+    });
+  }
+
   function submitLead(payload) {
     if (SCRIPT_URL.indexOf('PASTE_') === 0) return Promise.resolve(); // not configured yet
-    return fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify(payload)
+    return getRecaptchaToken().then(function (token) {
+      payload.recaptcha_token = token;
+      return fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
     }).catch(function() {}); // silent fail — don't block the UX
   }
 
