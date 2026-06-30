@@ -4005,7 +4005,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var _turnstile = { cta: null, popup: null }; // rendered widget IDs
 
   (function () {
-    if (TURNSTILE_SITE_KEY.indexOf('PASTE_') === 0) return; // not configured yet
+    if (TURNSTILE_SITE_KEY.indexOf('0x4AAAAAADtdlKd9GB4P_EsuDQkeWAa1SRA') === 0) return; // not configured yet
     var s = document.createElement('script');
     s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     s.async = true;
@@ -4015,7 +4015,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   // Render a widget on demand (when its popup opens). Safe to call repeatedly.
   function renderTurnstile(which, containerId) {
-    if (TURNSTILE_SITE_KEY.indexOf('PASTE_') === 0) return;      // not configured
+    if (TURNSTILE_SITE_KEY.indexOf('0x4AAAAAADtdlKd9GB4P_EsuDQkeWAa1SRA') === 0) return;      // not configured
     if (!window.turnstile || _turnstile[which] !== null) return;
     try {
       _turnstile[which] = turnstile.render('#' + containerId, {
@@ -4038,7 +4038,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   function submitLead(payload) {
-    if (SCRIPT_URL.indexOf('PASTE_') === 0) return Promise.resolve(); // not configured yet
+    if (SCRIPT_URL.indexOf('0x4AAAAAADtdlKd9GB4P_EsuDQkeWAa1SRA') === 0) return Promise.resolve(); // not configured yet
     return fetch(SCRIPT_URL, {
       method: 'POST',
       body: JSON.stringify(payload)
