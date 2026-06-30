@@ -6,15 +6,18 @@
  * replacing everything, then redeploy.
  *
  * doPost() screens each submission but NEVER silently drops a real lead:
- * only a filled honeypot, a malformed/disposable email, or an exact duplicate
- * re-submitted within 2 minutes are blocked. Everything else that looks "off"
- * (fast fill, odd phone, odd name, weak/absent reCAPTCHA) is recorded as an
- * advisory FLAG, but the lead STILL reaches your sheet.
+ * only a filled honeypot, a malformed/disposable email, a FAILED Turnstile
+ * challenge, or an exact duplicate re-submitted within 2 minutes are blocked.
+ * Everything else that looks "off" (fast fill, odd phone, odd name, or a
+ * missing/unverifiable Turnstile token) is recorded as an advisory FLAG, but
+ * the lead STILL reaches your sheet.
  *
  * Every block and flag is written to a "Blocked Log" tab in the same
  * spreadsheet, so you always see what was filtered and why.
  *
- * reCAPTCHA stays OFF until you set RECAPTCHA_SECRET (leave PASTE_ as-is).
+ * Cloudflare Turnstile stays OFF until you set TURNSTILE_SECRET (leave PASTE_
+ * as-is). When set: a failed challenge is hard-blocked; a missing token or a
+ * verify-endpoint outage is flagged but the lead is still saved.
  * After pasting, redeploy:
  *   Deploy > Manage deployments > pencil > Version "New version" > Deploy
  * (keeps the same /exec URL, so the site form keeps working).
@@ -25,8 +28,7 @@ const SHEET_ID = '1wszIABbrK8j106vuEUtfyfBDTq0HsU_sMf96PNHe2gE';
 const TO_EMAIL = 'accounts@designasylum.in';
 
 // ---- Spam-hardening config ----
-var RECAPTCHA_SECRET    = 'PASTE_RECAPTCHA_SECRET_KEY'; // leave as-is to keep reCAPTCHA off
-var RECAPTCHA_MIN_SCORE = 0.5;
+var TURNSTILE_SECRET    = 'PASTE_TURNSTILE_SECRET_KEY'; // leave as-is to keep Turnstile off
 var MIN_FILL_MS         = 1200;            // advisory flag only (was a 3000ms hard block)
 var DEDUPE_WINDOW_MS    = 2 * 60 * 1000;   // collapse accidental double-submits (2 min)
 var BLOCK_LOG_SHEET     = 'Blocked Log';
@@ -45,17 +47,21 @@ function doPost(e) {
     return ok(); // not from our form
   }
 
+  // CAPTCHA verdict: 'pass' | 'fail' | 'unknown'
+  var ts = turnstileResult(data.cf_turnstile_token);
+
   // HARD BLOCKS — signals that are ~never a real customer
   if (data._h) return hardBlock('honeypot filled', data);
   if (!isValidEmail(data.email)) return hardBlock('malformed/disposable email', data);
+  if (ts === 'fail') return hardBlock('Turnstile challenge failed', data);
   if (isRecentDuplicate(data)) return hardBlock('duplicate re-submit within 2 min', data);
 
   // SOFT FLAGS — suspicious, but we STILL SAVE the lead
   var flags = [];
-  if (isTooFast(data))                        flags.push('submitted fast (<' + MIN_FILL_MS + 'ms)');
-  if (!isValidPhone(data.phone))              flags.push('phone looks off');
-  if (looksSpammy(data.full_name))            flags.push('name looks off');
-  if (!verifyRecaptcha(data.recaptcha_token)) flags.push('low/absent reCAPTCHA');
+  if (isTooFast(data))             flags.push('submitted fast (<' + MIN_FILL_MS + 'ms)');
+  if (!isValidPhone(data.phone))   flags.push('phone looks off');
+  if (looksSpammy(data.full_name)) flags.push('name looks off');
+  if (ts === 'unknown')            flags.push('Turnstile not verified (no token / check unavailable)');
   if (flags.length) logRow('FLAGGED', flags.join('; '), data);
 
   rememberSubmission(data);
@@ -166,22 +172,24 @@ function pruneDedupe(props) {
 
 function nowMs() { return new Date().getTime(); }
 
-// Advisory only: returns true (fine) unless a real secret is set AND the token
-// is missing or scores low. Dormant until you paste a secret key.
-function verifyRecaptcha(token) {
-  if (RECAPTCHA_SECRET.indexOf('PASTE_') === 0) return true;
-  if (!token) return false;
+// Cloudflare Turnstile verdict: 'pass' | 'fail' | 'unknown'.
+//   pass    = valid token, real human
+//   fail    = token present but rejected (failed challenge / bot)  -> hard block
+//   unknown = not configured, no token, or verify endpoint down    -> flag, fail open
+function turnstileResult(token) {
+  if (TURNSTILE_SECRET.indexOf('PASTE_') === 0) return 'unknown'; // dormant until you set a secret
+  if (!token) return 'unknown';                                   // no token = borderline
   try {
-    var res = UrlFetchApp.fetch('https://www.google.com/recaptcha/api/siteverify', {
+    var res = UrlFetchApp.fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'post',
-      payload: { secret: RECAPTCHA_SECRET, response: token }
+      payload: { secret: TURNSTILE_SECRET, response: token }
     });
     var r = JSON.parse(res.getContentText());
-    Logger.log('reCAPTCHA score: ' + r.score + ' success: ' + r.success);
-    return r.success === true && (r.score === undefined || r.score >= RECAPTCHA_MIN_SCORE);
+    Logger.log('Turnstile success: ' + r.success + ' codes: ' + JSON.stringify(r['error-codes'] || []));
+    return r.success === true ? 'pass' : 'fail';
   } catch (err) {
-    Logger.log('reCAPTCHA verify error (allowing through): ' + err.message);
-    return true;
+    Logger.log('Turnstile verify error (allowing through): ' + err.message);
+    return 'unknown'; // endpoint unreachable — fail open so real leads aren't lost
   }
 }
 
