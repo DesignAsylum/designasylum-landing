@@ -2243,10 +2243,8 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 .lead-popup__submit:hover { background: #333; }
 .lead-popup__submit:active { background: #000; }
 .lead-popup__submit:disabled { opacity: 0.6; cursor: not-allowed; }
-/* reCAPTCHA v3 — badge hidden (attribution text shown in forms instead, per Google's terms) */
-.grecaptcha-badge { visibility: hidden; }
-.recaptcha-legal { margin: 2px 0 0; font-size: 10px; line-height: 1.5; color: #999; }
-.recaptcha-legal a { color: #999; text-decoration: underline; }
+/* Cloudflare Turnstile widget spacing inside the lead forms */
+.cf-turnstile { margin: 6px 0 0; }
 
 /* ---- Offer pill selector ---- */
 .offer-pills { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -3563,8 +3561,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </div>
+      <div id="cta-turnstile"></div>
       <button type="submit" class="lead-popup__submit">Let's build it →</button>
-      <p class="recaptcha-legal">Protected by reCAPTCHA — the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
     </form>
   </div>
 </div>
@@ -3591,8 +3589,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <label for="popup-phone">Phone Number</label>
         <input type="tel" id="popup-phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel">
       </div>
+      <div id="popup-turnstile"></div>
       <button type="submit" class="lead-popup__submit">Help me decide →</button>
-      <p class="recaptcha-legal">Protected by reCAPTCHA — the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
     </form>
   </div>
 </div>
@@ -3934,6 +3932,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       overlay.removeAttribute('aria-hidden');
       closeBtn.focus();
       window._popupOpenedAt = Date.now(); // for the server-side time-trap
+      renderTurnstile('popup', 'popup-turnstile');
     }
 
     function closePopup() {
@@ -3998,40 +3997,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // after completing the one-time setup described in the README.
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCEEJBDA9chDI1rRYWfOshbInauHPb7nPUHO13EkS_9ZNlHrxkL3Gx4Cc_T3RarCe6pw/exec';
 
-  // ---- reCAPTCHA v3 (invisible spam protection) ----
-  // Paste your SITE key from google.com/recaptcha/admin (the SECRET key goes
-  // only into the Apps Script, never here).
-  var RECAPTCHA_SITE_KEY = 'PASTE_RECAPTCHA_SITE_KEY';
+  // ---- Cloudflare Turnstile (spam protection) ----
+  // Paste your SITE key from the Cloudflare Turnstile dashboard below (the
+  // SECRET key goes only into the Apps Script Code.gs, never here). Left as-is,
+  // Turnstile stays dormant and leads still submit normally.
+  var TURNSTILE_SITE_KEY = 'PASTE_TURNSTILE_SITE_KEY';
+  var _turnstile = { cta: null, popup: null }; // rendered widget IDs
 
   (function () {
-    if (RECAPTCHA_SITE_KEY.indexOf('PASTE_') === 0) return; // not configured yet
+    if (TURNSTILE_SITE_KEY.indexOf('PASTE_') === 0) return; // not configured yet
     var s = document.createElement('script');
-    s.src = 'https://www.google.com/recaptcha/api.js?render=' + RECAPTCHA_SITE_KEY;
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     s.async = true;
     s.defer = true;
     document.head.appendChild(s);
   })();
 
-  function getRecaptchaToken() {
-    return new Promise(function (resolve) {
-      if (RECAPTCHA_SITE_KEY.indexOf('PASTE_') === 0 || !window.grecaptcha) return resolve('');
-      try {
-        grecaptcha.ready(function () {
-          grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'lead_form' })
-            .then(resolve, function () { resolve(''); });
-        });
-      } catch (e) { resolve(''); }
-    });
+  // Render a widget on demand (when its popup opens). Safe to call repeatedly.
+  function renderTurnstile(which, containerId) {
+    if (TURNSTILE_SITE_KEY.indexOf('PASTE_') === 0) return;      // not configured
+    if (!window.turnstile || _turnstile[which] !== null) return;
+    try {
+      _turnstile[which] = turnstile.render('#' + containerId, {
+        sitekey: TURNSTILE_SITE_KEY,
+        size: 'flexible'
+      });
+    } catch (e) { /* container not ready — retry on next open */ }
+  }
+
+  // Current token for a form's widget ('' if none / not configured).
+  function turnstileToken(which) {
+    if (!window.turnstile || _turnstile[which] === null) return '';
+    try { return turnstile.getResponse(_turnstile[which]) || ''; } catch (e) { return ''; }
+  }
+
+  // Reset after submit so the next submission gets a fresh single-use token.
+  function resetTurnstile(which) {
+    if (!window.turnstile || _turnstile[which] === null) return;
+    try { turnstile.reset(_turnstile[which]); } catch (e) {}
   }
 
   function submitLead(payload) {
     if (SCRIPT_URL.indexOf('PASTE_') === 0) return Promise.resolve(); // not configured yet
-    return getRecaptchaToken().then(function (token) {
-      payload.recaptcha_token = token;
-      return fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify(payload)
-      });
+    return fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
     }).catch(function() {}); // silent fail — don't block the UX
   }
 
@@ -4052,6 +4062,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ctaOverlay.removeAttribute('aria-hidden');
       document.getElementById('cta-name').focus();
       window._ctaOpenedAt = Date.now(); // for the server-side time-trap
+      renderTurnstile('cta', 'cta-turnstile');
     }
 
     function closeCta() {
@@ -4097,12 +4108,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         offer:     offerLabels[offerNum] || ('Offer ' + offerNum),
         source:    window._ctaSource || 'Unknown button',
         _h:        document.getElementById('cta-honeypot').value,
-        _elapsed:  window._ctaOpenedAt ? (Date.now() - window._ctaOpenedAt) : null
+        _elapsed:  window._ctaOpenedAt ? (Date.now() - window._ctaOpenedAt) : null,
+        cf_turnstile_token: turnstileToken('cta')
       };
       var btn = ctaForm.querySelector('button[type=submit]');
       btn.disabled = true;
       btn.textContent = 'Sending…';
       submitLead(payload).then(function() { showCtaSuccess(); });
+      resetTurnstile('cta');
     });
 
     function showCtaSuccess() {
@@ -4126,13 +4139,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       offer:     '',
       source:    '30-second popup',
       _h:        document.getElementById('popup-honeypot').value,
-      _elapsed:  window._popupOpenedAt ? (Date.now() - window._popupOpenedAt) : null
+      _elapsed:  window._popupOpenedAt ? (Date.now() - window._popupOpenedAt) : null,
+      cf_turnstile_token: turnstileToken('popup')
     };
     window._leadCaptured = true; // suppress any further timer popups
     if (typeof gtag === 'function') {
       gtag('event', 'conversion', { send_to: 'AW-16764867914/MevNCLThkLscEMqqjro-' });
     }
     submitLead(payload);
+    resetTurnstile('popup');
     var overlay = document.getElementById('lead-popup-overlay');
     var popup = overlay.querySelector('.lead-popup');
     popup.innerHTML = '<div style="text-align:center;padding:32px 0;"><div style="font-size:40px;margin-bottom:16px;">🎉</div><h2 style="font-size:20px;font-weight:800;color:#111;margin-bottom:8px;">We\'ll be in touch!</h2><p style="color:#666;font-size:14px;line-height:1.6;">Decision incoming. Our team will reach out shortly and tell you exactly which plan fits you best.</p></div>';
