@@ -3577,6 +3577,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="lead-popup__title" id="popup-title">Still deciding? We've done this 50+ times.</h2>
     <p class="lead-popup__sub" id="popup-sub">You're probably wondering which offer is right for your app. That's exactly what we're here for — share your details and we'll tell you in one call.</p>
     <form class="lead-popup__form" id="lead-popup-form" onsubmit="handlePopupSubmit(event)">
+      <!-- Honeypot — hidden from real users, filled by bots -->
+      <input type="text" id="popup-honeypot" name="_h" style="display:none" tabindex="-1" autocomplete="off">
       <div class="lead-popup__field">
         <label for="popup-full-name">Full Name</label>
         <input type="text" id="popup-full-name" name="full_name" placeholder="Ravi Sharma" required autocomplete="name">
@@ -3931,6 +3933,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       overlay.classList.add('is-open');
       overlay.removeAttribute('aria-hidden');
       closeBtn.focus();
+      window._popupOpenedAt = Date.now(); // for the server-side time-trap
     }
 
     function closePopup() {
@@ -4048,6 +4051,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ctaOverlay.classList.add('is-open');
       ctaOverlay.removeAttribute('aria-hidden');
       document.getElementById('cta-name').focus();
+      window._ctaOpenedAt = Date.now(); // for the server-side time-trap
     }
 
     function closeCta() {
@@ -4092,7 +4096,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         phone:     document.getElementById('cta-phone').value,
         offer:     offerLabels[offerNum] || ('Offer ' + offerNum),
         source:    window._ctaSource || 'Unknown button',
-        _h:        document.getElementById('cta-honeypot').value
+        _h:        document.getElementById('cta-honeypot').value,
+        _elapsed:  window._ctaOpenedAt ? (Date.now() - window._ctaOpenedAt) : null
       };
       var btn = ctaForm.querySelector('button[type=submit]');
       btn.disabled = true;
@@ -4120,7 +4125,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       phone:     document.getElementById('popup-phone').value,
       offer:     '',
       source:    '30-second popup',
-      _h:        ''
+      _h:        document.getElementById('popup-honeypot').value,
+      _elapsed:  window._popupOpenedAt ? (Date.now() - window._popupOpenedAt) : null
     };
     window._leadCaptured = true; // suppress any further timer popups
     if (typeof gtag === 'function') {
