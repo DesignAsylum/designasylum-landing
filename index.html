@@ -477,6 +477,14 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
   transition: width 0.35s ease, background 0.35s ease;
   cursor: pointer;
   flex-shrink: 0;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.carousel-dots .dot:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
 }
 .carousel-dots .dot.active {
   width: 22px;
@@ -2378,11 +2386,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <img class="banner-img" id="banner-2" src="assets/images/prepmonkey-banner.png" alt="PrepMonkey app" width="315" height="664" loading="lazy">
             <img class="banner-img" id="banner-3" src="assets/images/sunrooof-banner.png" alt="Sunrooof app" width="315" height="664" loading="lazy">
           </div>
-          <div class="carousel-dots" id="carousel-dots">
-            <span class="dot active" data-idx="0"></span>
-            <span class="dot" data-idx="1"></span>
-            <span class="dot" data-idx="2"></span>
-            <span class="dot" data-idx="3"></span>
+          <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="App showcase slides">
+            <button type="button" class="dot active" data-idx="0" role="tab" aria-label="Show slide 1" aria-current="true"></button>
+            <button type="button" class="dot" data-idx="1" role="tab" aria-label="Show slide 2"></button>
+            <button type="button" class="dot" data-idx="2" role="tab" aria-label="Show slide 3"></button>
+            <button type="button" class="dot" data-idx="3" role="tab" aria-label="Show slide 4"></button>
           </div>
 
           <!-- Floating review cards — content updated per slide by JS -->
@@ -3819,6 +3827,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     var current = 0;
     var timer;
+    var pendingAnims = [];   /* in-flight wipe animations, so an interrupt can cancel them */
+    var reviewGen = 0;       /* token so a superseded review fade doesn't write stale content */
 
     /* Set initial clip states */
     imgs[0].style.clipPath = 'inset(0 0% 0 0)';      /* slide 0 fully visible */
@@ -3828,9 +3838,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* Swap review content on all 3 cards */
     function updateReviews(slideIdx) {
+      var gen = ++reviewGen;
       /* fade out */
       cards.forEach(function (c) { c.style.opacity = '0'; });
       setTimeout(function () {
+        if (gen !== reviewGen) return; /* a newer transition already took over */
         REVIEWS[slideIdx].forEach(function (r, i) {
           var card = cards[i];
           var av   = card.querySelector('.comment__avatar');
@@ -3847,38 +3859,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }, 350);
     }
 
-    /* Wipe transition from current → next */
+    /* Wipe transition from current → next.
+       Re-entrancy safe: if a wipe is already running (rapid dot clicks, or a
+       click landing while the auto-carousel is mid-wipe), cancel it and start
+       clean so the dots, reviews and image never drift out of sync. */
     function goTo(next) {
       if (next === current) return;
 
-      imgs[next].style.zIndex   = '3';
-      imgs[current].style.zIndex = '2';
+      /* Cancel any in-flight wipe and normalise every slide's clip state */
+      pendingAnims.forEach(function (a) { try { a.cancel(); } catch (e) {} });
+      pendingAnims = [];
+
+      var from = current;
+      imgs.forEach(function (img, i) {
+        img.style.clipPath = (i === from) ? 'inset(0 0% 0 0)' : 'inset(0 100% 0 0)';
+        img.style.zIndex   = (i === from) ? '2' : '1';
+      });
+      imgs[next].style.zIndex = '3';
 
       /* Entering image: reveal from left */
-      imgs[next].animate(
+      var enterAnim = imgs[next].animate(
         [{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)' }],
         { duration: WIPE_MS, easing: EASE, fill: 'forwards' }
       );
 
       /* Exiting image: wipe out from left simultaneously */
-      var exitAnim = imgs[current].animate(
+      var exitAnim = imgs[from].animate(
         [{ clipPath: 'inset(0 0% 0 0)' }, { clipPath: 'inset(0 0 0 100%)' }],
         { duration: WIPE_MS, easing: EASE, fill: 'forwards' }
       );
+      pendingAnims = [enterAnim, exitAnim];
 
       /* Update reviews mid-wipe */
       updateReviews(next);
 
-      /* Update dots */
-      dots[current].classList.remove('active');
-      dots[next].classList.add('active');
-
-      var leaving = current;
-      exitAnim.finished.then(function () {
-        imgs[leaving].style.zIndex   = '1';
-        imgs[leaving].style.clipPath = 'inset(0 100% 0 0)'; /* reset for re-entry */
-        current = next;
+      /* Update dots — clear all first so only one is ever active */
+      dots.forEach(function (d) {
+        d.classList.remove('active');
+        d.removeAttribute('aria-current');
       });
+      dots[next].classList.add('active');
+      dots[next].setAttribute('aria-current', 'true');
+
+      /* Advance the pointer immediately so any interrupting call sees the truth */
+      current = next;
+
+      exitAnim.finished.then(function () {
+        if (pendingAnims.indexOf(exitAnim) === -1) return; /* superseded */
+        imgs[from].style.zIndex   = '1';
+        imgs[from].style.clipPath = 'inset(0 100% 0 0)'; /* reset for re-entry */
+        pendingAnims = [];
+      }).catch(function () {}); /* cancelled — a newer wipe is running */
     }
 
     /* Auto-advance loop */
