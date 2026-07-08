@@ -4033,10 +4033,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // SECRET key goes only into the Apps Script Code.gs, never here). Left as-is,
   // Turnstile stays dormant and leads still submit normally.
   var TURNSTILE_SITE_KEY = '0x4AAAAAADtdlFPwriwKI8bL';
-  var _turnstile = { cta: null, popup: null }; // rendered widget IDs
+  var _turnstile = { cta: null, popup: null };        // rendered widget IDs
+  var _turnstilePolling = { cta: false, popup: false }; // render retry in flight
+  var _submitLabels = { cta: null, popup: null };     // original button text
+
+  function turnstileOn() {
+    return TURNSTILE_SITE_KEY.indexOf('0x4AAAAAADtdlKd9GB4P_EsuDQkeWAa1SRA') !== 0; // placeholder = not configured
+  }
 
   (function () {
-    if (TURNSTILE_SITE_KEY.indexOf('0x4AAAAAADtdlKd9GB4P_EsuDQkeWAa1SRA') === 0) return; // not configured yet
+    if (!turnstileOn()) return;
     var s = document.createElement('script');
     s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     s.async = true;
@@ -4044,14 +4050,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.head.appendChild(s);
   })();
 
+  function submitBtn(which) {
+    var form = document.getElementById(which === 'cta' ? 'cta-popup-form' : 'lead-popup-form');
+    return form ? form.querySelector('button[type=submit]') : null;
+  }
+
+  // The server hard-blocks submissions without a valid token, so the button
+  // stays disabled until Turnstile hands one over — otherwise a slow verify
+  // would show the success message for a lead that was actually rejected.
+  function setSubmitReady(which, ready) {
+    var btn = submitBtn(which);
+    if (!btn) return;
+    if (_submitLabels[which] === null) _submitLabels[which] = btn.textContent;
+    btn.disabled = !ready;
+    btn.textContent = ready ? _submitLabels[which] : 'Verifying you’re human…';
+  }
+
   // Render a widget on demand (when its popup opens). Safe to call repeatedly.
   function renderTurnstile(which, containerId) {
-    if (TURNSTILE_SITE_KEY.indexOf('0x4AAAAAADtdlKd9GB4P_EsuDQkeWAa1SRA') === 0) return;      // not configured
-    if (!window.turnstile || _turnstile[which] !== null) return;
+    if (!turnstileOn()) return;
+    if (_turnstile[which] !== null) {
+      setSubmitReady(which, !!turnstileToken(which)); // reopened — sync button to token state
+      return;
+    }
+    setSubmitReady(which, false);
+    if (!window.turnstile) { // api.js still loading — retry until it arrives
+      if (_turnstilePolling[which]) return;
+      _turnstilePolling[which] = true;
+      setTimeout(function () {
+        _turnstilePolling[which] = false;
+        renderTurnstile(which, containerId);
+      }, 300);
+      return;
+    }
     try {
       _turnstile[which] = turnstile.render('#' + containerId, {
         sitekey: TURNSTILE_SITE_KEY,
-        size: 'flexible'
+        size: 'flexible',
+        callback:           function () { setSubmitReady(which, true); },
+        'expired-callback': function () { setSubmitReady(which, false); },
+        'error-callback':   function () { setSubmitReady(which, false); }
       });
     } catch (e) { /* container not ready — retry on next open */ }
   }
@@ -4130,6 +4168,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     // Form submit
     ctaForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      if (turnstileOn() && !turnstileToken('cta')) { setSubmitReady('cta', false); return; } // no token yet — server would reject it
       var offerNum = document.querySelector('.offer-pill.selected') ? document.querySelector('.offer-pill.selected').dataset.offer : '2';
       var offerLabels = { '1': 'Offer 1 — Launchpad', '2': 'Offer 2 — Foundation', '3': 'Offer 3 — Flagship' };
       var payload = {
@@ -4163,6 +4202,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // ---- 30s lead popup form submit ----
   function handlePopupSubmit(e) {
     e.preventDefault();
+    if (turnstileOn() && !turnstileToken('popup')) { setSubmitReady('popup', false); return; } // no token yet — server would reject it
     var payload = {
       full_name: document.getElementById('popup-full-name').value,
       email:     document.getElementById('popup-email').value,
