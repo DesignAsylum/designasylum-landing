@@ -1,7 +1,9 @@
 name: Apply index.html Turnstile patch
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - claude/spam-leads-form-debug-1tq9z7
 
 permissions:
   contents: write
@@ -9,6 +11,8 @@ permissions:
 jobs:
   apply:
     runs-on: ubuntu-latest
+    # One-shot: the step below deletes this workflow file in its own commit,
+    # and pushes made with GITHUB_TOKEN don't retrigger workflows anyway.
     steps:
       - uses: actions/checkout@v4
         with:
