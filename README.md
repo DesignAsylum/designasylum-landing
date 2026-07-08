@@ -23,3 +23,25 @@ The design medium is **HTML/CSS/JS** — these are prototypes, not production co
 - `README.md` — this file
 - `chats/` — conversation transcripts (read these!)
 - `project/` — the `Mobile app landing page` project files (HTML prototypes, assets, components)
+
+## Lead form spam protection (live site)
+
+The live `index.html` posts leads to a Google Apps Script web app (`Code.gs` in
+this repo is its source of record). The `/exec` URL is public — anyone reading
+the page source can POST to it directly — so the real gate is Cloudflare
+Turnstile, verified **server-side** in `Code.gs`. A submission without a valid
+token is hard-blocked and logged to the spreadsheet's "Blocked Log" tab.
+
+Changes to `Code.gs` do nothing until deployed. One-time setup / redeploy:
+
+1. Open the Apps Script project behind the `/exec` URL and paste the full
+   contents of `Code.gs` over the existing script.
+2. Project Settings → Script Properties → add `TURNSTILE_SECRET` = the
+   **secret key** from the Cloudflare Turnstile dashboard (same widget as the
+   site key already in `index.html`). Never commit the secret to this repo.
+3. Deploy → Manage deployments → ✏️ → Version "New version" → Deploy. This
+   keeps the same `/exec` URL, so `index.html` needs no change.
+4. Upload the updated `index.html` to the web host.
+
+Until the `TURNSTILE_SECRET` property is set, the script runs in the old
+fail-open mode: suspicious leads are flagged in "Blocked Log" but still saved.
