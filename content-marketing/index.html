@@ -1,6 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
+<script>
+  /* Dark is the default. Runs before the stylesheet so the page never flashes
+     the wrong theme. Kept inline and tiny on purpose. */
+  (function () {
+    try {
+      var saved = localStorage.getItem('da-theme');
+      if (saved === 'light' || saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    } catch (e) { /* private mode or blocked storage: stay on dark */ }
+  })();
+</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -2493,6 +2505,207 @@ hr.rule--ink { border-top-color: var(--hairline-ink); }
 }
 /* ---- Promise card demo: shorter strings than the infinity glyph ---- */
 .demo-free__symbol--sm { font-size: 44px; letter-spacing: -0.02em; }
+
+/* =========================================================================
+   DARK THEME
+   Dark is the default. The toggle in the header writes html[data-theme]
+   and remembers the choice in localStorage.
+
+   The shared design system pairs --ink (contrast) with --paper (surface),
+   so dark mode mostly swaps those two and everything built on them follows.
+   The handful of rules below the token block are the places where that swap
+   would invert something that should stay dark, plus the components that
+   hardcode a light colour instead of using a token.
+   ========================================================================= */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* --ink is now the light contrast colour, --paper the dark surface. */
+  --ink:           #F4F4F6;
+  --ink-soft:      #E4E4E8;
+  --ink-muted:     #C9C9D0;
+  --paper:         #0D0D0F;
+  --paper-soft:    #151518;
+  --paper-mute:    #1D1D22;
+  --bone:          #0D0D0F;
+
+  --hairline:      #27272C;
+  --hairline-ink:  #33333A;
+
+  /* --fg-1 and --bg-1..3 derive from the two above and follow on their own. */
+  --fg-2: #C6C6CC;
+  --fg-3: #8E8E96;
+  --fg-4: #5E5E66;
+
+  /* Sections that stay dark keep light text, so these cannot follow --paper. */
+  --fg-on-ink:   #F4F4F6;
+  --fg-on-ink-2: #B0B0B8;
+  --fg-on-ink-3: #6E6E76;
+
+  --bg-ink:   #000000;
+  --bg-ink-2: #08080A;
+
+  --link-hover: #7C8CFF;
+}
+
+/* ---- Brand blue, at night. Nav and hero share it. ---- */
+html[data-theme="dark"] .nav  { background: #001C7A; }
+html[data-theme="dark"] .hero { background: #001C7A; }
+
+/* ---- Ink sections and the footer stay dark rather than inverting. ---- */
+html[data-theme="dark"] .section--ink,
+html[data-theme="dark"] .footer {
+  background: #000000;
+  color: var(--fg-on-ink);
+}
+html[data-theme="dark"] .section--ink .display,
+html[data-theme="dark"] .cta__title,
+html[data-theme="dark"] .footer a { color: var(--fg-on-ink); }
+html[data-theme="dark"] .footer__bottom a:hover { color: var(--fg-on-ink); }
+
+/* "On ink" buttons always sit on something dark or coloured (the blue nav and
+   hero, the featured plan card, the black CTA band). In light mode that made
+   them white; the token swap would turn them near-black, which both hides them
+   on the CTA band and drops the featured plan below the two beside it. Keep
+   them light so the emphasis order matches the light theme. */
+html[data-theme="dark"] .btn--on-ink {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+html[data-theme="dark"] .btn--on-ink:hover {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+html[data-theme="dark"] .btn--on-ink-ghost {
+  color: var(--ink);
+  border-color: var(--hairline-ink);
+}
+html[data-theme="dark"] .btn--on-ink-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* ---- Faint grid overlays are drawn in black, which vanishes on dark. ---- */
+html[data-theme="dark"] .pricing-v2::before {
+  background-image:
+    linear-gradient(to right,  rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.055) 1px, transparent 1px);
+}
+html[data-theme="dark"] .tbcard--light::before {
+  background-image:
+    linear-gradient(to right,  rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+}
+html[data-theme="dark"] .faq-tab:hover:not(.faq-tab--active) {
+  background: rgba(255,255,255,0.07);
+}
+html[data-theme="dark"] .trust-fold { box-shadow: none; }
+
+/* The near-black testimonial card would disappear, so it takes the blue. */
+html[data-theme="dark"] .tbcard--dark { background: #0038FF; }
+
+/* ---- Cards keep an edge once their drop shadows stop reading. ---- */
+html[data-theme="dark"] .testimonials__card { box-shadow: none; }
+html[data-theme="dark"] .pcard:hover        { box-shadow: 0 8px 32px rgba(0,0,0,0.55); }
+html[data-theme="dark"] .promise-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.55); }
+
+/* ---- Lead popup. Hardcoded white in the shared sheet. ---- */
+html[data-theme="dark"] .lead-popup {
+  background: #141417;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+html[data-theme="dark"] .lead-popup__close       { color: rgba(255,255,255,0.6); }
+html[data-theme="dark"] .lead-popup__close:hover { color: #fff; }
+html[data-theme="dark"] .lead-popup__title       { color: #F4F4F6; }
+html[data-theme="dark"] .lead-popup__sub         { color: #9C9CA4; }
+html[data-theme="dark"] .lead-popup__field label { color: #D4D4DA; }
+html[data-theme="dark"] .lead-popup__field input {
+  background: #1D1D22;
+  border-color: #33333A;
+  color: #F4F4F6;
+}
+html[data-theme="dark"] .lead-popup__field input::placeholder { color: #6E6E76; }
+html[data-theme="dark"] .lead-popup__submit        { background: #F4F4F6; color: #0D0D0F; }
+html[data-theme="dark"] .lead-popup__submit:hover  { background: #FFFFFF; }
+html[data-theme="dark"] .lead-popup__submit:active { background: #D4D4DA; }
+html[data-theme="dark"] .offer-pill {
+  background: #1D1D22;
+  border-color: #33333A;
+  color: #9C9CA4;
+}
+html[data-theme="dark"] .offer-pill:hover   { border-color: #55555E; color: #D4D4DA; }
+html[data-theme="dark"] .offer-pill.selected {
+  border-color: #7c5cfc;
+  background: rgba(124,92,252,0.18);
+  color: #C3B2FF;
+}
+
+/* ---- WhatsApp popup. Also hardcoded white. The green head is brand, so it stays. ---- */
+html[data-theme="dark"] .wa-popup {
+  background: #141417;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+}
+html[data-theme="dark"] .wa-popup__field {
+  background: #1D1D22;
+  border-color: #33333A;
+  color: #F4F4F6;
+}
+html[data-theme="dark"] .wa-popup__field::placeholder { color: #6E6E76; }
+html[data-theme="dark"] .wa-popup__field:focus        { background: #24242A; }
+
+/* ---- Placeholder boxes ---- */
+html[data-theme="dark"] .ph { border-color: #3A3A42; }
+
+/* =========================================================================
+   Theme toggle button in the header
+   ========================================================================= */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255,255,255,0.28);
+  background: transparent;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--dur-1) var(--ease-out),
+              border-color var(--dur-1) var(--ease-out);
+}
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.5);
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.9);
+  outline-offset: 2px;
+}
+.theme-toggle svg { width: 18px; height: 18px; display: block; }
+/* Show the icon for the mode the click switches TO. */
+.theme-toggle .ico-sun  { display: none; }
+.theme-toggle .ico-moon { display: block; }
+html[data-theme="dark"] .theme-toggle .ico-sun  { display: block; }
+html[data-theme="dark"] .theme-toggle .ico-moon { display: none; }
+
+@media (max-width: 720px) {
+  .theme-toggle { width: 34px; height: 34px; }
+  .theme-toggle svg { width: 16px; height: 16px; }
+}
 </style>
 
 <!-- JSON-LD structured data -->
@@ -2570,10 +2783,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#" class="btn btn--on-ink" data-cta-popup data-source="Nav | Get My Content Plan">
-      Get My Content Plan
-      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-    </a>
+    <div class="nav__actions">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme">
+        <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+        <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg>
+      </button>
+      <a href="#" class="btn btn--on-ink" data-cta-popup data-source="Nav | Get My Content Plan">
+        Get My Content Plan
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+      </a>
+    </div>
   </div>
 </header>
 
@@ -4190,6 +4409,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     popup.innerHTML = '<div style="text-align:center;padding:32px 0;"><div style="font-size:40px;margin-bottom:16px;">🎉</div><h2 style="font-size:20px;font-weight:800;color:#111;margin-bottom:8px;">We\'ll be in touch!</h2><p style="color:#666;font-size:14px;line-height:1.6;">Our team will reach out shortly and tell you which of the three plans actually fits you.</p></div>';
     setTimeout(function() { overlay.classList.remove('is-open'); }, 3000);
   }
+</script>
+
+<script>
+  /* ---- Theme toggle ---- */
+  (function () {
+    var root = document.documentElement;
+    var btn  = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    function label() {
+      var dark = root.getAttribute('data-theme') === 'dark';
+      btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    label();
+
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      label();
+      try { localStorage.setItem('da-theme', next); } catch (e) { /* storage blocked */ }
+    });
+  })();
 </script>
 
 <!-- WHATSAPP FLOATING BUTTON -->
