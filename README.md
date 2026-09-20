@@ -4,6 +4,33 @@ This is a **handoff bundle** from Claude Design (claude.ai/design).
 
 A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
 
+## Pages in this repo
+
+One repo, one page per service subdomain. Each page is a single self-contained
+HTML file with the design system inlined, so a deploy is just uploading that
+file plus its `assets/` folder to the right docroot.
+
+| Page | File | Domain |
+| --- | --- | --- |
+| Mobile app design | `index.html` | `mobileapps.designasylum.in` |
+| Content marketing | `content-marketing/index.html` | not live yet |
+
+`assets/` is **not** tracked in git. Images, videos and logos live on the web
+host and are uploaded separately, so every `assets/...` path in an HTML file is
+resolved relative to that page's own docroot. A new subdomain therefore needs
+its own `assets/` folder and a copy of `project/ds/fonts/`.
+
+### Adding another service page
+
+Copy the closest existing page into a new folder, then change the `<title>`,
+the meta description, the canonical URL, the Open Graph tags and the JSON-LD
+block at the top. Leave the `<style>` block alone. It is byte-identical across
+pages on purpose, so a design-system change can be diffed and copied cleanly.
+
+Leads from every page post to the same Apps Script endpoint. Each page prefixes
+its `source` field with the page name (`Content Marketing | Hero ...`) so the
+spreadsheet stays readable without a schema change.
+
 ## What you should do — IMPORTANT
 
 **Read the chat transcripts first.** There are 3 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
