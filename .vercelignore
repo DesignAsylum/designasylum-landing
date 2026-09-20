@@ -2,20 +2,20 @@
 # everything else in the repo is kept out of the deployment.
 #
 # Code.gs and lead-confirmation-email.gs carry the leads spreadsheet ID and
-# must never be served as static files. index.html is the mobile app page,
-# which is already live on its own host and posts to the live lead endpoint,
-# so it stays out of the preview too.
+# must never be served as static files. The mobile app page is still live on
+# Hostinger and posts to the live lead endpoint, so it stays out of this
+# deployment until its own Vercel project exists.
 #
 # Patterns follow gitignore rules, so an unanchored name matches at every
-# level. /index.html keeps its leading slash on purpose: without it the
-# pattern also excludes content-marketing/index.html and the deployment
-# has nothing left to serve at the root.
+# level. Keep that in mind before adding a bare filename here: an earlier
+# unanchored "index.html" also matched content-marketing/index.html and left
+# the deployment with nothing to serve at the root.
 
 Code.gs
 lead-confirmation-email.gs
 email-template.html
 sunroof5-preview.html
-/index.html
+mobileapps
 README.md
 skills-lock.json
 chats

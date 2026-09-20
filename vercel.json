@@ -3,7 +3,8 @@
   "rewrites": [
     { "source": "/", "destination": "/content-marketing/index.html" },
     { "source": "/assets/images/logo-da-mark-black.png", "destination": "/project/ds/assets/logo-da-mark-black.png" },
-    { "source": "/assets/images/logo-da-mark-inverse.png", "destination": "/project/ds/assets/logo-da-mark-inverse.png" }
+    { "source": "/assets/images/logo-da-mark-inverse.png", "destination": "/project/ds/assets/logo-da-mark-inverse.png" },
+    { "source": "/assets/:path*", "destination": "/content-marketing/assets/:path*" }
   ],
   "headers": [
     {
