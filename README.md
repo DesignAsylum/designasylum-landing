@@ -12,13 +12,31 @@ file plus its `assets/` folder to the right docroot.
 
 | Page | File | Domain |
 | --- | --- | --- |
-| Mobile app design | `index.html` | `mobileapps.designasylum.in` |
-| Content marketing | `content-marketing/index.html` | not live yet |
+| Mobile app design | `mobileapps/index.html` | `mobileapps.designasylum.in` (Hostinger) |
+| Content marketing | `content-marketing/index.html` | Vercel preview, domain undecided |
 
-`assets/` is **not** tracked in git. Images, videos and logos live on the web
-host and are uploaded separately, so every `assets/...` path in an HTML file is
-resolved relative to that page's own docroot. A new subdomain therefore needs
-its own `assets/` folder and a copy of `project/ds/fonts/`.
+Each page owns its assets, at `<page>/assets/images/` and `<page>/assets/videos/`,
+so the two sites never share a file and can diverge freely. That layout is what
+lets one Vercel project per subdomain point at a different Root Directory in
+this one repo.
+
+Assets were historically kept out of git and uploaded to the web host by hand.
+That changes as pages move to Vercel, which deploys from git: an asset that is
+not committed does not exist on the deployed site.
+
+### Vercel routing
+
+`vercel.json` serves `content-marketing/index.html` at the deployment root, so
+the preview URL is the bare domain. Because the page is served from the root,
+its relative paths resolve to `/assets/...`, which is why a rewrite maps that
+onto the page's own `content-marketing/assets/` folder. Vercel takes the first
+matching rewrite, so the two logo lines sit above the catch-all and keep
+working from `project/ds/assets` regardless of what has been uploaded.
+
+`.vercelignore` keeps everything else out of the deployment, including the
+mobile app page while it still lives on Hostinger. Its patterns follow
+gitignore rules, so a bare filename matches at every level, not just the repo
+root.
 
 ### Adding another service page
 
