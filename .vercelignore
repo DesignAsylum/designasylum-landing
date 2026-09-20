@@ -1,0 +1,26 @@
+# This Vercel project exists only to preview the content marketing page, so
+# everything else in the repo is kept out of the deployment.
+#
+# Code.gs and lead-confirmation-email.gs carry the leads spreadsheet ID and
+# must never be served as static files. index.html is the mobile app page,
+# which is already live on its own host and posts to the live lead endpoint,
+# so it stays out of the preview too.
+
+Code.gs
+lead-confirmation-email.gs
+email-template.html
+sunroof5-preview.html
+index.html
+README.md
+skills-lock.json
+chats
+.agents
+.claude
+project/screenshots
+project/tweaks-panel.jsx
+project/colors_and_type.css
+project/Landing Page.html
+project/Landing Wireframe.html
+project/Landing Wireframe (standalone).html
+project/Landing Wireframe-bundle-src.html
+project/Landing Wireframe-print.html

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/", "destination": "/content-marketing/index.html" },
+    { "source": "/assets/images/logo-da-mark-black.png", "destination": "/project/ds/assets/logo-da-mark-black.png" },
+    { "source": "/assets/images/logo-da-mark-inverse.png", "destination": "/project/ds/assets/logo-da-mark-inverse.png" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    }
+  ]
+}
