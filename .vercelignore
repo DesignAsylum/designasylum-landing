@@ -5,12 +5,17 @@
 # must never be served as static files. index.html is the mobile app page,
 # which is already live on its own host and posts to the live lead endpoint,
 # so it stays out of the preview too.
+#
+# Patterns follow gitignore rules, so an unanchored name matches at every
+# level. /index.html keeps its leading slash on purpose: without it the
+# pattern also excludes content-marketing/index.html and the deployment
+# has nothing left to serve at the root.
 
 Code.gs
 lead-confirmation-email.gs
 email-template.html
 sunroof5-preview.html
-index.html
+/index.html
 README.md
 skills-lock.json
 chats
